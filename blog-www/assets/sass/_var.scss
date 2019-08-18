@@ -1,0 +1,47 @@
+$css-prefix: 'j-';
+
+$white: #fff;
+$app-body-background-color: #151515;
+$logo-color: #636363;
+$global-padding-left-width: 16rem;
+
+$search-input-width: 45.5rem;
+//$link-color: $logo-color;
+//$link-hover-color       : mix($link-color, $white, 80%);
+//$link-active-color      : mix($link-color, $white, 95%);
+
+// 次要颜色
+$info-color: #0793C6;
+//@auxiliaryColor-2:#D82425;
+$auxiliary-color: $info-color;
+
+// 主要标题颜色
+$main-title-color: #303030;
+$main-title-sub-color: #959595;
+$main-font-color: #cecece;
+$main-font-color--active: mix($main-font-color, #fff, 10%);
+//$general-font-color: #5a5a5a;
+$secondary-font-color: #5a5a5a;
+
+$main-background-color: #2a2a2a;
+
+$header-height: 64px;
+$border-color: #3e3e3e;
+$border-color--active: #5c5c5c;
+$border-radius: 2px;
+
+
+//$primary_color: #409EFF;
+//$danger_color: #F56C6C;
+//$warning_color: #E6A23C;
+//$success_color: #67C23A;
+//$info_color: #909399;
+
+//$text_main_color: #303133;
+//$text_normal_color: #606266;
+//$text_minor_color: #909399;
+//$text_placeholder_color: #C0C4CC;
+//$border_1_color: #DCDFE6;
+//$border_2_color: #E4E7ED;
+//$border_3_color: #EBEEF5;
+//$border_4_color: #F2F6FC;
