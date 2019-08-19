@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -54,11 +55,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
             401 凭证过期 // 所有用户相关的验证都是过期
          */
         response.setContentType("application/json; charset=utf-8");
-        String ret = e.getMessage();;
+        String ret = e.getMessage();
 
         log.debug("JwtAuthenticationEntryPoint : message = {}, Exception = {}", e.getMessage(), e.getClass());
         // 设备类的凭证错误需要单独处理
-
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         PrintWriter out = response.getWriter();
         out.write(objectMapper.writeValueAsString(RespResult.error(ret)));
         out.close();

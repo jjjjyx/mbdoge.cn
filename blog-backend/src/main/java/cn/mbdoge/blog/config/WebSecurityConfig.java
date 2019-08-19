@@ -102,11 +102,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // http://localhost:9527
-        configuration.setAllowedOrigins(Collections.singletonList("*"));
+//        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(Arrays.asList("Accept-Language", userAuthHeaderKey));
+        configuration.setExposedHeaders(Arrays.asList("Accept-Language", userAuthHeaderKey, "Set-Cookie"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration(AppConfig.API_SERVLET_URL_MATCH, configuration);
@@ -136,9 +137,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
                 // 对于获取token的 rest api要允许匿名访问
                 .antMatchers(HttpMethod.POST, AppConfig.API_SERVLET_URL_PREFIX + "/auth").permitAll()
-//                .antMatchers("/api/v2/auth/**").permitAll()
-                // v1 接口可以直接访问
-                .antMatchers("/api/v1").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
@@ -148,8 +146,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // .httpBasic().and()
                 // 基于token，所以不需要session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().cors().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .cors().and()
                 // 由于使用的是JWT，不需要csrf
                 .csrf().disable()
                 .logout().disable();

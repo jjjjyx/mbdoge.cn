@@ -43,6 +43,7 @@ public class UserEntity implements Serializable, UserDetails {
 
     private String avatar;
     private String url;
+    private String email;
     private int status;
 
 
@@ -52,6 +53,7 @@ public class UserEntity implements Serializable, UserDetails {
     private String remark;
 
     private Date nextExpireTime;
+    @JsonIgnore
     private long expire = -1;
 
 
@@ -61,6 +63,7 @@ public class UserEntity implements Serializable, UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         // 账户是否过期
 
@@ -74,16 +77,19 @@ public class UserEntity implements Serializable, UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

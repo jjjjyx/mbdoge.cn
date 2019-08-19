@@ -25,13 +25,14 @@ module.exports = {
      ** Global CSS
      */
     css: [
+        'normalize.css/normalize.css',
         'element-ui/lib/theme-chalk/index.css'
     ],
     /*
      ** Plugins to load before mounting the App
      */
     plugins: [
-        '@/plugins/element-ui'
+        '@/plugins/element-ui',
     ],
     /*
      ** Nuxt.js dev-modules
@@ -41,7 +42,8 @@ module.exports = {
      ** Nuxt.js modules
      */
     modules: [
-        '@nuxtjs/style-resources'
+        '@nuxtjs/style-resources',
+        'nuxt-universal-storage'
     ],
     styleResources: {
         scss: [

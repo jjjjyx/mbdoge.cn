@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author jyx
  */
-@ControllerAdvice(basePackages = "com.sgk.search.controller.v1")
+@ControllerAdvice(basePackages = "cn.mbdoge.blog.controller.v1")
 @Slf4j
 public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
 
@@ -44,6 +44,9 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest srequest, ServerHttpResponse response) {
 
         if (!apiEncrypt) {
+            if (body instanceof String) {
+                return "\"" + body + "\"";
+            }
             return body;
         }
 

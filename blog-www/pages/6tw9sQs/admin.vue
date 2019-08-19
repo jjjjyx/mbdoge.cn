@@ -6,7 +6,14 @@
 
 <script>
 export default {
-    name: 'admin'
+    layout: 'admin',
+    name: 'admin',
+    scrollToTop: true,
+    fetch ({ store, redirect, route }) {
+        if (!store.getters['user/isLogin']) {
+            return redirect('./login?redirect=' + route.path)
+        }
+    }
 }
 </script>
 

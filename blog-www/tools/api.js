@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { Message, MessageBox, Notification } from 'element-ui'
 import Crazy from './crazy'
-import config from '@/config'
-import store from '@/store'
+import config from '~/config'
 
 const { baseURL, tokenKey, tokenPrefix } = config
 
@@ -15,6 +14,7 @@ const instance = axios.create({
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded'
     },
+    withCredentials: true,
     transformRequest: [function (data) {
         // Do whatever you want to transform the data
         if (data) {
@@ -52,11 +52,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     config => {
-        let token = getToken()
-
-        if (token) {
-            config.headers[tokenKey] = tokenPrefix + token
-        }
         return config
     },
     error => {
@@ -79,7 +74,8 @@ instance.interceptors.response.use(
     response => {
         let data = response.data
         if (response.headers['content-type'].indexOf('application/json') >= 0) {
-            return JSON.parse(Crazy.decrypt(data, secret))
+            // return JSON.parse(Crazy.decrypt(data, secret))
+            return data
         }
         return response
     },
@@ -92,6 +88,7 @@ instance.interceptors.response.use(
         } else if (!error.response) {
             // 连接服务器失败
             // 或者跨域了
+            console.log(error)
             MessageBox.alert('网络异常，稍后重试', '错误', {
                 lockScroll: true,
                 center: true,
@@ -108,7 +105,6 @@ instance.interceptors.response.use(
         let statusCode = error.response.status
         if (statusCode === 401) {
             clearToken()
-            await store.dispatch('openLoginModel')
         } else if (statusCode === 403) {
             // 无权访问
             document.write('禁止访问')
@@ -119,9 +115,10 @@ instance.interceptors.response.use(
         // console.group(error.response.config.url + ': error')
         // console.log(error.response)
         // console.log(data)
-        data = JSON.parse(Crazy.decrypt(data, secret))
+        // data = JSON.parse(Crazy.decrypt(data, secret))
         // console.log(data)
         // console.groupEnd()
+        console.log(data)
         if (data && data.level !== undefined) {
             let level = MESSAGE_LEVEL[data.level]
             Message.closeAll()
@@ -136,17 +133,17 @@ instance.interceptors.response.use(
     }
 )
 
-export function getToken () {
-    return localStorage.getItem(tokenKey)
-}
-
 // const
 export function setToken (t) {
-    localStorage.setItem(tokenKey, t)
+    // localStorage.setItem(tokenKey, t)
+    let Cookie = require('js-cookie')
+    Cookie.set(tokenKey, t)
 }
 
 export function clearToken () {
-    localStorage.removeItem(tokenKey)
+    // localStorage.removeItem(tokenKey)
+    let Cookie = require('js-cookie')
+    Cookie.remove(tokenKey)
 }
 
 export default instance

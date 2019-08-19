@@ -13,12 +13,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author jyx
@@ -53,35 +56,50 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         boolean debug = log.isDebugEnabled();
-        String header = request.getHeader("Authorization");
-        if (header == null) {
+        System.out.println("request.getCookies() = " + Arrays.toString(request.getCookies()));
+        Cookie cookie = WebUtils.getCookie(request, userAuthHeaderKey);
+        String token;
+        if (cookie == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        if (header.toLowerCase().startsWith(BEARER)) {
-            String token = header.substring(BEARER.length());
 
-            try {
-                Authentication auth = jwtTokenProvider.getAuthentication(token);
-                // 信任客户端传递
-                if (debug) {
-                    this.logger.debug("Authentication success: " + auth);
-                }
-                // 这里没有验证服务端限制的过期， 因为user的设计 没有过期项，也没有禁用相关
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            } catch (InvalidJwtAuthenticationException e) {
-                SecurityContextHolder.clearContext();
-                if (debug) {
-                    log.debug("解析token = {} 失败", token, e);
-                }
-            } catch (AuthenticationException e) {
-                SecurityContextHolder.clearContext();
-                if (debug) {
-                    this.logger.debug("Authentication request for failed: " + e.getMessage());
-                }
-            }
-
+        token = cookie.getValue();
+        System.out.println("authValue = " + token);
+        if (token == null) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+//        String header = request.getHeader("Authorization");
+//        if (header == null) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//        if (header.toLowerCase().startsWith(BEARER)) {
+//            String token = header.substring(BEARER.length());
+
+        try {
+            Authentication auth = jwtTokenProvider.getAuthentication(token);
+            // 信任客户端传递
+            if (debug) {
+                this.logger.debug("Authentication success: " + auth);
+            }
+            // 这里没有验证服务端限制的过期， 因为user的设计 没有过期项，也没有禁用相关
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        } catch (InvalidJwtAuthenticationException e) {
+            SecurityContextHolder.clearContext();
+            if (debug) {
+                log.debug("解析token = {} 失败", token, e);
+            }
+        } catch (AuthenticationException e) {
+            SecurityContextHolder.clearContext();
+            if (debug) {
+                this.logger.debug("Authentication request for failed: " + e.getMessage());
+            }
+        }
+
+//        }
         filterChain.doFilter(request, response);
 
 

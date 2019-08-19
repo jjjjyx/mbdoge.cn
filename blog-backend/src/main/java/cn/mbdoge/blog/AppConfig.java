@@ -15,8 +15,8 @@ public class AppConfig {
      */
     public static final long DEVICE_EXPIRE = 0x757b12c00L;
 
-    public static final String API_SERVLET_URL_PREFIX = "/api/v2";
-    public static final String API_SERVLET_URL_MATCH = "/api/v2/**";
+    public static final String API_SERVLET_URL_PREFIX = "/api/v1";
+    public static final String API_SERVLET_URL_MATCH = "/api/v1/**";
     public static final Collection<? extends GrantedAuthority> DEVICE_AUTHORITIES = Collections.singletonList(new SimpleGrantedAuthority("ROLE_DEVICE"));
 
     // public static final String ANTL_CORE_PATHS = "./antl-code";
