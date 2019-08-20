@@ -56,16 +56,14 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         boolean debug = log.isDebugEnabled();
-        System.out.println("request.getCookies() = " + Arrays.toString(request.getCookies()));
+
         Cookie cookie = WebUtils.getCookie(request, userAuthHeaderKey);
         String token;
         if (cookie == null) {
             filterChain.doFilter(request, response);
             return;
         }
-
         token = cookie.getValue();
-        System.out.println("authValue = " + token);
         if (token == null) {
             filterChain.doFilter(request, response);
             return;

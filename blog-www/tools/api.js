@@ -136,14 +136,14 @@ instance.interceptors.response.use(
 // const
 export function setToken (t) {
     // localStorage.setItem(tokenKey, t)
-    let Cookie = require('js-cookie')
-    Cookie.set(tokenKey, t)
+    // let Cookie = require('js-cookie')
+    // Cookie.set(tokenKey, t)
 }
 
 export function clearToken () {
     // localStorage.removeItem(tokenKey)
-    let Cookie = require('js-cookie')
-    Cookie.remove(tokenKey)
+    // let Cookie = require('js-cookie')
+    // Cookie.remove(tokenKey)
 }
 
 export default instance

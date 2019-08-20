@@ -4,7 +4,7 @@ import merge from 'lodash/merge'
 const isDev = process.env.NODE_ENV === 'development'
 const CONFIG = {
     projectName: '',
-    baseURL: 'http://localhost:5658',
+    baseURL: 'http://local.mbdoge.cn',
     tokenKey: 'Authorization',
     tokenPrefix: 'Bearer ',
     isDev,

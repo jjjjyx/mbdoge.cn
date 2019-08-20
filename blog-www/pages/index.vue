@@ -21,12 +21,12 @@
 import api from '@/tools/api'
 export default {
     async asyncData (ctx) {
-        try {
-            console.log(ctx)
-            let { data } = await api.get(`https://my-api/posts`)
-        } catch (e) {
-            console.log(e)
-        }
+        // try {
+        //     console.log(ctx)
+        //     let { data } = await api.get(`https://my-api/posts`)
+        // } catch (e) {
+        //     console.log(e)
+        // }
         return { title: '123123' }
     },
     components: {},

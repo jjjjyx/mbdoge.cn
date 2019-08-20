@@ -11,11 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -42,7 +44,9 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest srequest, ServerHttpResponse response) {
-
+//        ServletServerHttpResponse resp = (ServletServerHttpResponse) response;
+//        System.out.println("response.getHeaders() = " + resp.getHeaders());
+//        System.out.println("resp.getHeaderNames() = " + resp.getServletResponse().getHeaders("Set-Cookie"));
         if (!apiEncrypt) {
             if (body instanceof String) {
                 return "\"" + body + "\"";

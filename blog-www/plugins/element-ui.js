@@ -17,13 +17,17 @@ import {
     Backtop,
     Loading,
     MessageBox,
-    Message
+    Message,
+    Menu,
+    MenuItem,
+    Submenu,
+    MenuItemGroup,
+    Scrollbar
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
 import locale from 'element-ui/lib/locale'
 import lang from 'element-ui/lib/locale/lang/zh-CN'
-
 
 function install (Vue) {
 
@@ -44,6 +48,11 @@ function install (Vue) {
     Vue.component(FormItem.name, FormItem)
     Vue.component(Input.name, Input)
     Vue.component(Backtop.name, Backtop)
+    Vue.component(Menu.name, Menu)
+    Vue.component(Submenu.name, Submenu)
+    Vue.component(MenuItem.name, MenuItem)
+    Vue.component(MenuItemGroup.name, MenuItemGroup)
+    Vue.component(Scrollbar.name, Scrollbar)
     Vue.component(CollapseTransition.name, CollapseTransition)
 
     Vue.use(Loading.directive)

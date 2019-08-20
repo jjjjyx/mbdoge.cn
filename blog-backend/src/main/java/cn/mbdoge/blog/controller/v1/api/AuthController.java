@@ -5,6 +5,7 @@ import cn.mbdoge.blog.AppConfig;
 import cn.mbdoge.blog.model.dao.ConfigRepository;
 import cn.mbdoge.blog.model.entities.UserEntity;
 import cn.mbdoge.blog.model.pojo.ConfigKey;
+import cn.mbdoge.blog.model.pojo.RespResult;
 import cn.mbdoge.blog.model.pojo.UserDto;
 import cn.mbdoge.blog.service.AuthService;
 import cn.mbdoge.blog.service.UserDetailsServiceImpl;
@@ -13,16 +14,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -55,12 +61,14 @@ public class AuthController {
 
     @PostMapping
     public String createAuthenticationToken(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) throws AuthenticationException, JsonProcessingException {
-        //        Cookie cookie = new Cookie(userAuthHeaderKey, token);
-//        cookie.setHttpOnly(true);
+        String token = authService.login(username, password);
+        Cookie cookie = new Cookie(userAuthHeaderKey, token);
+        cookie.setHttpOnly(true);
 //        cookie.setSecure(true);
-//        cookie.setMaxAge(5 * 60 * 60); // expires in 5 hour
-//        response.addCookie(cookie);
-        return authService.login(username, password);
+        cookie.setMaxAge(5 * 60 * 60); // expires in 5 hour
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return token;
     }
 
     @GetMapping
