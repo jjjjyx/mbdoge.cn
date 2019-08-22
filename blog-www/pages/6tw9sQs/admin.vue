@@ -4,10 +4,10 @@
         <!--<sidebar class="sidebar-container" />-->
         <sidebar :class="$style.sidebarContainer"></sidebar>
         <div :class="$style.mainContainer">
-            <el-button @click="toggleSidebarMini">aa</el-button>
-            <!--<div :class="{'fixed-header':fixedHeader}">-->
-                <!--<navbar />-->
-            <!--</div>-->
+            <!--<el-button @click="toggleSidebarMini">aa</el-button>-->
+            <div :class="{[$style.fixedHeader]: fixedHeader}">
+                <navbar></navbar>
+            </div>
             <!--<app-main />-->
         </div>
     </div>
@@ -15,9 +15,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import Sidebar from '@/components/layout/sidebar/sidebar'
+import Sidebar from '~/components/layout/sidebar/sidebar'
+import Navbar from '~/components/layout/navbar'
 export default {
-    components: { Sidebar },
+    components: { Navbar, Sidebar },
     layout: 'admin',
     name: 'admin',
     scrollToTop: true,
@@ -27,7 +28,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('sidebar', ['collapsed']),
+        ...mapState('sidebar', ['collapsed', 'fixedHeader']),
         // sidebar() {
         //     return this.$store.state.app.sidebar
         // },
@@ -51,7 +52,11 @@ export default {
     },
 }
 </script>
-
+<style>
+.el-menu-item i {
+    color: inherit;
+}
+</style>
 <style module lang="scss">
 .mainContainer {
     min-height: 100vh;
@@ -73,6 +78,7 @@ export default {
     z-index: 1001;
     overflow: hidden;
 }
+
 .collapsed {
     .sidebarContainer {
         width: 54px !important;
@@ -81,5 +87,20 @@ export default {
     .mainContainer {
         margin-left: 54px;
     }
+    :global(.el-tooltip) {
+        padding: 0 !important;
+
+        :global(i[class*='el-icon']) {
+            margin-left: 14px;
+        }
+    }
+}
+.fixedHeader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    width: calc(100% - #{$sideBarWidth});
+    transition: width 0.28s;
 }
 </style>

@@ -2,14 +2,15 @@
 
 import isBoolean from 'lodash/isBoolean'
 
-const state = {
+const state = () => ({
     // user: null
     collapsed: false,
+    fixedHeader: false,
     backgroundColor: 'black',
     backgroundImage: 'http://image.cdn.mbdoge.cn/sidebar-1.jpg',
     image: true,
     color: 'red'
-}
+})
 // 可能会有权限的需求
 const getters = {
     // menus: state => state.menus
@@ -22,10 +23,19 @@ const actions = {
     // },
     toggleSidebarMini ({ commit }) {
         commit('TOGGLE_SIDEBAR_MINI')
+    },
+    toggleFixedHeader ({ commit }) {
+        commit('TOGGLE_FIXED_HEADER')
     }
 }
 const mutations = {
-
+    TOGGLE_FIXED_HEADER (state, obj) {
+        if (isBoolean(obj)) {
+            state.fixedHeader = obj
+        } else {
+            state.fixedHeader = !state.fixedHeader
+        }
+    },
     TOGGLE_SIDEBAR_MINI (state, obj) {
         if (isBoolean(obj)) {
             state.collapsed = obj

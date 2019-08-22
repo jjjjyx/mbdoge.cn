@@ -17,6 +17,9 @@ module.exports = {
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
         ]
     },
+    router: {
+
+    },
     /*
      ** Customize the progress-bar color
      */
@@ -42,8 +45,8 @@ module.exports = {
      ** Nuxt.js modules
      */
     modules: [
-        '@nuxtjs/style-resources',
-        'nuxt-universal-storage'
+        // '@nuxtjs/router',
+        '@nuxtjs/style-resources'
     ],
     styleResources: {
         scss: [

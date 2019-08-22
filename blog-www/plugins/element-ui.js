@@ -22,6 +22,8 @@ import {
     MenuItem,
     Submenu,
     MenuItemGroup,
+    Breadcrumb,
+    BreadcrumbItem,
     Scrollbar
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
@@ -52,6 +54,8 @@ function install (Vue) {
     Vue.component(Submenu.name, Submenu)
     Vue.component(MenuItem.name, MenuItem)
     Vue.component(MenuItemGroup.name, MenuItemGroup)
+    Vue.component(Breadcrumb.name, Breadcrumb)
+    Vue.component(BreadcrumbItem.name, BreadcrumbItem)
     Vue.component(Scrollbar.name, Scrollbar)
     Vue.component(CollapseTransition.name, CollapseTransition)
 

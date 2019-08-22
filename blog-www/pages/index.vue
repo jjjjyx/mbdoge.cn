@@ -18,7 +18,7 @@
 
 <script>
 
-import api from '@/tools/api'
+import api from '~/tools/api'
 export default {
     async asyncData (ctx) {
         // try {
