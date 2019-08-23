@@ -9,7 +9,8 @@ const state = () => ({
     backgroundColor: 'black',
     backgroundImage: 'http://image.cdn.mbdoge.cn/sidebar-1.jpg',
     image: true,
-    color: 'red'
+    color: 'red',
+    breadcrumbs: []
 })
 // 可能会有权限的需求
 const getters = {
@@ -29,6 +30,9 @@ const actions = {
     }
 }
 const mutations = {
+    SET_BREADCRUMBS (state, breadcrumbs) {
+        state.breadcrumbs = breadcrumbs
+    },
     TOGGLE_FIXED_HEADER (state, obj) {
         if (isBoolean(obj)) {
             state.fixedHeader = obj

@@ -5,9 +5,9 @@
         </div>
         <el-breadcrumb :class="$style.breadcrumb" separator="/">
             <transition-group name="breadcrumb">
-                <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
-                    <span v-if="item.redirect==='noRedirect'||index === levelList.length-1" class="no-redirect">{{ item.meta.title }}</span>
-                    <a v-else @click.prevent="handleClickLink(item)">{{ item.meta.title }}</a>
+                <el-breadcrumb-item v-for="(item,index) in breadcrumbs" :key="item.title">
+                    <span v-if="item.redirect==='noRedirect' || index === breadcrumbs.length - 1" :class="$style.noRedirect">{{ item.title }}</span>
+                    <a v-else @click.prevent="handleClickLink(item)">{{ item.title }}</a>
                 </el-breadcrumb-item>
             </transition-group>
         </el-breadcrumb>
@@ -22,28 +22,23 @@ export default {
     name: 'navbar',
     data() {
         return {
-            levelList: []
+            // breadcrumbs: []
         }
     },
     computed: {
-        ...mapState('sidebar', ['collapsed']),
+        ...mapState('sidebar', ['collapsed', 'breadcrumbs']),
     },
     methods: {
         ...mapActions('sidebar', ['toggleSidebarMini']),
-        getBreadcrumb () {
-            let matched = this.$route.matched//.filter(item => item.meta && item.meta.title)
-            console.log(matched)
-            // const first = matched[0]
-        },
-        handleClickLink () {}
-    },
-    watch: {
-        $route() {
-            this.getBreadcrumb()
+
+        handleClickLink (item) {
+            console.log(item)
         }
     },
+    watch: {
+
+    },
     created() {
-        this.getBreadcrumb()
     }
 }
 </script>

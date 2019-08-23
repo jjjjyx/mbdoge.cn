@@ -8,7 +8,11 @@
             <div :class="{[$style.fixedHeader]: fixedHeader}">
                 <navbar></navbar>
             </div>
-            <!--<app-main />-->
+            <section :class="$style.main">
+                <transition name="fade-transform" mode="out-in">
+                    <nuxt-child></nuxt-child>
+                </transition>
+            </section>
         </div>
     </div>
 </template>
@@ -22,9 +26,21 @@ export default {
     layout: 'admin',
     name: 'admin',
     scrollToTop: true,
+    head () {
+        return {
+            title: '后台管理系统',
+        }
+    },
+    meta: {
+        title: 'Dashboard',
+        icon: 'dashboard'
+    },
     fetch ({ store, redirect, route }) {
         if (!store.getters['user/isLogin']) {
             return redirect({ name: '6tw9sQs-login'})
+        }
+        if (route.name === '6tw9sQs-admin') {
+            return redirect({ name: '6tw9sQs-admin-dashboard'})
         }
     },
     computed: {
@@ -102,5 +118,14 @@ export default {
     z-index: 9;
     width: calc(100% - #{$sideBarWidth});
     transition: width 0.28s;
+}
+.main {
+    min-height: calc(100vh - 50px);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.fixedHeader + .main{
+    padding-top: 50px;
 }
 </style>

@@ -14,12 +14,13 @@
                 :unique-opened="false"
                 :collapse-transition="false"
                 mode="vertical"
+                router
             >
-                <el-menu-item index="post">
+                <el-menu-item index="post" :route="{ name : '6tw9sQs-admin-post' }">
                     <i class="el-icon-collection"></i>
                     <span slot="title">文章管理</span>
                 </el-menu-item>
-                <el-menu-item index="category">
+                <el-menu-item index="category" :route="{ name : '6tw9sQs-admin-category' }">
                     <i class="el-icon-collection-tag"></i>
                     <span slot="title">分类管理</span>
                 </el-menu-item>
@@ -71,10 +72,6 @@ export default {
     // ]),
     data () {
         return {
-            routes: [
-                {path: 'a'},
-                {path: 'b'}
-            ]
         }
     },
     components: { Logo },
@@ -99,8 +96,13 @@ export default {
         //     return !this.sidebar.opened
         // }
     },
+    methods: {
+        // handleSelectMenu (index, indexPath) {
+        //     console.log(index, indexPath)
+        // },
+    },
     mounted () {
-        console.log(this.$router.options.routes)
+        // console.log(this.$router.options.routes)
     }
 }
 </script>
