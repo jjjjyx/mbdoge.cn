@@ -1,28 +1,42 @@
 <template>
-    <div :class="wrapperClasses" class="app-wrapper">
-        <!--<div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />-->
-        <!--<sidebar class="sidebar-container" />-->
-        <sidebar :class="$style.sidebarContainer"></sidebar>
-        <div :class="$style.mainContainer">
-            <!--<el-button @click="toggleSidebarMini">aa</el-button>-->
+    <div :class="wrapperClasses">
+        <div v-if="device === 'mobile' && !sidebar.collapsed" :class="$style.drawerBg" @click="handleClickOutside"></div>
+        <sidebar :class="$style.sidebarContainer"/>
+        <div :class="[$style.mainContainer, {[$style.hasTagsView]: showTagsView, [$style.hasFooter]: showFooter}]">
             <div :class="{[$style.fixedHeader]: fixedHeader}">
-                <navbar></navbar>
+                <navbar/>
+                <tags-view v-if="showTagsView"></tags-view>
             </div>
-            <section :class="$style.main">
+            <div :class="$style.fun"></div>
+            <section :class="$style.appMain" :style="mainStyles">
                 <transition name="fade-transform" mode="out-in">
-                    <nuxt-child></nuxt-child>
+                    <keep-alive :include="cachedViews">
+                        <nuxt-child :key="$route.fullPath"></nuxt-child>
+                    </keep-alive>
                 </transition>
             </section>
+            <footer :class="$style.footer" v-if="showFooter">
+                <div :class="$style.copyright">{{copyright}}</div>
+            </footer>
         </div>
     </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import Sidebar from '~/components/layout/sidebar/sidebar'
+import Sidebar from '~/components/layout/sidebar'
 import Navbar from '~/components/layout/navbar'
+import TagsView from '~/components/layout/tags-view'
+import ResizeMixin from '~/components/layout/mixin/resize-handler'
+
+import conf from '@/config'
+
 export default {
-    components: { Navbar, Sidebar },
+    components: {
+        TagsView,
+        Navbar,
+        Sidebar
+    },
     layout: 'admin',
     name: 'admin',
     scrollToTop: true,
@@ -33,7 +47,14 @@ export default {
     },
     meta: {
         title: 'Dashboard',
-        icon: 'dashboard'
+        icon: 'dashboard',
+        affix: true
+    },
+    mixins: [ResizeMixin],
+    data () {
+        return {
+            copyright: conf.copyright
+        }
     },
     fetch ({ store, redirect, route }) {
         if (!store.getters['user/isLogin']) {
@@ -44,28 +65,33 @@ export default {
         }
     },
     computed: {
-        ...mapState('sidebar', ['collapsed', 'fixedHeader']),
-        // sidebar() {
-        //     return this.$store.state.app.sidebar
-        // },
-        // device() {
-        //     return this.$store.state.app.device
-        // },
-        // fixedHeader() {
-        //     return this.$store.state.settings.fixedHeader
-        // },
-        wrapperClasses() {
+        ...mapState('app', ['sidebar', 'device', 'fixedHeader', 'showTagsView', 'cachedViews', 'showFooter']),
+        wrapperClasses () {
+            return [this.$style.appWrapper, {
+                [this.$style.collapsed]: this.sidebar.collapsed,
+                [this.$style.withoutAnimation]: this.sidebar.withoutAnimation,
+                [this.$style.mobile]: this.device === 'mobile'
+            }]
+        },
+        mainStyles () {
+            let height = parseInt(this.$style.navHeight)
+            if (this.showTagsView) {
+                height += parseInt(this.$style.tagViewHeight)
+            }
+            if (this.showFooter) {
+                height += parseInt(this.$style.footerHeight)
+            }
             return {
-                [this.$style.collapsed]: this.collapsed,
-                // [this.$style.openSidebar]: this.sidebar.opened,
-                // [this.$style.withoutAnimation]: this.sidebar.withoutAnimation,
-                // [this.$style.mobile]: this.device === 'mobile'
+                'min-height': `calc(100vh - ${height}px)`
             }
         }
     },
     methods: {
-        ...mapActions('sidebar', ['toggleSidebarMini'])
-    },
+        ...mapActions('app', ['closeSideBar']),
+        handleClickOutside () {
+            this.closeSideBar({ withoutAnimation: false })
+        }
+    }
 }
 </script>
 <style>
@@ -74,14 +100,42 @@ export default {
 }
 </style>
 <style module lang="scss">
+@import "../../assets/sass/mixin";
+$navHeight: 50px;
+$tagViewHeight: 34px;
+$footerHeight: 64px;
+
+:export {
+    navHeight: $navHeight;
+    tagViewHeight: $tagViewHeight;
+    footerHeight: $footerHeight;
+}
+
+.appWrapper {
+    @include clearfix;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    &.mobile.openSidebar {
+        position: fixed;
+        top: 0;
+    }
+}
 .mainContainer {
-    min-height: 100vh;
+    min-height: 100%;
     transition: margin-left .28s;
     margin-left: $sideBarWidth;
     position: relative;
+    background-color: #f5f7f9;
+    .appMain {
+        /*min-height: calc(100vh - 50px);*/
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
 }
 
-.sidebarContainer{
+.sidebarContainer {
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
@@ -93,24 +147,58 @@ export default {
     left: 0;
     z-index: 1001;
     overflow: hidden;
-}
 
-.collapsed {
-    .sidebarContainer {
-        width: 54px !important;
+    a {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
     }
 
-    .mainContainer {
-        margin-left: 54px;
-    }
-    :global(.el-tooltip) {
-        padding: 0 !important;
+    :global {
+        // reset element-ui css
+        .horizontal-collapse-transition {
+            transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+        }
 
-        :global(i[class*='el-icon']) {
-            margin-left: 14px;
+        .el-scrollbar__bar.is-vertical {
+            right: 0px;
+        }
+
+        .el-scrollbar {
+            height: 100%;
+        }
+        .el-menu {
+            border: none;
+            height: 100%;
+            width: 100% !important;
+        }
+        .svg-icon {
+            margin-right: 16px;
+        }
+        .is-active > .el-submenu__title {
+            color: $subMenuActiveText !important;
+        }
+        .el-submenu .el-menu-item {
+            min-width: $sideBarWidth !important;
+            background-color: $subMenuBg !important;
+
+            &:hover {
+                background-color: $subMenuHover !important;
+            }
         }
     }
 }
+
+.drawerBg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+}
+
 .fixedHeader {
     position: fixed;
     top: 0;
@@ -119,13 +207,86 @@ export default {
     width: calc(100% - #{$sideBarWidth});
     transition: width 0.28s;
 }
-.main {
-    min-height: calc(100vh - 50px);
-    width: 100%;
-    position: relative;
-    overflow: hidden;
+.fixedHeader + .fun {
+    margin-top: 50px;
 }
-.fixedHeader + .main{
-    padding-top: 50px;
+// fix css style bug in open el-dialog
+:global(.el-popup-parent--hidden) {
+    .fixedHeader {
+        padding-right: 15px;
+    }
+}
+.collapsed {
+    .sidebarContainer {
+        width: 54px !important;
+        :global {
+            .el-menu--collapse .el-submenu__title > span {
+                height: 0;
+                width: 0;
+                overflow: hidden;
+                visibility: hidden;
+                display: inline-block;
+            }
+            .el-tooltip {
+                padding: 0 !important;
+                text-align: center;
+                .svg-icon {
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+    .mainContainer {
+        margin-left: 54px;
+    }
+
+    .fixedHeader {
+        width: calc(100% - 54px)
+    }
+}
+// mobile responsive
+
+.mobile {
+    .fixedHeader {
+        width: 100%;
+    }
+    .sidebarContainer {
+        transition-duration: 0.3s;
+        transition: transform .28s;
+    }
+    &.collapsed .sidebarContainer{
+        width: $sideBarWidth !important;
+        pointer-events: none;
+        transform: translate3d(-$sideBarWidth, 0, 0);
+    }
+    .mainContainer {
+        margin-left: 0;
+    }
+}
+.withoutAnimation {
+    .mainContainer, .sidebarContainer {
+        transition: none !important;
+    }
+}
+
+.hasTagsView {
+    $height: $tagViewHeight + $navHeight;
+    .fixedHeader + .fun {
+        margin-top: $height
+    }
+}
+.hasFooter {
+
+}
+
+.footer {
+    margin: 24px 0;
+    padding: 0 16px;
+    text-align: center;
+
+    .copyright {
+        color: #808695;
+        font-size: 14px;
+    }
 }
 </style>

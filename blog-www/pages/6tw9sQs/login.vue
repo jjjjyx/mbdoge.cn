@@ -59,21 +59,13 @@ function validUsername () {
 
 export default {
     layout: 'admin',
-    name: 'index',
+    name: 'login',
     fetch ({ store, redirect }) {
         if (store.getters['user/isLogin']) {
             return redirect('./admin')
         }
     },
     data () {
-
-        const validatePassword = (rule, value, callback) => {
-            if (value.length < 6) {
-                callback(new Error('The password can not be less than 6 digits'))
-            } else {
-                callback()
-            }
-        }
         return {
             loginForm: {
                 username: '',

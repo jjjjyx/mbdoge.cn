@@ -15,10 +15,11 @@ const getters = {
 
 // actions
 const actions = {
-    async nuxtServerInit ({ commit, dispatch }, { req }) {
-
+    async nuxtServerInit ({ commit, dispatch }, { req, route, ...a }) {
+        // console.log(route)
+        // console.log(Object.keys(a))
+        // console.log('2222222222222',a.app.router.options.routes)
         if (req.headers.cookie) {
-
             try {
                 let { data } = await axios.get(baseURL + '/api/v1/auth', {
                     headers: {

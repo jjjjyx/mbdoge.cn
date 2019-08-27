@@ -2,6 +2,9 @@ import Vue from 'vue'
 import {
     Button,
     Dialog,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
     Tag,
     Popover,
     Tooltip,
@@ -56,6 +59,9 @@ function install (Vue) {
     Vue.component(MenuItemGroup.name, MenuItemGroup)
     Vue.component(Breadcrumb.name, Breadcrumb)
     Vue.component(BreadcrumbItem.name, BreadcrumbItem)
+    Vue.component(Dropdown.name, Dropdown)
+    Vue.component(DropdownMenu.name, DropdownMenu)
+    Vue.component(DropdownItem.name, DropdownItem)
     Vue.component(Scrollbar.name, Scrollbar)
     Vue.component(CollapseTransition.name, CollapseTransition)
 

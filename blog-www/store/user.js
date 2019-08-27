@@ -40,7 +40,6 @@ const actions = {
         return user
     },
     async checkUser ({ commit, state }) {
-        console.log('==============')
         let user = await userApi.auth()
         commit('USER_SET_INFO', user)
         return user

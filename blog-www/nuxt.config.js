@@ -50,7 +50,8 @@ module.exports = {
     ],
     styleResources: {
         scss: [
-            '@/assets/sass/_var.scss'
+            // '@/assets/sass/_var.scss',
+            '@/assets/sass/base.scss'
         ]
     },
     /*

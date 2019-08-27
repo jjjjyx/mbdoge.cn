@@ -9,6 +9,7 @@ const CONFIG = {
     tokenPrefix: 'Bearer ',
     isDev,
     copyright: '--',
+    title: 'mbdoge.cn',
     version: '2.0.20190818'
 }
 
