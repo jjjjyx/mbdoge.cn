@@ -2,20 +2,20 @@
 
 import config from '~/config'
 import axios from 'axios'
+
 const { baseURL, tokenKey, tokenPrefix } = config
 
 const state = () => ({
     aa: "test--11111"
 })
 
-// const defaultUser = cloneDeep(state)
 const getters = {
 
 }
 
 // actions
 const actions = {
-    async nuxtServerInit ({ commit, dispatch }, { req, route, ...a }) {
+    async nuxtServerInit ({ commit, dispatch }, { req }) {
         // console.log(route)
         // console.log(Object.keys(a))
         // console.log('2222222222222',a.app.router.options.routes)
@@ -27,6 +27,7 @@ const actions = {
                     }
                 })
                 commit('user/USER_SET_INFO', data)
+                dispatch('app/generateRoutes')
             } catch (e) {
                 console.log('尚未登录')
             }

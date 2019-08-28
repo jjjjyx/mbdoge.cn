@@ -1,5 +1,6 @@
 // import Cookies from 'js-cookie'
 // import { constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
 
 const state = () => ({
     sidebar: {
@@ -32,7 +33,7 @@ const mutations = {
     SET_ROUTES: (state, routes) => {
         state.addRoutes = routes
         // state.routes = _.cloneDeep(constantRoutes.concat(routes))
-        // state.routes = constantRoutes.concat(routes)
+        state.routes = constantRoutes.concat(routes)
     },
     TOGGLE_SIDEBAR: state => {
         state.sidebar.collapsed = !state.sidebar.collapsed
@@ -119,7 +120,17 @@ const mutations = {
     UPDATE_VISITED_VIEW: (state, view) => {
         for (let v of state.visitedViews) {
             if (v.path === view.path) {
-                v = Object.assign(v, view)
+                let o = {
+                    fullPath: view.fullPath,
+                    hash: view.hash,
+                    meta: _.cloneDeep(view.meta),
+                    name: view.name,
+                    params: view.params,
+                    path: view.path,
+                    query: view.query,
+                    title: view.meta.title || 'no-name'
+                }
+                Object.assign(v, o)
                 break
             }
         }

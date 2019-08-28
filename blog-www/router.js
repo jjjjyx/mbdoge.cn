@@ -7,7 +7,7 @@ Vue.use(Router)
 
 const callback = m => m.default || m
 
-export const routes = [
+const routes = [
     {
         path: '/',
         name: 'index',
@@ -17,17 +17,30 @@ export const routes = [
         name: 'dashboard',
         path: '/6tw9sQs',
         // /* webpackChunkName: "test" */
+        meta: {
+            title: 'dashboard',
+            icon: '',
+            affix: true
+        },
         component: () => import('~/views/admin/dashboard/dashboard').then(callback)
+
     },
     {
         name: 'post-manage',
         path: '/6tw9sQs/posts',
-        // /* webpackChunkName: "test" */
+        meta: {
+            title: 'post',
+            icon: ''
+        },
         component: () => import('~/views/admin/posts/post').then(callback)
     },
     {
         name: 'category-manage',
         path: '/6tw9sQs/category',
+        meta: {
+            title: 'category',
+            icon: ''
+        },
         // /* webpackChunkName: "test" */
         component: () => import('~/views/admin/category/category').then(callback)
     },
@@ -38,6 +51,10 @@ export const routes = [
         component: () => import('~/views/admin/user/login').then(callback)
     },
 ]
+
+export const constantRoutes = routes
+    .filter((item) => item.meta && item.path.startsWith('/6tw9sQs'))
+    .map(({ component, ...route }) => route)
 
 export function createRouter () {
     return new Router({
