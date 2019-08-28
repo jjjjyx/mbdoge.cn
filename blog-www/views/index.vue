@@ -11,6 +11,7 @@
                 <el-button @click="test">11</el-button>
                 <el-radio v-model="radio" label="1">备选项</el-radio>
                 <nuxt-link to="/6tw9sQs/admin" no-prefetch>后台</nuxt-link>
+                <nuxt-link to="/test" no-prefetch>test</nuxt-link>
             </div>
         </div>
     </div>

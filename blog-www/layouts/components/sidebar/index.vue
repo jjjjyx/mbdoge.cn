@@ -13,11 +13,11 @@
                 mode="vertical"
                 router
             >
-                <el-menu-item index="post" :route="{ name : '6tw9sQs-admin-post' }">
+                <el-menu-item index="post" :route="{ name : 'post-manage' }">
                     <i class="el-icon-collection"></i>
                     <span slot="title">文章管理</span>
                 </el-menu-item>
-                <el-menu-item index="category" :route="{ name : '6tw9sQs-admin-category' }">
+                <el-menu-item index="category" :route="{ name : 'category-manage' }">
                     <i class="el-icon-collection-tag"></i>
                     <span slot="title">分类管理</span>
                 </el-menu-item>

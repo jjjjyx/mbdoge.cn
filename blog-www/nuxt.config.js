@@ -3,6 +3,11 @@ const path = require('path')
 
 module.exports = {
     mode: 'universal',
+    transition: {
+        name: 'fade-transform',
+        mode: 'out-in'
+    },
+    // transition: 'fade-transform',
     /*
      ** Headers of the page
      */
@@ -29,7 +34,8 @@ module.exports = {
      */
     css: [
         'normalize.css/normalize.css',
-        'element-ui/lib/theme-chalk/index.css'
+        'element-ui/lib/theme-chalk/index.css',
+        '@/assets/global.css'
     ],
     /*
      ** Plugins to load before mounting the App
@@ -45,7 +51,7 @@ module.exports = {
      ** Nuxt.js modules
      */
     modules: [
-        // '@nuxtjs/router',
+        '@nuxtjs/router',
         '@nuxtjs/style-resources'
     ],
     styleResources: {

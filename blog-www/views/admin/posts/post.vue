@@ -1,15 +1,16 @@
 <template>
     <div>
-        category
+        post
     </div>
 </template>
 
 <script>
 export default {
-    name: 'category',
+    layout: 'admin',
+    name: 'post',
     meta: {
-        title: 'Category',
-        icon: 'el-icon-collection-tag'
+        title: 'Post',
+        icon: 'el-icon-collection'
     },
 }
 </script>

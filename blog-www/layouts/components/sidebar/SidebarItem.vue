@@ -27,7 +27,7 @@
 
 <script>
 import path from 'path'
-import { isExternal } from '@/tools/validate'
+import { isExternal } from '~/tools/validate'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'

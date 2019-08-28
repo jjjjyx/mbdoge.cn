@@ -58,11 +58,11 @@ function validUsername () {
 }
 
 export default {
-    layout: 'admin',
     name: 'login',
     fetch ({ store, redirect }) {
         if (store.getters['user/isLogin']) {
-            return redirect('./admin')
+            // return redirect({ name: 'dashboard'})
+            return redirect('./')
         }
     },
     data () {

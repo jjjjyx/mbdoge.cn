@@ -1,16 +1,13 @@
 <template>
     <div>
-        post
+        dashboard
     </div>
 </template>
 
 <script>
 export default {
-    name: 'post',
-    meta: {
-        title: 'Post',
-        icon: 'el-icon-collection'
-    },
+    layout: 'admin',
+    name: 'dashboard'
 }
 </script>
 
