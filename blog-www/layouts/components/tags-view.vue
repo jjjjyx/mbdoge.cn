@@ -97,7 +97,6 @@ export default {
             return tags
         },
         initTags () {
-            console.log(this.routes)
             const affixTags = this.affixTags = this.filterAffixTags(this.routes)
             for (const tag of affixTags) {
                 // Must have tag name

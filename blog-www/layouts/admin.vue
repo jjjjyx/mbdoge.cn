@@ -17,7 +17,7 @@
             <!--</transition>-->
         </section>
         <footer :class="$style.footer" v-if="showFooter">
-            <div :class="$style.copyright">{{copyright}}</div>
+            <div :class="$style.copyright">{{copyright}}</div> {{aa}}
         </footer>
     </div>
 </div>
@@ -38,15 +38,21 @@ export default {
         Navbar,
         Sidebar
     },
-    fetch ({ store, redirect, route }) {
-        if (!store.getters['user/isLogin']) {
-            return redirect({ name: 'login'})
-        }
-    },
+    // layout 中不支持 asyncData  fetch
+    // async asyncData () {
+    //     return { aa: 'bbb'}
+    // },
+    // fetch ({ store, redirect, route }) {
+    //     console.log('store.getters=', store.getters['user/isLogin'])
+    //     if (!store.getters['user/isLogin']) {
+    //         return redirect({ name: 'login'})
+    //     }
+    // },
     mixins: [ResizeMixin],
     data () {
         return {
-            copyright: conf.copyright
+            copyright: conf.copyright,
+            aa: ''
         }
     },
     computed: {
