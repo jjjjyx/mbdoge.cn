@@ -1,4 +1,4 @@
-import axios, { setToken, clearToken } from '~/tools/api'
+import axios from '~/tools/api'
 import { passwordHash } from '~/tools/common'
 
 class UserApi {
@@ -7,10 +7,8 @@ class UserApi {
             // let data = new FormData()
             // data.append('username', username)
             // data.append('password', password)
-            clearToken()
             return axios.post('/api/v1/auth', { username, password })
         }).then((e) => {
-            setToken(e)
             return e
         })
     }
@@ -28,7 +26,7 @@ class UserApi {
     }
 
     static logout () {
-        clearToken()
+        // todo 退出登录删除 cookie
         return axios.post('/api/v1/auth/logout')
     }
 }

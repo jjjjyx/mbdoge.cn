@@ -20,6 +20,7 @@
 <script>
 
 import api from '~/tools/api'
+
 export default {
     async asyncData (ctx) {
         // try {
@@ -38,12 +39,15 @@ export default {
     },
     methods: {
         test () {
-            console.log(111)
-            try {
-                api.post('/asd')
-            } finally {
-            }
-            this.title = "12312312312312312"
+            console.log(this.$globalStyle)
+            console.log(this.$style)
+            // console.log(111)
+            // try {
+            //     api.post('/asd')
+            // } finally {
+            // }
+            // this.title = "12312312312312312"
+
         }
     },
 }

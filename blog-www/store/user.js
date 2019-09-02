@@ -3,6 +3,7 @@
 
 import cloneDeep from 'lodash/cloneDeep'
 import userApi from '~/api/userApi'
+import Token from '~/tools/auth'
 // import store from '../index'
 
 const state = () => ({
@@ -38,6 +39,13 @@ const actions = {
         let user = await userApi.auth()
         commit('USER_SET_INFO', user)
         return user
+    },
+    // user logout
+    async logout ({ commit, state }) {
+        await userApi.logout()
+        commit('SET_ID', null)
+        Token.removeToken()
+        // resetRouter()
     },
     async checkUser ({ commit, state }) {
         let user = await userApi.auth()

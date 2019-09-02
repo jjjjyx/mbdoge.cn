@@ -83,13 +83,14 @@ const _passwordResultToText = function (keyBuffer, saltUint8, iterations) {
 }
 // const passwordHashAsmCrypto =
 
-let passwordHashAsmCrypto = async function (password, iterations = 1e5) {
-    let enc = new TextEncoder()
-    const pwUtf8 = enc.encode(password) // encode pw as UTF-8
-    const saltUint8 = enc.encode(salt)
-    let keyBuffer = Pbkdf2HmacSha512(pwUtf8, saltUint8, iterations, 32)
-    return _passwordResultToText(keyBuffer, saltUint8, iterations)
-    // })
+let passwordHashAsmCrypto = function (password, iterations = 1e5) {
+    return new Promise((resolve, reject) => {
+        let enc = new TextEncoder()
+        const pwUtf8 = enc.encode(password) // encode pw as UTF-8
+        const saltUint8 = enc.encode(salt)
+        let keyBuffer = Pbkdf2HmacSha512(pwUtf8, saltUint8, iterations, 32)
+        resolve(_passwordResultToText(keyBuffer, saltUint8, iterations))
+    })
 }
 
 // async function passwordHashNative (password, iterations = 1e5) {

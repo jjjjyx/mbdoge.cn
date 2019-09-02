@@ -42,6 +42,10 @@ module.exports = {
      */
     plugins: [
         '@/plugins/element-ui',
+        {
+            src: '@/plugins/globalStyle',
+            ssr: false
+        }
     ],
     /*
      ** Nuxt.js dev-modules
@@ -70,6 +74,12 @@ module.exports = {
                 autoprefixer: {}
             }
         },
+        // loaders: {
+        //     css: {},
+        //     cssModules: {
+        //         localIdentName: '[local]_[hash:base64:4]'
+        //     },
+        // },
         /*
          ** You can extend webpack config here
          */
