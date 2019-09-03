@@ -1,13 +1,16 @@
 <template>
     <div :class="$style.navbar">
         <hamburger :is-active="!sidebar.collapsed" :class="$style.hamburgerContainer" @toggleClick="toggleSideBar"/>
-
+        <div :class="$style.hamburgerContainer" @click="handlerClickRefresh" style="font-size: 16px;line-height: 50px;padding: 0 8px">
+            <i class="el-icon-refresh"></i>
+        </div>
         <breadcrumb :class="$style.breadcrumbContainer"/>
 
         <div :class="$style.rightMenu">
             <el-dropdown :class="$style.avatarContainer" trigger="click">
                 <div :class="$style.avatarWrapper">
-                    <img src="http://iph.href.lu/80x80?text=avatar" :class="$style.userAvatar">
+                    <!--<img src="http://iph.href.lu/80x80?text=avatar" :class="$style.userAvatar">-->
+                    <el-avatar :class="$style.userAvatar"> user </el-avatar>
                     <i class="el-icon-caret-bottom"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown" :class="$style.userDropdown">
@@ -49,6 +52,9 @@ export default {
     methods: {
         ...mapActions('app', ['toggleSideBar']),
         // ...mapActions('user', ['logout']),
+        handlerClickRefresh () {
+            this.$events.fire('refresh')
+        },
         async logout () {
             await this.$store.dispatch('user/logout')
             location.replace('/')
@@ -67,6 +73,7 @@ export default {
     box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 }
 .hamburgerContainer {
+    padding: 0 1rem;
     line-height: 46px;
     height: 100%;
     float: left;
@@ -116,7 +123,7 @@ export default {
     .avatarWrapper {
         margin-top: 5px;
         position: relative;
-
+        outline: none;
         .userAvatar {
             cursor: pointer;
             width: 40px;

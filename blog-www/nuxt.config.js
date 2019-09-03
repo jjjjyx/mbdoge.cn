@@ -20,7 +20,11 @@ module.exports = {
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-        ]
+        ],
+        script: [
+            // async: true, defer: true
+            { src: '//at.alicdn.com/t/font_1385233_4x6jzcbukk5.js', }
+        ],
     },
     router: {
         middleware: ['permission']
@@ -42,10 +46,8 @@ module.exports = {
      */
     plugins: [
         '@/plugins/element-ui',
-        {
-            src: '@/plugins/globalStyle',
-            ssr: false
-        }
+        '@/plugins/components',
+        '@/plugins/globalStyle'
     ],
     /*
      ** Nuxt.js dev-modules

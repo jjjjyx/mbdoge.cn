@@ -26,7 +26,6 @@ class UserApi {
     }
 
     static logout () {
-        // todo 退出登录删除 cookie
         return axios.post('/api/v1/auth/logout')
     }
 }

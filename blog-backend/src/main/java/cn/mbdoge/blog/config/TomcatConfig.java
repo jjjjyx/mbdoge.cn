@@ -2,8 +2,10 @@ package cn.mbdoge.blog.config;
 
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.AbstractHttp11Protocol;
+import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +34,11 @@ public class TomcatConfig {
             }
         });
         return factory;
+    }
+
+    @Bean
+    public WebServerFactoryCustomizer<TomcatServletWebServerFactory> cookieProcessorCustomizer() {
+        return (factory) -> factory.addContextCustomizers(
+                (context) -> context.setCookieProcessor(new LegacyCookieProcessor()));
     }
 }

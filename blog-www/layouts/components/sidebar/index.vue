@@ -13,6 +13,11 @@
                 mode="vertical"
                 router
             >
+                <el-menu-item index="dashboard" :route="{ name : 'dashboard' }">
+                    <!--<i class="el-icon-collection"></i>-->
+                    <font-icon type="icon-dashboard"></font-icon>
+                    <span slot="title">仪表盘</span>
+                </el-menu-item>
                 <el-menu-item index="post" :route="{ name : 'post-manage' }">
                     <i class="el-icon-collection"></i>
                     <span slot="title">文章管理</span>

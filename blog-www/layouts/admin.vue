@@ -124,6 +124,7 @@ $footerHeight: 64px;
     background-color: #f5f7f9;
     .appMain {
         /*min-height: calc(100vh - 50px);*/
+        padding: 24px;
         width: 100%;
         position: relative;
         overflow: hidden;
@@ -167,8 +168,11 @@ $footerHeight: 64px;
             height: 100%;
             width: 100% !important;
         }
-        .svg-icon {
+        .el-menu-item .svg-icon, .el-menu-item [class^=el-icon-] {
             margin-right: 16px;
+            font-size: 1rem;
+            width: 1rem;
+            /*width: auto;*/
         }
         .is-active > .el-submenu__title {
             color: $subMenuActiveText !important;
@@ -275,8 +279,7 @@ $footerHeight: 64px;
 }
 
 .footer {
-    margin: 24px 0;
-    padding: 0 16px;
+    padding: 24px 16px;
     text-align: center;
 
     .copyright {

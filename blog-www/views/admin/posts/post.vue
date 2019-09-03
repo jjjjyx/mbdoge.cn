@@ -1,6 +1,13 @@
 <template>
     <div>
-        post
+        <div :class="$globalStyle.pageHeader">
+            <div :class="$globalStyle.title">
+                文章管理
+            </div>
+            <div :class="$globalStyle.content">
+
+            </div>
+        </div>
     </div>
 </template>
 
@@ -12,6 +19,8 @@ export default {
         title: 'Post',
         icon: 'el-icon-collection'
     },
+    mounted () {
+    }
 }
 </script>
 

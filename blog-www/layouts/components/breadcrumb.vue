@@ -1,15 +1,16 @@
 <template>
     <el-breadcrumb :class="$style.breadcrumb" separator="/">
         <transition-group name="breadcrumb">
-            <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
-                <span v-if="item.redirect ==='noRedirect' || index === levelList.length - 1" :class="$style.noRedirect">{{ item.meta.title }}</span>
-                <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+            <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.name">
+                <span v-if="item.redirect ==='noRedirect' || index === levelList.length - 1" :class="$style.noRedirect">{{ generateTitle(item.meta) }}</span>
+                <a v-else @click.prevent="handleLink(item)">{{ generateTitle(item.meta) }}</a>
             </el-breadcrumb-item>
         </transition-group>
     </el-breadcrumb>
 </template>
 
 <script>
+import { generateTitle } from '@/tools/i18n'
 
 export default {
     data () {
@@ -26,6 +27,7 @@ export default {
         this.getBreadcrumb()
     },
     methods: {
+        generateTitle,
         getBreadcrumb () {
             // only show routes with meta.title
             let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
@@ -34,13 +36,19 @@ export default {
                 matched.unshift({ path: '/6tw9sQs', name: 'dashboard', meta: { title: 'dashboard' } })
             }
             this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-        },
-        isDashboard (route) {
-            const name = route && route.name
-            if (!name) {
-                return false
-            }
-            return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+                .map((item) => {
+                    let meta = { ...item.meta }
+                    if (meta.title && typeof meta.title === 'function') {
+                        meta.__titleIsFunction__ = true
+                        meta.title = meta.title(this.$route)
+                    }
+
+                    return {
+                        icon: (item.meta && item.meta.icon) || '',
+                        name: item.name,
+                        meta: meta
+                    }
+                })
         },
         handleLink (item) {
             const { redirect, path, name } = item

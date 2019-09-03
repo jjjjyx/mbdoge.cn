@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -45,6 +46,9 @@ public class AuthController {
 
     @Value("${user.auth.header}")
     private String userAuthHeaderKey;
+    @Value("${server.servlet.session.cookie.domain}")
+    private String cookieDomain;
+
 
     private final ConfigRepository configRepository;
 
@@ -67,6 +71,7 @@ public class AuthController {
 //        cookie.setSecure(true);
         cookie.setMaxAge(5 * 60 * 60); // expires in 5 hour
         cookie.setPath("/");
+        cookie.setDomain(cookieDomain);
         response.addCookie(cookie);
         return token;
     }
@@ -80,9 +85,19 @@ public class AuthController {
 
     @PostMapping(value = "logout")
     @PreAuthorize("hasRole('USER')")
-    public String logout(Principal principal, HttpSession session) throws AuthenticationException {
+    public String logout(Principal principal, HttpSession session, HttpServletResponse response) throws AuthenticationException {
         log.debug("user info = {} logout", principal);
         session.invalidate();
+
+        Cookie cookie = new Cookie(userAuthHeaderKey, null);
+        cookie.setHttpOnly(true);
+//        cookie.setSecure(true);
+        cookie.setMaxAge(0); // expires in 5 hour
+        cookie.setPath("/");
+        cookie.setDomain(cookieDomain);
+        response.addCookie(cookie);
+//        Cookie cookie = WebUtils.getCookie(request, userAuthHeaderKey);
+
         SecurityContextHolder.clearContext();
         return "0";
     }

@@ -26,6 +26,34 @@ const state = () => ({
     breadcrumbs: []
 })
 
+
+function handleTagView (view) {
+    let meta = _.cloneDeep(view.meta)
+    let title = 'no-name'
+    if (meta.title) {
+        if (typeof meta.title === 'function') {
+            meta.__titleIsFunction__ = true
+            title = meta.title(view)
+        } else {
+            title = meta.title
+        }
+    }
+    meta.title = title
+
+    return {
+        fullPath: view.fullPath,
+        hash: view.hash,
+        meta,
+        name: view.name,
+        params: view.params,
+        path: view.path,
+        query: view.query,
+        title
+    }
+}
+
+
+
 const mutations = {
     SET_BREADCRUMBS (state, breadcrumbs) {
         state.breadcrumbs = breadcrumbs
@@ -56,17 +84,7 @@ const mutations = {
         // let o = Object.assign({}, view, {
         //     title: view.meta.title || 'no-name'
         // })
-        let o = {
-            fullPath: view.fullPath,
-            hash: view.hash,
-            meta: _.cloneDeep(view.meta),
-            name: view.name,
-            params: view.params,
-            path: view.path,
-            query: view.query,
-            title: view.meta.title || 'no-name'
-        }
-        state.visitedViews.push(o)
+        state.visitedViews.push(handleTagView(view))
     },
     ADD_CACHED_VIEW: (state, view) => {
         if (state.cachedViews.includes(view.name)) return
@@ -110,8 +128,7 @@ const mutations = {
 
     DEL_ALL_VISITED_VIEWS: state => {
         // keep affix tags
-        const affixTags = state.visitedViews.filter(tag => tag.meta.affix)
-        state.visitedViews = affixTags
+        state.visitedViews = state.visitedViews.filter(tag => tag.meta.affix)
     },
     DEL_ALL_CACHED_VIEWS: state => {
         state.cachedViews = []
@@ -120,17 +137,7 @@ const mutations = {
     UPDATE_VISITED_VIEW: (state, view) => {
         for (let v of state.visitedViews) {
             if (v.path === view.path) {
-                let o = {
-                    fullPath: view.fullPath,
-                    hash: view.hash,
-                    meta: _.cloneDeep(view.meta),
-                    name: view.name,
-                    params: view.params,
-                    path: view.path,
-                    query: view.query,
-                    title: view.meta.title || 'no-name'
-                }
-                Object.assign(v, o)
+                Object.assign(v, handleTagView(view))
                 break
             }
         }
