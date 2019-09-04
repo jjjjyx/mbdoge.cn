@@ -8,14 +8,14 @@
             <tags-view v-if="showTagsView"></tags-view>
         </div>
         <div :class="$style.fun"></div>
-        <section :class="$style.appMain" :style="mainStyles">
+        <!--<section :class="$style.appMain" >-->
             <!--<transition name="fade-transform" mode="out-in">-->
                 <!--<keep-alive :include="cachedViews">-->
-            <nuxt :nuxt-child-key="$route.path"/>
+        <nuxt :nuxt-child-key="$route.path" :class="$style.appMain" :style="mainStyles"/>
                     <!--<nuxt-child :key="$route.fullPath"></nuxt-child>-->
                 <!--</keep-alive>-->
             <!--</transition>-->
-        </section>
+        <!--</section>-->
         <footer :class="$style.footer" v-if="showFooter">
             <div :class="$style.copyright">{{copyright}}</div> {{aa}}
         </footer>
@@ -124,10 +124,12 @@ $footerHeight: 64px;
     background-color: #f5f7f9;
     .appMain {
         /*min-height: calc(100vh - 50px);*/
-        padding: 24px;
+        padding: 16px;
         width: 100%;
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 }
 

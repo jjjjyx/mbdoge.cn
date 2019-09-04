@@ -35,6 +35,15 @@ const routes = [
         component: () => import('~/views/admin/posts/post').then(callback)
     },
     {
+        name: 'write-post',
+        path: '/6tw9sQs/post/write',
+        meta: {
+            title: 'write-post',
+            icon: ''
+        },
+        component: () => import('~/views/admin/posts/write').then(callback)
+    },
+    {
         name: 'category-manage',
         path: '/6tw9sQs/category',
         meta: {
