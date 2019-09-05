@@ -23,7 +23,7 @@ module.exports = {
         ],
         script: [
             // async: true, defer: true
-            { src: '//at.alicdn.com/t/font_1385233_yi608zp6rg.js', }
+            { src: '//at.alicdn.com/t/font_1385233_mj4u5amekwc.js', }
         ],
     },
     router: {
