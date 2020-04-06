@@ -1,0 +1,4 @@
+rootProject.name = 'mbdoge.cn'
+include 'backend'
+include 'frontend'
+
