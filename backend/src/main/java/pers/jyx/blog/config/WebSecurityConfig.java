@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import pers.jyx.blog.user.server.UserDetailsServiceImpl;
  */
 @Slf4j
 @Configuration
+
 public class WebSecurityConfig {
 
     @Autowired
@@ -28,6 +30,7 @@ public class WebSecurityConfig {
 
     @Bean
     public ConfigureHttpSecurity configureHttpSecurity() {
+
         return (httpSecurity) -> {
             System.out.println("httpSecurity = " + httpSecurity);
             httpSecurity.authorizeRequests()
@@ -58,14 +61,4 @@ public class WebSecurityConfig {
         return new UserDetailsServiceImpl(userRepository);
     }
 
-    @Bean(name = "customDaoAuthenticationProvider")
-    public CustomDaoAuthenticationProvider customDaoAuthenticationProvider(
-            MessageSourceAccessor messageSourceAccessor,
-            PasswordEncoder passwordEncoder,
-            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService
-    ) {
-        System.out.println("messageSourceAccessor = " + messageSourceAccessor);
-        System.out.println("ccc" + messageSourceAccessor.getMessage("ExceptionTranslationFilter.insufficientAuthentication"));
-        return new CustomDaoAuthenticationProvider(messageSourceAccessor, passwordEncoder, userDetailsService);
-    }
 }
