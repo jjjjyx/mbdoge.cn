@@ -9,8 +9,10 @@ public interface UserRole {
      */
     int ADMIN_LEVEL = 100;
     int USER_LEVEL = 5;
+    int GUEST_LEVEL = 0;
 
     String ADMIN = "ADMIN";
-    String SUPREME = "USER";
+    String USER = "USER";
+    String GUEST = "GUEST";
 
 }

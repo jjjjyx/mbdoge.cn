@@ -1,7 +1,6 @@
 package pers.jyx.blog.user.model;
 
 import cn.mbdoge.jyx.jwt.core.DataView;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -10,7 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collections;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -58,8 +57,6 @@ public class UserDO implements Serializable {
     @JsonView(DataView.AdminView.class)
     private String remark;
     private Date nextExpireTime;
-    @Column(columnDefinition = "BIGINT(20) DEFAULT -1")
-    private Long expire;
 
     /**
      * 用户的信息版本，兼容老版本用

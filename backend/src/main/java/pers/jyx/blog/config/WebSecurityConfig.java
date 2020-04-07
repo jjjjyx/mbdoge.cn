@@ -32,7 +32,6 @@ public class WebSecurityConfig {
     public ConfigureHttpSecurity configureHttpSecurity() {
 
         return (httpSecurity) -> {
-            System.out.println("httpSecurity = " + httpSecurity);
             httpSecurity.authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/v2/auth").permitAll()

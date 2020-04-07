@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+import static pers.jyx.blog.Constant.DOMAIN_NAME;
+
 /**
  * @author jyx
  */
@@ -16,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "bomb_config")
+@Table(name = DOMAIN_NAME + "_config")
 @ToString
 public class ConfigDO implements Serializable {
 

@@ -29,9 +29,6 @@ public class AuthController {
 //    @Log(title = "用户登录", banField = {"password"}, businessType = SysOperationLogDO.BusinessType.LOGIN)
     @PostMapping(produces = "application/json")
     public Object createAuthenticationToken(@RequestParam("username") String username, @RequestParam("password") String password) {
-        System.out.println("username = " + username);
-        String message = messageSourceAccessor.getMessage("ExceptionTranslationFilter.insufficientAuthentication");
-        System.out.println("message = " + message);
         return accountServiceImpl.login(username, password);
     }
 
