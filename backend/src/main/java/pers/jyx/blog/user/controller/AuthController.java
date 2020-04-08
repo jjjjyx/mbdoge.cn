@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
+import pers.jyx.blog.user.model.AuthDTO;
 import pers.jyx.blog.user.model.OnlineUserVO;
 import pers.jyx.blog.user.server.AccountServiceImpl;
 
@@ -28,8 +29,8 @@ public class AuthController {
 
 //    @Log(title = "用户登录", banField = {"password"}, businessType = SysOperationLogDO.BusinessType.LOGIN)
     @PostMapping(produces = "application/json")
-    public Object createAuthenticationToken(@RequestParam("username") String username, @RequestParam("password") String password) {
-        return accountServiceImpl.login(username, password);
+    public Object createAuthenticationToken(@RequestBody AuthDTO auth) {
+        return accountServiceImpl.login(auth.getUsername(), auth.getPassword());
     }
 
 //    @Log(title = "获取登录状态")
@@ -39,4 +40,5 @@ public class AuthController {
         log.debug("user info = {}", authentication);
         return (OnlineUserVO) authentication.getPrincipal();
     }
+
 }
