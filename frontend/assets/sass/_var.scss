@@ -1,0 +1,78 @@
+$main-font-color: #515a6e;
+$main-font-color--active: mix($main-font-color, #fff, 10%);
+
+// 主要标题颜色
+$main-title-color: #303030;
+$main-title-sub-color: #959595;
+$main-font-color: #505050;
+
+// sidebar
+$menuText: #bfcbd9;
+$menuActiveText: #409EFF;
+$subMenuActiveText: #f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+
+$menuBg: #304156;
+$menuHover: #263445;
+
+$subMenuBg: #1f2d3d;
+$subMenuHover: #001528;
+
+$sideBarWidth: 210px;
+
+$border-color: #dee2e6;
+$border-color--active: #adb5bd;
+$border-radius: 0;
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+/* Color
+-------------------------- */
+/// color|1|Brand Color|0
+$--color-primary: #409EFF !default;
+/// color|1|Background Color|4
+$--color-white: #FFFFFF !default;
+/// color|1|Background Color|4
+$--color-black: #000000 !default;
+$--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; //* 53a8ff */
+$--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; //* 66b1ff */
+$--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; //* 79bbff */
+$--color-primary-light-4: mix($--color-white, $--color-primary, 40%) !default; //* 8cc5ff */
+$--color-primary-light-5: mix($--color-white, $--color-primary, 50%) !default; //* a0cfff */
+$--color-primary-light-6: mix($--color-white, $--color-primary, 60%) !default; //* b3d8ff */
+$--color-primary-light-7: mix($--color-white, $--color-primary, 70%) !default; //* c6e2ff */
+$--color-primary-light-8: mix($--color-white, $--color-primary, 80%) !default; //* d9ecff */
+$--color-primary-light-9: mix($--color-white, $--color-primary, 90%) !default; //* ecf5ff */
+/// color|1|Functional Color|1
+$--color-success: #67C23A !default;
+/// color|1|Functional Color|1
+$--color-warning: #E6A23C !default;
+/// color|1|Functional Color|1
+$--color-danger: #F56C6C !default;
+/// color|1|Functional Color|1
+$--color-info: #909399 !default;
+
+$--color-success-light: mix($--color-white, $--color-success, 80%) !default;
+$--color-warning-light: mix($--color-white, $--color-warning, 80%) !default;
+$--color-danger-light: mix($--color-white, $--color-danger, 80%) !default;
+$--color-info-light: mix($--color-white, $--color-info, 80%) !default;
+
+$--color-success-lighter: mix($--color-white, $--color-success, 90%) !default;
+$--color-warning-lighter: mix($--color-white, $--color-warning, 90%) !default;
+$--color-danger-lighter: mix($--color-white, $--color-danger, 90%) !default;
+$--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
+/// color|1|Font Color|2
+$--color-text-primary: #303133 !default;
+/// color|1|Font Color|2
+$--color-text-regular: #606266 !default;
+/// color|1|Font Color|2
+$--color-text-secondary: #909399 !default;
+/// color|1|Font Color|2
+$--color-text-placeholder: #C0C4CC !default;
+/// color|1|Border Color|3
+$--border-color-base: #DCDFE6 !default;
+/// color|1|Border Color|3
+$--border-color-light: #E4E7ED !default;
+/// color|1|Border Color|3
+$--border-color-lighter: #EBEEF5 !default;
+/// color|1|Border Color|3
+$--border-color-extra-light: #F2F6FC !default;

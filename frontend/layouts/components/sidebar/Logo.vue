@@ -1,0 +1,82 @@
+<template>
+    <div :class="[$style.logoContainer, {[$style.collapse]: collapse}]">
+        <transition name="sidebarLogoFade">
+            <router-link v-if="collapse" key="collapse" :class="$style.link" to="/">
+                <img v-if="logo" :src="logo" :class="$style.logo">
+                <h1 v-else class="title">{{ title }} </h1>
+            </router-link>
+            <router-link v-else key="expand" :class="$style.link" to="/">
+                <img v-if="logo" :src="logo" :class="$style.logo"/>
+                <h1 :class="$style.title">{{ title }} </h1>
+            </router-link>
+        </transition>
+    </div>
+</template>
+
+<script>
+import config from '~/config'
+export default {
+    name: 'SidebarLogo',
+    props: {
+        collapse: {
+            type: Boolean,
+            required: true
+        }
+    },
+    data () {
+        return {
+            title: config.title,
+            logo: 'https://image.cdn.mbdoge.cn/12f2aa30-3174-11e7-a772-3734af15197f.png'
+        }
+    }
+}
+</script>
+<style>
+.sidebarLogoFade-enter-active {
+    transition: opacity 1.5s;
+}
+
+.sidebarLogoFade-enter,
+.sidebarLogoFade-leave-to {
+    opacity: 0;
+}
+</style>
+<style lang="scss" module>
+
+.logoContainer {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background: #2b2f3a;
+    text-align: center;
+    overflow: hidden;
+}
+.link {
+    height: 100%;
+    width: 100%;
+}
+.logo {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.title {
+    display: inline-block;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    line-height: 50px;
+    font-size: 14px;
+    font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+    vertical-align: middle;
+}
+
+.collapse {
+    .logo {
+        margin-right: 0;
+    }
+}
+</style>

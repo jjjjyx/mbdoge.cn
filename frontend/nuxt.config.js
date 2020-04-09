@@ -25,9 +25,7 @@ export default {
             {src: '//at.alicdn.com/t/font_1385233_mj4u5amekwc.js',}
         ],
     },
-    router: {
-        middleware: ['permission']
-    },
+
     /*
     ** Customize the progress-bar color
     */
@@ -38,16 +36,18 @@ export default {
     css: [
         'normalize.css/normalize.css',
         'element-ui/lib/theme-chalk/index.css',
-        '@/assets/global.css'
+        '~/assets/global.css'
     ],
     /*
      ** Plugins to load before mounting the App
      */
     plugins: [
-        '@/plugins/element-ui',
-        '@/plugins/components',
-        '@/plugins/globalStyle',
-        '@/plugins/imageSelect.client.js'
+        '~/plugins/element-ui',
+        '~/plugins/components',
+        '~/plugins/globalStyle',
+        '~/plugins/imageSelect.client.js',
+        '~/plugins/axios.server.js',
+        '~/plugins/axios.client.js'
     ],
     /*
     ** Nuxt.js dev-modules
@@ -60,13 +60,49 @@ export default {
     */
     modules: [
         '@nuxtjs/router',
-        '@nuxtjs/style-resources'
+        '@nuxtjs/style-resources',
+        '@nuxtjs/proxy',
+        '@nuxtjs/axios',
+        '@nuxtjs/auth'
     ],
+    axios: {
+        proxy: true,
+        // debug: true,
+        prefix: '/api/v2',
+    },
+    proxy: {
+        '/api/v2': 'http://127.0.0.1:5658/'
+    },
+
     styleResources: {
         scss: [
             // '@/assets/sass/_var.scss',
             '@/assets/sass/base.scss'
         ]
+    },
+    router: {
+        // middleware: ['auth']
+    },
+    auth: {
+        // Options
+        strategies: {
+            local:{
+                endpoints: {
+                    login: { url: '/auth', method: 'post', propertyName: false },
+                    logout: { url: '/user/logout', method: 'post' },
+                    user: { url: '/auth', method: 'get', propertyName: false }
+                }
+            },
+            autoFetchUser: false
+        },
+        redirect: {
+            login: '/6tw9sQs/login',
+            logout: '/',
+            home: '/6tw9sQs'
+        },
+
+        // rewriteRedirects: false,
+        scopeKey: 'roles'
     },
     /*
     ** Build configuration

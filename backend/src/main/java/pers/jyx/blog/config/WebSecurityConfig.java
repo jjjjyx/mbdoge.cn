@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pers.jyx.blog.user.model.UserRepository;
@@ -37,6 +38,8 @@ public class WebSecurityConfig {
                     .antMatchers(HttpMethod.POST, "/api/v2/auth").permitAll()
                     .anyRequest()
                     .authenticated();
+
+            httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         };
     }
 
