@@ -3,7 +3,6 @@
         <editor-tools></editor-tools>
         <div :class="$style.markdownEditor">
             <textarea ref="el"></textarea>
-
         </div>
         <div :class="$style.statusBar">
             <span>Markdown</span>
@@ -17,52 +16,31 @@
 </template>
 
 <script>
-import Editor from "./editor";
+import editor from "./editor";
+/**
+ * 迟早我会完全的吧这个编辑器抄过来！！！！！！！
+ */
 import EditorTools from "./editor-tools";
-
 
 export default {
     name: "markdown-editor",
-    components: {EditorTools, Editor},
-    provide() {
+    components: {EditorTools},
+    data() {
         return {
-            ready: false,
-            $md: null
         }
     },
-    computed: {
+    provide(){
         // pageHeaderDesc () {
         //     return tipMsg[this.tip]
         // }
-        editor() {
-            return this.$refs.editor
+
+        return {
         }
     },
     methods: {
-        async initialize () {
-            const SimpleMDE = await import(/* webpackChunkName: "SimpleMDE" */'SimpleMDE').then((m) => m.default || m)
-
-            const configs = {
-                element: this.$refs.el,
-                status: false,
-                toolbar: [],
-                autoDownloadFontAwesome: false,
-                spellChecker: false // 禁用拼写检查
-            }
-
-            this.$md = new SimpleMDE(configs)
-
-            // fix:
-            this.$md.toolbarElements = {
-                fullscreen: {
-                    className: ''
-                }
-            }
-            this.ready = true
-        },
     },
     mounted () {
-        this.initialize()
+        editor.initialize(this.$refs.el)
     }
 }
 </script>

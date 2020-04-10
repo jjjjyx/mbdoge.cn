@@ -1,43 +1,26 @@
 <template>
     <ul :class="$style.toolsWarp">
-        <!--<el-button @click="aa">test</el-button>-->
-        <!--不需要的按钮就不显示了 这里工具栏全部使用自定义-->
-        <li v-once v-for="it in tools" :class="{[$style[it.float]]: it.float}" @click="handlerClickTool(it)">
-            <el-tooltip effect="dark" :content="it.tip" placement="bottom-start" :open-delay="500">
-                <a>
-                    <font-icon :type="it.icon"></font-icon>
-                </a>
-            </el-tooltip>
+<!--        @click="handlerClickTool(it)"-->
+        <li v-once v-for="it in tools" :class="{[$style[it.float]]: it.float}" >
+            <tools-btn :icon="it.icon" :name="it.name" :custom="it.custom" :tip="it.tip"></tools-btn>
         </li>
+
     </ul>
 </template>
 
 <script>
-
-const TOOLS_HANDLER = {
-    insetTable (editor) {
-        console.log(this, editor)
-
-    },
-    openSelectImageDialog() {
-        // 支持粘贴上传
-        // 支持本地媒体图片库搜索
-        // 支持输入远程图片地址，转换为本地图片库添加
-        // 需要一个全局上传图片功能，以及全局选择图片接口
-        this.$openImageSelectModal()
-        console.log(this.$openImageSelectModal())
-    }
-}
+import editor from "./editor.js";
+import ToolsInsetTable from "./tools/tools-insetTable";
 
 export default {
-	name: "editor-tools",
-    data () {
+    name: "editor-tools",
+    data() {
         return {
             tools: [
                 {icon: 'icon-chexiao', name: 'undo', tip: '撤销'},
                 {icon: 'icon-chexiao2', name: 'redo', tip: '还原'},
                 {icon: 'icon-tupian1', name: 'openSelectImageDialog', tip: '插入图片'},
-                {icon: 'icon-biaoge', name: 'insetTable', tip: '插入表格'},
+                {icon: 'icon-biaoge', name: 'insetTable', tip: '插入表格', custom: true},
                 {icon: 'el-icon-time', name: 'history', tip: '历史版本'},
                 {icon: 'el-icon-paperclip', name: 'adjunct', tip: '添加附件'},
                 {icon: 'icon-shujuguanlisvg40', name: 'insetCode', tip: '插入代码'},
@@ -51,15 +34,72 @@ export default {
             ]
         }
     },
-    // inject: ['editor'],
+    components: {
+        ToolsInsetTable,
+        toolsBtn: {
+            functional: true,
+            props: {
+                icon: String,
+                name: String,
+                tip: String,
+                custom: Boolean
+            },
+            render(h, ctx) {
+                const {icon, name, custom, tip} = ctx.props
+                const param = {
+                    on: {},
+                    directives: [],
+                    ref: `tools-${name}`
+                }
+                let $popover
+                if (custom) {
+                    $popover = h('el-popover', {
+                        ref: `${name}popover`,
+                        props: {
+                            placement: 'bottom-start',
+                            width: 200
+                        }
+                    }, [h(`tools-${name}`)])
+
+                    param.directives.push({
+                        name: 'popover',
+                        arg: `${name}popover`
+                    })
+                    // console.log('name = ', name, $popover)
+                } else {
+                    let fn = editor[name]
+                    if (typeof fn === 'function') {
+                        param['on']['click'] = fn.bind(editor)
+                    }
+                }
+                const $icon = h('font-icon', {props: {type: icon}})
+                const $a = h('a', param, [$icon])
+
+                const $tip = h('el-tooltip', {
+                    props: {
+                        effect: 'dark',
+                        content: tip,
+                        placement: 'bottom-start',
+                        'open-delay': 500
+                    }
+                }, [$a])
+                return [$popover, $tip]
+            }
+        }
+    },
     methods: {
+        handler () {
+            // console.log(this.editor)
+        },
         handlerClickTool(it) {
-            // console.log(11, this.md)
             // todo 实现工具栏中按钮功能
             const {name} = it
             let fn = TOOLS_HANDLER[name]
             if (typeof fn === 'function') {
-                fn.call(this, this.$parent.editor)
+                if (!this.$parent.ready) {
+                    return
+                }
+                fn.call(this, this.$parent.$md)
             }
         },
     }
@@ -70,6 +110,7 @@ export default {
 .toolsWarp {
     flex: 0 0 auto;
 }
+
 .toolsWarp {
     height: 40px;
     background-color: $--color-info-light;

@@ -8,7 +8,9 @@
 export default {
     name: 'upload',
     data () {
-        return {}
+        return {
+            visible: false
+        }
     }
 }
 </script>
