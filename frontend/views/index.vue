@@ -23,23 +23,26 @@ import api from '~/tools/api'
 
 export default {
     auth: false,
-    async asyncData (ctx) {
+    head() {
+        return {title: this.$t('home.title')}
+    },
+    async asyncData(ctx) {
         // try {
         //     console.log(ctx)
         //     let { data } = await api.get(`https://my-api/posts`)
         // } catch (e) {
         //     console.log(e)
         // }
-        return { title: '123123' }
+        return {title: '123123'}
     },
     components: {},
-    data () {
+    data() {
         return {
             radio: false
         }
     },
     methods: {
-        test () {
+        test() {
             console.log(this.$globalStyle)
             console.log(this.$style)
             // console.log(111)

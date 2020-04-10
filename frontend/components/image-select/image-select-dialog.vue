@@ -20,7 +20,7 @@
                 <ul>
                     <li>
                         知乎
-                        <el-link href="https://www.zhihu.com/question/314166850/answer/611720661">有哪些有格调的免费素材网站？</el-link>
+                        <el-link href="https://www.zhihu.com/question/314166850/answer/611720661" target="_blank">有哪些有格调的免费素材网站？</el-link>
                     </li>
                 </ul>
             </el-tab-pane>

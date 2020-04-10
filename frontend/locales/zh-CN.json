@@ -1,0 +1,25 @@
+{
+    "home": {
+        "title": "酱酱酱酱油鲜's blog | 技术分享"
+    },
+    "admin": {
+        "title": "Admin mbdoge.cn",
+        "post": {
+            "title": "Post Manage",
+            "button": {
+                "search": "Search",
+                "new": "New Post"
+            },
+            "input": {
+                "search": "搜索文章标题，标签"
+            }
+        }
+    },
+    "route": {
+        "dashboard": "仪表盘",
+        "post": "文章管理",
+        "category": "Category",
+        "media": "Media",
+        "new-post": "New Post"
+    }
+}

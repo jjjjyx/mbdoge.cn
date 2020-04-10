@@ -17,7 +17,7 @@
             <!--</transition>-->
         <!--</section>-->
         <footer :class="$style.footer" v-if="showFooter">
-            <div :class="$style.copyright">{{copyright}}</div> {{aa}}
+            <div :class="$style.copyright">{{copyright}}</div>
         </footer>
     </div>
 </div>
@@ -34,6 +34,11 @@ import conf from '~/config'
 export default {
     name: 'admin',
     middleware: ['auth'],
+    head () {
+        return {
+            title: this.$t('admin.title')
+        }
+    },
     components: {
         TagsView,
         Navbar,
@@ -52,8 +57,7 @@ export default {
     mixins: [ResizeMixin],
     data () {
         return {
-            copyright: conf.copyright,
-            aa: ''
+            copyright: conf.copyright
         }
     },
     computed: {

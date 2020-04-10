@@ -1,12 +1,11 @@
 'use strict'
 
-import config from '~/config'
-import axios from 'axios'
-
-const { baseURL, tokenKey, tokenPrefix } = config
+// import config from '~/config'
+// import axios from 'axios'
 
 const state = () => ({
-    aa: "test--11111"
+    locales: ['en', 'zh-CN'],
+    locale: 'en'
 })
 
 const getters = {
@@ -18,7 +17,7 @@ const actions = {
     async nuxtServerInit ({ commit, dispatch }, { req }) {
         console.log('nuxt init')
         console.log('process.server = ', process.server)
-        if (req.headers.cookie) {
+        // if (req.headers.cookie) {
             // try {
             //
             //     const ret = await this.$axios.$get('/auth')
@@ -28,13 +27,17 @@ const actions = {
             //     // console.log(e.response)
             //     console.log('尚未登录')
             // }
-        }
+        // }
         // await dispatch('user/checkUser')
     },
 
 }
 const mutations = {
-
+    SET_LANG (state, locale) {
+        if (state.locales.includes(locale)) {
+            state.locale = locale
+        }
+    }
 }
 
 export default {

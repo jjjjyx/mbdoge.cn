@@ -23,7 +23,6 @@ const routes = [
             affix: true
         },
         component: () => import('~/views/admin/dashboard/dashboard').then(callback)
-
     },
     {
         name: 'post-manage',
@@ -35,13 +34,13 @@ const routes = [
         component: () => import('~/views/admin/posts/post').then(callback)
     },
     {
-        name: 'write-post',
-        path: '/6tw9sQs/post/write',
+        name: 'new-post',
+        path: '/6tw9sQs/post/new',
         meta: {
-            title: 'write-post',
+            title: 'new-post',
             icon: ''
         },
-        component: () => import('~/views/admin/posts/write').then(callback)
+        component: () => import('~/views/admin/posts/new').then(callback)
     },
     {
         name: 'category-manage',

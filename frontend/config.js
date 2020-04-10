@@ -8,7 +8,7 @@ const CONFIG = {
     tokenKey: 'Authorization',
     tokenPrefix: 'Bearer ',
     isDev,
-    copyright: '--',
+    copyright: 'mbdoge.cn',
     title: 'mbdoge.cn',
     version: '2.0.20190818',
     apiEncryptEnable: true,

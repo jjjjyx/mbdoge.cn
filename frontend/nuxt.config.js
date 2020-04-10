@@ -47,7 +47,8 @@ export default {
         '~/plugins/globalStyle',
         '~/plugins/imageSelect.client.js',
         '~/plugins/axios.server.js',
-        '~/plugins/axios.client.js'
+        '~/plugins/axios.client.js',
+        '~/plugins/i18n.js'
     ],
     /*
     ** Nuxt.js dev-modules

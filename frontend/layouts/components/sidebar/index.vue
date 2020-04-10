@@ -16,19 +16,19 @@
                 <el-menu-item index="dashboard" :route="{ name : 'dashboard' }">
                     <!--<i class="el-icon-collection"></i>-->
                     <font-icon type="icon-dashboard"></font-icon>
-                    <span slot="title">仪表盘</span>
+                    <span slot="title">{{$t('route.dashboard')}}</span>
                 </el-menu-item>
                 <el-menu-item index="post" :route="{ name : 'post-manage' }">
                     <i class="el-icon-collection"></i>
-                    <span slot="title">文章管理</span>
+                    <span slot="title">{{$t('route.post')}}</span>
                 </el-menu-item>
                 <el-menu-item index="category" :route="{ name : 'category-manage' }">
                     <i class="el-icon-collection-tag"></i>
-                    <span slot="title">分类管理</span>
+                    <span slot="title">{{$t('route.category')}}</span>
                 </el-menu-item>
                 <el-menu-item index="2">
                     <i class="el-icon-picture-outline"></i>
-                    <span slot="title">图片资源</span>
+                    <span slot="title">{{$t('route.media')}}</span>
                 </el-menu-item>
 
                 <!--<el-submenu index="1">-->

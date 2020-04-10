@@ -12,7 +12,7 @@
                 @click.middle.native="closeSelectedTag(tag)"
                 @contextmenu.prevent.native="openMenu(tag,$event)"
             >
-                {{ tag.title }}
+                {{ generateTitle(tag, $route) }}
                 <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"></span>
             </router-link>
         </el-scrollbar>
@@ -28,6 +28,7 @@
 <script>
 import { mapState } from 'vuex'
 import path from 'path'
+import {generateTitle} from "../../tools/i18n";
 
 const tagAndTagSpacing = 4 // tagAndTagSpacing
 
@@ -72,6 +73,7 @@ export default {
         this.addTags()
     },
     methods: {
+        generateTitle,
         isActive (route) {
             return route.path === this.$route.path
         },
