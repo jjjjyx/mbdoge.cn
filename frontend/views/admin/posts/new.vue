@@ -22,7 +22,11 @@
                             <input type="text" :placeholder="$t('admin.post.new.editor.title')">
                         </div>
                     </div>
-                    <markdown-editor :class="[$style.editorWarp]"></markdown-editor>
+<!--                    :class="[$style.editorWarp]"-->
+                    <client-only>
+                        <editor :class="[$style.editorWarp]" height="100%"></editor>
+                    </client-only>
+<!--                    <markdown-editor ></markdown-editor>-->
                 </div>
 
             </el-col>
@@ -38,10 +42,23 @@
 <script>
 // import SimpleMDE from 'SimpleMDE'
 
-import MarkdownEditor from "~/components/markdown-editor/markdown-editor";
+// import MarkdownEditor from "~/components/markdown-editor/markdown-editor";
+import 'codemirror/lib/codemirror.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+
+// import { Editor } from '@toast-ui/vue-editor';
+
+
+// const Editor = dynamic(, {
+//     ssr: false
+// })
 
 export default {
-    components: {MarkdownEditor},
+    components: {
+        editor: () => {
+            return process.client ? import('@toast-ui/vue-editor').then((m) => m.Editor) : Promise.resolve({ render: (h) => h('editor') })
+        }
+    },
     layout: 'admin',
     name: 'new-post',
     head() {
@@ -76,8 +93,11 @@ export default {
         // }
     },
     methods: {},
-    created() {
+    async created() {
         // console.log(SimpleMDE)
+        //
+        // const a = await import('@toast-ui/vue-editor')
+        // console.log(a)
     }
 }
 </script>
