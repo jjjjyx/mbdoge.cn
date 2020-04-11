@@ -46,6 +46,7 @@ export default {
             },
             render(h, ctx) {
                 const {icon, name, custom, tip} = ctx.props
+                const self = ctx.parent
                 const param = {
                     on: {},
                     directives: [],
@@ -57,7 +58,18 @@ export default {
                         ref: `${name}popover`,
                         props: {
                             placement: 'bottom-start',
-                            width: 200
+                            'visible-arrow': false,
+                            'popper-class': ctx.parent.$style.toolsPanel
+                            // width: 200
+                        },
+                        on: {
+                            show: () => {
+                                // 将按钮设置为按下
+                                self.$refs[`tools-${name}`].classList.add(self.$style.toolsActive)
+                            },
+                            hide: () => {
+                                self.$refs[`tools-${name}`].classList.remove(self.$style.toolsActive)
+                            }
                         }
                     }, [h(`tools-${name}`)])
 
@@ -65,7 +77,6 @@ export default {
                         name: 'popover',
                         arg: `${name}popover`
                     })
-                    // console.log('name = ', name, $popover)
                 } else {
                     let fn = editor[name]
                     if (typeof fn === 'function') {
@@ -80,7 +91,8 @@ export default {
                         effect: 'dark',
                         content: tip,
                         placement: 'bottom-start',
-                        'open-delay': 500
+                        'open-delay': 500,
+                        'hide-after': 2000
                     }
                 }, [$a])
                 return [$popover, $tip]
@@ -110,6 +122,10 @@ export default {
 .toolsWarp {
     flex: 0 0 auto;
 }
+.toolsPanel {
+    padding: 0;
+    margin-top: 0 !important;
+}
 
 .toolsWarp {
     height: 40px;
@@ -133,7 +149,7 @@ export default {
         /*transition: all .s linear;*/
     }
 
-    li a:hover {
+    li a:hover, .toolsActive {
         color: #f2f2f2 !important;
         background-color: #595959;
     }

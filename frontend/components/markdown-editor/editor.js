@@ -41,10 +41,15 @@ class Editor {
         this.$md.redo()
     }
 
-    insetTable(editor) {
+    drawTable([cell, row]) {
         // console.log(this, editor)
         // 弹出选框
+        console.log([cell, row])
+        this.$md.drawTable()
+    }
 
+    preview () {
+        this.$md.togglePreview()
     }
 
     openSelectImageDialog() {

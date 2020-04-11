@@ -44,6 +44,15 @@ export default {
     components: {MarkdownEditor},
     layout: 'admin',
     name: 'new-post',
+    head() {
+        return {
+            link: [
+                {
+                    rel: 'stylesheet', href: "//cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css"
+                }
+            ]
+        }
+    },
     async asyncData(ctx) {
         const tipMsg = [
             '今日状态不错，写下感受吧',

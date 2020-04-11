@@ -21,6 +21,13 @@
             }
         }
     },
+    "editor": {
+        "tools": {
+            "insertTable": {
+                "title": "Insert Table | {count} Table"
+            }
+        }
+    },
     "route": {
         "dashboard": "Dashboard",
         "post": "Article",
