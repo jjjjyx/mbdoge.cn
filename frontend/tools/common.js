@@ -2,32 +2,32 @@
 // import 'webcrypto-shim'
 // import asmcrypto from 'asmcrypto.js'
 import { Pbkdf2HmacSha512 } from 'asmcrypto.js/dist_es8/pbkdf2/pbkdf2-hmac-sha512.js'
-/**
- * 时间格式化
- * @param format
- * @returns
- */
-/* eslint-disable no-extend-native */
-Date.prototype.format = function (format) {
-    let o = {
-        'M+': this.getMonth() + 1, // month
-        'd+': this.getDate(), // day
-        'h+': this.getHours(), // hour
-        'm+': this.getMinutes(), // minute
-        's+': this.getSeconds(), // second
-        'q+': Math.floor((this.getMonth() + 3) / 3), // quarter
-        'S': this.getMilliseconds() // millisecond
-    }
-    if (/(y+)/.test(format)) {
-        format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
-    }
-    for (let k in o) {
-        if (new RegExp('(' + k + ')').test(format)) {
-            format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
-        }
-    }
-    return format
-}
+// /**
+//  * 时间格式化
+//  * @param format
+//  * @returns
+//  */
+// /* eslint-disable no-extend-native */
+// Date.prototype.format = function (format) {
+//     let o = {
+//         'M+': this.getMonth() + 1, // month
+//         'd+': this.getDate(), // day
+//         'h+': this.getHours(), // hour
+//         'm+': this.getMinutes(), // minute
+//         's+': this.getSeconds(), // second
+//         'q+': Math.floor((this.getMonth() + 3) / 3), // quarter
+//         'S': this.getMilliseconds() // millisecond
+//     }
+//     if (/(y+)/.test(format)) {
+//         format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
+//     }
+//     for (let k in o) {
+//         if (new RegExp('(' + k + ')').test(format)) {
+//             format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length))
+//         }
+//     }
+//     return format
+// }
 
 const CTRL_MASK = 0x1000
 const ALT_MASK = 0x2000
@@ -54,15 +54,15 @@ export function hyphenToHump (str) {
 
 const defaultDatePattern = 'yyyy/MM/dd hh:mm'
 
-export function dateFormat (timeInMs, pattern = defaultDatePattern) {
-    if (timeInMs instanceof Date) {
-        return timeInMs.format(pattern) || '-'
-    } else if (!isNaN(timeInMs)) {
-        return new Date(timeInMs * 1000).format(pattern)
-    } else {
-        return new Date(timeInMs).format(pattern) || '-'
-    }
-}
+// export function dateFormat (timeInMs, pattern = defaultDatePattern) {
+//     if (timeInMs instanceof Date) {
+//         return timeInMs.format(pattern) || '-'
+//     } else if (!isNaN(timeInMs)) {
+//         return new Date(timeInMs * 1000).format(pattern)
+//     } else {
+//         return new Date(timeInMs).format(pattern) || '-'
+//     }
+// }
 
 /**
  *  see https://github.com/fy0/Icarus/blob/master/src/tools/user.js#L34-L56

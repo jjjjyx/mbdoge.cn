@@ -37,7 +37,7 @@ export default {
     methods: {
         handlerClick () {
             this.$parent.doToggle()
-            editor.drawTable(this.last)
+            // editor.drawTable(this.last)
         },
         handlerMouseover () {
             this.last = [-1, -1]

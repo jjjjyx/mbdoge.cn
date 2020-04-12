@@ -1,10 +1,8 @@
 <template>
     <ul :class="$style.toolsWarp">
-<!--        @click="handlerClickTool(it)"-->
         <li v-once v-for="it in tools" :class="{[$style[it.float]]: it.float}" >
             <tools-btn :icon="it.icon" :name="it.name" :custom="it.custom" :tip="it.tip"></tools-btn>
         </li>
-
     </ul>
 </template>
 
@@ -49,6 +47,9 @@ export default {
                 const self = ctx.parent
                 const param = {
                     on: {},
+                    domProps: {
+                        href: 'javascript:void(0);'
+                    },
                     directives: [],
                     ref: `tools-${name}`
                 }
@@ -100,62 +101,10 @@ export default {
         }
     },
     methods: {
-        handler () {
-            // console.log(this.editor)
-        },
-        handlerClickTool(it) {
-            // todo 实现工具栏中按钮功能
-            const {name} = it
-            let fn = TOOLS_HANDLER[name]
-            if (typeof fn === 'function') {
-                if (!this.$parent.ready) {
-                    return
-                }
-                fn.call(this, this.$parent.$md)
-            }
-        },
     }
 }
 </script>
 
 <style module lang="scss">
-.toolsWarp {
-    flex: 0 0 auto;
-}
-.toolsPanel {
-    padding: 0;
-    margin-top: 0 !important;
-}
 
-.toolsWarp {
-    height: 40px;
-    background-color: $--color-info-light;
-    margin: 0;
-    padding: 0;
-
-    li {
-        display: inline-block;
-        cursor: pointer;
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    li a {
-        color: #595959;
-        padding: 11px 14px;
-        display: inline-block;
-        line-height: 17px;
-        font-size: 16px;
-        /*transition: all .s linear;*/
-    }
-
-    li a:hover, .toolsActive {
-        color: #f2f2f2 !important;
-        background-color: #595959;
-    }
-
-    li.right {
-        float: right;
-    }
-}
 </style>

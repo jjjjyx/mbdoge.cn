@@ -23,6 +23,15 @@
     },
     "editor": {
         "tools": {
+            "btn": {
+                "image": "Add a images",
+                "table": "Add a table",
+                "code": "Insert code",
+                "help": "Markdown help",
+                "save": "Save",
+                "preview": "Preview",
+                "full-screen": "Full Screen"
+            },
             "insertTable": {
                 "title": "Insert Table | {count} Table"
             }

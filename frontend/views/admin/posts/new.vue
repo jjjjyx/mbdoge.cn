@@ -19,14 +19,12 @@
                 <div :class="[$globalStyle.card, $style.editorContent]">
                     <div :class="$style.titleWarp">
                         <div :class="$style.titleInput">
-                            <input type="text" :placeholder="$t('admin.post.new.editor.title')">
+                            <input v-model="articleTitle" type="text" :placeholder="$t('admin.post.new.editor.title')">
                         </div>
                     </div>
-<!--                    :class="[$style.editorWarp]"-->
                     <client-only>
-                        <editor :class="[$style.editorWarp]" height="100%"></editor>
+                        <editor ref="editor" :class="[$style.editorWarp]" height="100%"></editor>
                     </client-only>
-<!--                    <markdown-editor ></markdown-editor>-->
                 </div>
 
             </el-col>
@@ -40,23 +38,13 @@
 </template>
 
 <script>
-// import SimpleMDE from 'SimpleMDE'
 
-// import MarkdownEditor from "~/components/markdown-editor/markdown-editor";
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
-
-// import { Editor } from '@toast-ui/vue-editor';
-
-
-// const Editor = dynamic(, {
-//     ssr: false
-// })
+import { dateFormat } from "~/tools/time";
 
 export default {
     components: {
         editor: () => {
-            return process.client ? import('@toast-ui/vue-editor').then((m) => m.Editor) : Promise.resolve({ render: (h) => h('editor') })
+            return process.client ? import('~/components/markdown-editor/markdown-editor').then((m) => m.default) : Promise.resolve({ render: (h) => h('editor') })
         }
     },
     layout: 'admin',
@@ -78,13 +66,29 @@ export default {
             '来都来了，不写点什么吗？'
         ]
         const pageHeaderDesc = tipMsg[~~(Math.random() * tipMsg.length)]
+        const descRanges = ['有感', '心得', '草稿']
 
 
-        return {pageHeaderDesc}
+        const timeLabel = (
+            (timeRanges) => {
+                const hour = new Date().getHours()
+                if(hour < 6) {return '凌晨'}
+                else if (hour < 9){return '早上'}
+                else if (hour < 12){return '上午'}
+                else if (hour < 14){return '中午'}
+                else if (hour < 17){return '下午'}
+                else if (hour < 19){return '傍晚'}
+                else if (hour < 22){return '晚上'}
+                else {return '夜里'}
+            }
+        ) (['深夜', '早晨', '深夜', '上午', '中午', '下午', '傍晚', '晚上'])
+        // YY-MM-dd [深夜|下午|上午] [有感|心得|记|草稿]
+        const articleTitle = `${dateFormat()} ${timeLabel}${descRanges[~~(Math.random() * descRanges.length)]}`
+        return {pageHeaderDesc, articleTitle}
     },
     data() {
         return {
-            // tip: ~~(Math.random() * tipMsg.length),
+
         }
     },
     computed: {
@@ -92,12 +96,11 @@ export default {
         //     return tipMsg[this.tip]
         // }
     },
-    methods: {},
+    mounted() {
+
+    },
     async created() {
-        // console.log(SimpleMDE)
-        //
-        // const a = await import('@toast-ui/vue-editor')
-        // console.log(a)
+
     }
 }
 </script>
@@ -155,6 +158,9 @@ export default {
     /*    height: 0;*/
     /*    overflow: auto;*/
     /*}*/
+    :global(.te-preview) {
+        background-color: #fffef9;
+    }
 
 }
 </style>
