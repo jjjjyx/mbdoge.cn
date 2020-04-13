@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <client-only>
-                        <editor ref="editor" :class="[$style.editorWarp]" height="100%"></editor>
+                        <editor ref="editor" :class="[$style.editorWarp]" height="100%" :on-save="save"></editor>
                     </client-only>
                 </div>
 
@@ -42,13 +42,7 @@
 import { dateFormat } from "~/tools/time";
 
 export default {
-    components: {
-        editor: () => {
-            return process.client ? import('~/components/markdown-editor/markdown-editor').then((m) => m.default) : Promise.resolve({ render: (h) => h('editor') })
-        }
-    },
     layout: 'admin',
-    name: 'new-post',
     head() {
         return {
             link: [
@@ -86,15 +80,28 @@ export default {
         const articleTitle = `${dateFormat()} ${timeLabel}${descRanges[~~(Math.random() * descRanges.length)]}`
         return {pageHeaderDesc, articleTitle}
     },
+    name: 'new-post',
     data() {
         return {
 
+        }
+    },
+    components: {
+        editor: () => {
+            return process.client ? import('~/components/markdown-editor/markdown-editor').then((m) => m.default) : Promise.resolve({ render: (h) => h('editor') })
         }
     },
     computed: {
         // pageHeaderDesc () {
         //     return tipMsg[this.tip]
         // }
+    },
+    methods: {
+        save (value) {
+            console.log(value)
+            // 保存文章，
+
+        }
     },
     mounted() {
 

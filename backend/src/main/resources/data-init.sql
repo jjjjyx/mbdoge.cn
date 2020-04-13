@@ -10,3 +10,8 @@ insert into `mbdoge_role`(`id`,`level`,`name`,`remark`,`created_at`) values (3, 
 
 insert into `mbdoge_user_roles`(`userdo_id`,`roles_id`) values (1, 1);
 insert into `mbdoge_user_roles`(`userdo_id`,`roles_id`) values (1, 2);
+
+
+-- 修改id 到4位数
+INSERT INTO `mbdoge_article` (`id`) VALUES (100000);
+DELETE FROM `mbdoge_article` WHERE `id` = 100000

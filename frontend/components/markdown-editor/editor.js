@@ -8,6 +8,9 @@ import "codemirror/addon/display/placeholder"
 import "codemirror/addon/mode/overlay"
 import "codemirror/addon/selection/mark-selection"
 import "codemirror/mode/markdown/markdown"
+import "codemirror/mode/gfm/gfm"
+
+
 import marked from 'marked'
 
 // Get reference 自定义 renderer
@@ -71,7 +74,11 @@ class Editor {
         if (this.ready) return
 
         this.codemirror = fromTextArea(el, {
-            mode: '',
+            mode: {
+                name: 'gfm',
+                highlightFormatting: true,
+                // gitHubSpice: false,
+            },
             theme: "paper",
             // lineNumbers: true,
             tabSize: 4,

@@ -10,12 +10,12 @@
             <tools-btn icon="el-icon-help" name="help"></tools-btn>
 
 
-            <tools-btn :class="$style.right" icon="icon-baocun" name="save"></tools-btn>
+            <tools-btn :class="$style.right" icon="icon-baocun" name="save" @click="handlerClickSave"></tools-btn>
             <tools-btn :class="$style.right" icon="el-icon-view" name="preview" @click="handlerTogglePreview"></tools-btn>
             <tools-btn :class="$style.right" icon="icon-zhuanzhu" name="full-screen"></tools-btn>
         </ul>
 
-        <div :class="$style.editorBody">
+        <div :class="$style.editorBody" @keydown="handlerKeydown">
             <textarea ref="el" placeholder=""></textarea>
             <div class="markdown-body" :class="$style.preview" v-show="preview" ref="preview"></div>
         </div>
@@ -27,7 +27,15 @@
                 <span :class="$style.value">{{statusData.lineCount}}</span> <span>lines</span>
                 <span>Ln</span><span :class="$style.value">{{statusData.line}}</span>, Col <span :class="$style.value">{{statusData.ch}}</span>
             </span>
-            <span :class="$style.right" style="float: right">已保存 (16:05)</span>
+
+            <span :class="$style.right" style="float: right">
+                <span v-if="saveLoading">
+                    <i class="el-icon-loading"></i>
+                </span>
+                <span v-if="saveTime">
+                    已保存 ({{saveTime}})
+                </span>
+            </span>
         </div>
         <el-popover ref="tablePopover" placement="bottom-start" :popper-class="$style.toolsPopoverPanel">
             <tools-inset-table></tools-inset-table>
@@ -46,6 +54,8 @@ import editor from "./editor";
 import style from './markdown.scss?module'
 import ToolsBtn from "./tools/tools-btn";
 import ToolsInsetTable from "./tools/tools-insetTable";
+import {getMetaKeyCode} from "~/tools/common";
+import {timeFormat} from "~/tools/time";
 
 /*
   必定是 强耦合的
@@ -64,6 +74,8 @@ export default {
     data() {
         return {
             preview: false,
+            saveLoading: false,
+            saveTime: '',
             statusData: {
                 mode: 'Markdown',
                 lineCount: 0,
@@ -80,6 +92,12 @@ export default {
         }
     },
     components: {ToolsInsetTable, ToolsBtn},
+    props: {
+        onSave: {
+            type: Function,
+            default: () => {}
+        }
+    },
     provide(){
 
         return {
@@ -100,6 +118,23 @@ export default {
                 return;
             }
             editor.invoke(command)
+        },
+        handlerKeydown (e) {
+            let metaKeyCode = getMetaKeyCode(e);
+            // ctrl-s
+            // if (4179 === metaKeyCode) {
+            //     e.preventDefault()
+            // }
+        },
+        async save () {
+            const value = editor.getValue();
+            this.saveLoading = true
+            await this.onSave(value)
+            this.saveLoading = false
+            this.saveTime = timeFormat(Date.now())
+        },
+        handlerClickSave (e) {
+            this.save()
         }
     },
     mounted () {
@@ -116,6 +151,10 @@ export default {
             this.statusData.lineCount = instance.lineCount()
             this.statusData.charSize = instance.getValue().length
             // this.statusData.byteSize = editor.getBytesSize()
+        })
+
+        editor.codemirror.setOption('extraKeys', {
+            'Ctrl-S': this.save
         })
     }
 }
