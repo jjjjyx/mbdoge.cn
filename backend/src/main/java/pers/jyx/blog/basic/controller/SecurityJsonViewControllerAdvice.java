@@ -40,7 +40,7 @@ public class SecurityJsonViewControllerAdvice extends AbstractMappingJacksonResp
         // System.out.println("roles = " + roles);
         Collection<? extends GrantedAuthority> authorities = SecurityUtils.getUsernameAuthorities();
         Class<?> viewClass = authorities.stream().findFirst()
-                .flatMap((o) -> Optional.of(MAPPING.get(o.getAuthority())))
+                .flatMap((o) -> Optional.ofNullable(MAPPING.get(o.getAuthority())))
                 .orElse(DataView.Anonymous.class);
 
 
