@@ -12,4 +12,5 @@ public class Constant {
     public static final String API_SERVLET_URL_MATCH = "/api/v2/**";
 
     public static final String LOGIN_TOKEN_KEY = "mbdoge-user:";
+    public static final String DEFAULT_CATEGORY_ID = "";
 }

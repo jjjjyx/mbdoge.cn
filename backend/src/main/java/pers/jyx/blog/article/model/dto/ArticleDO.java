@@ -1,5 +1,6 @@
-package pers.jyx.blog.article.model;
+package pers.jyx.blog.article.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
+import pers.jyx.blog.article.model.CategoryDO;
 import pers.jyx.blog.user.model.UserDO;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +22,9 @@ import static pers.jyx.blog.Constant.DOMAIN_NAME;
 @Getter
 @Setter
 @Entity
-@Table(name = DOMAIN_NAME + "_article")
+@Table(name = DOMAIN_NAME + "_article", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "shortChain")
+})
 @SQLDelete(sql = "update mbdoge_article s set s.deleted_at = now(), s.status = 'DELETE' where id = ?", check = ResultCheckStyle.COUNT)
 @SQLDeleteAll(sql = "update mbdoge_article s set s.deleted_at = now(), s.status = 'DELETE' where id in (?)", check = ResultCheckStyle.COUNT)
 public class ArticleDO implements Serializable {
@@ -41,6 +45,10 @@ public class ArticleDO implements Serializable {
     private Long id;
 
     private String title;
+
+    @Lob
+    @Column(length = 65335)
+    @JsonIgnore
     private String content;
     private String tags;
 
@@ -63,11 +71,9 @@ public class ArticleDO implements Serializable {
     private Date postAt;
     // 文章的阅读数量， 点赞
     // 评论数量 数量这个值如果不是在这里的话 每次都得去查询，也怪费事的 直接增加一个字段进行维护
-    private int eye;
-    private int likes;
-    private int comment;
-    // 置顶
-    private boolean fixedTop;
+    private int eyeCount;
+    private int likeCount;
+    private int commentCount;
 
     private Attribute attribute;
 
@@ -154,10 +160,13 @@ public class ArticleDO implements Serializable {
     @Getter
     @Setter
     public static class Attribute implements Serializable {
+
         // 当且 位置为上的生活多个有轮播效果，否则只使用第一个
         private List<String> covers;
         // 0 上 1 左 2 右
         private int coverPosition;
+        // 置顶
+        private boolean fixedTop;
 
     }
 }

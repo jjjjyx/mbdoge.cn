@@ -30,14 +30,18 @@ public class UserDO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @JsonView(DataView.UserView.class)
     private Long id;
     @Column(columnDefinition = "varchar(60) comment '账号'", nullable = false)
+    @JsonView(DataView.UserView.class)
     private String username;
 
     @Column(columnDefinition = "varchar(100) comment '密码'", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
     @Column(columnDefinition = "varchar(50) comment '昵称'", nullable = false)
+    @JsonView(DataView.UserView.class)
     private String nickname;
 
     @JsonView(DataView.AdminView.class)
@@ -52,10 +56,13 @@ public class UserDO implements Serializable {
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable( uniqueConstraints = {@UniqueConstraint(columnNames = {"userdo_id", "roles_id"})})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OrderBy(value = "level desc")
     private List<RoleDO> roles;
 
     @JsonView(DataView.AdminView.class)
     private String remark;
+
+    @JsonView(DataView.UserView.class)
     private Date nextExpireTime;
 
     /**
@@ -66,6 +73,7 @@ public class UserDO implements Serializable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @JsonView(DataView.UserView.class)
     private UserDetailDO userDetail;
 
 

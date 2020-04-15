@@ -8,10 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
-import pers.jyx.blog.article.model.CategoryQueryCriteriaDTO;
+import pers.jyx.blog.article.model.dto.CategoryQueryCriteriaDTO;
 import pers.jyx.blog.article.model.CategoryDO;
-import pers.jyx.blog.article.model.CreateCategoryDTO;
-import pers.jyx.blog.article.model.UpdateCategoryDTO;
+import pers.jyx.blog.article.model.dto.CreateCategoryDTO;
+import pers.jyx.blog.article.model.dto.UpdateCategoryDTO;
 import pers.jyx.blog.user.model.UserRole;
 
 import javax.validation.constraints.NotEmpty;

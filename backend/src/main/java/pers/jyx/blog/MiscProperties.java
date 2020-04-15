@@ -9,5 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("misc")
 public class MiscProperties {
     private int userVer;
+    private int postVer;
     private String authCookieKey;
 }

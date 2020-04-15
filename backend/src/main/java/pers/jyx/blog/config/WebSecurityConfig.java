@@ -6,6 +6,7 @@ import cn.mbdoge.jyx.security.ConfigureHttpSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -14,8 +15,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import pers.jyx.blog.user.model.UserRepository;
 import pers.jyx.blog.user.server.UserDetailsServiceImpl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**

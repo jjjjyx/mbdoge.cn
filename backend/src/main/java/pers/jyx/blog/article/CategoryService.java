@@ -10,9 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pers.jyx.blog.article.model.CategoryDO;
-import pers.jyx.blog.article.model.CategoryQueryCriteriaDTO;
-import pers.jyx.blog.article.model.CreateCategoryDTO;
-import pers.jyx.blog.article.model.UpdateCategoryDTO;
+import pers.jyx.blog.article.model.dto.CategoryQueryCriteriaDTO;
+import pers.jyx.blog.article.model.dto.CreateCategoryDTO;
+import pers.jyx.blog.article.model.dto.UpdateCategoryDTO;
 import pers.jyx.blog.article.repository.ArticleRepository;
 import pers.jyx.blog.article.repository.CategoryRepository;
 

@@ -1,8 +1,6 @@
 package pers.jyx.blog.article.model;
 
 
-import cn.mbdoge.jyx.jwt.core.DataView;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,9 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import static javax.persistence.GenerationType.IDENTITY;
 import static pers.jyx.blog.Constant.DOMAIN_NAME;
 
 /**

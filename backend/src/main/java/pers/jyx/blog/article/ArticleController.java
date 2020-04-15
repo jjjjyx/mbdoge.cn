@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
-import pers.jyx.blog.article.model.ArticleQueryCriteriaDTO;
-import pers.jyx.blog.article.model.ArticleVO;
-import pers.jyx.blog.article.model.CreateArticleDTO;
+import pers.jyx.blog.article.model.dto.*;
+import pers.jyx.blog.user.model.OnlineUserVO;
 import pers.jyx.blog.user.model.UserRole;
 
 @Slf4j
@@ -28,7 +28,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping
-    public Page<ArticleVO> getArticles (Pageable pageable, ArticleQueryCriteriaDTO criteria) {
+    public Page<ArticleDO> getArticles (Pageable pageable, @Validated ArticleQueryCriteriaDTO criteria) {
         return articleService.queryArticle(pageable, criteria);
     }
 
@@ -37,7 +37,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping(value = "/{id}")
-    public ArticleVO one (@PathVariable("id") long id) {
+    public ArticleDO one (@PathVariable("id") long id) {
         return articleService.findArticleById(id);
     }
 
@@ -46,8 +46,10 @@ public class ArticleController {
      * @return
      */
     @PostMapping
-    public ArticleVO create (@Validated CreateArticleDTO createArticle) {
-        return articleService.createArticle(createArticle);
+    public ArticleDO create (@RequestBody @Validated CreateArticleDTO createArticle, Authentication authentication) {
+        OnlineUserVO user = (OnlineUserVO) authentication.getPrincipal();
+
+        return articleService.createArticle(user, createArticle);
     }
 
     /**
@@ -59,5 +61,24 @@ public class ArticleController {
         articleService.deleteArticleById(id);
     }
 
-    // todo 更新文章
+    /**
+     * 更新文章
+     * @param id
+     * @param updateCategoryDTO
+     * @return
+     */
+    @PutMapping(value = "/{id}")
+    public ArticleDO update(@PathVariable("id") long id, @Validated @RequestBody UpdateArticleDTO updateCategoryDTO) {
+        return articleService.updateArticleById(id, updateCategoryDTO);
+    }
+
+    @PatchMapping(value = "/{id}/content")
+    public ArticleDO updateContent(@PathVariable("id") long id, @Validated @RequestBody UpdateArticleContentDTO updateCategoryDTO) {
+        return articleService.updateArticleContentById(id, updateCategoryDTO);
+    }
+
+    @PatchMapping(value = "/{id}/status")
+    public ArticleDO updateStatus(@PathVariable("id") long id, @Validated @RequestBody UpdateArticleStatusDTO updateCategoryDTO) {
+        return articleService.updateArticleStatusById(id, updateCategoryDTO);
+    }
 }

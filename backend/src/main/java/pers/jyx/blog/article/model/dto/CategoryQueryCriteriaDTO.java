@@ -1,4 +1,4 @@
-package pers.jyx.blog.article.model;
+package pers.jyx.blog.article.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
