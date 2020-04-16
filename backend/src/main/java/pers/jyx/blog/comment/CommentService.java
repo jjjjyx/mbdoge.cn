@@ -1,9 +1,9 @@
 package pers.jyx.blog.comment;
 
-import cn.mbdoge.jyx.exception.LocalServiceException;
-import cn.mbdoge.jyx.exception.RequestLimitException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import cn.mbdoge.jyx.exception.LocalServiceException;
+import cn.mbdoge.jyx.exception.RequestLimitException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,9 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-import pers.jyx.blog.article.ArticleService;
-import pers.jyx.blog.article.model.dto.ArticleDO;
-import pers.jyx.blog.article.model.dto.ArticleQueryCriteriaDTO;
 import pers.jyx.blog.comment.model.CommentDO;
 import pers.jyx.blog.comment.model.CommentQueryCriteriaDTO;
 import pers.jyx.blog.comment.model.CreateCommentDTO;
