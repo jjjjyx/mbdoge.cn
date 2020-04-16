@@ -17,5 +17,5 @@ public class CreateCommentDTO {
     @Length(min = 1, max = 280)
     private String content;
 
-    private String parent;
+    private Long parent;
 }

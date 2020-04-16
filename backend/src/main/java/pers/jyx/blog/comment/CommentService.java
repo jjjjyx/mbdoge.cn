@@ -1,6 +1,7 @@
 package pers.jyx.blog.comment;
 
 import cn.mbdoge.jyx.exception.LocalServiceException;
+import cn.mbdoge.jyx.exception.RequestLimitException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import pers.jyx.blog.article.ArticleService;
 import pers.jyx.blog.article.model.dto.ArticleDO;
@@ -15,6 +18,7 @@ import pers.jyx.blog.article.model.dto.ArticleQueryCriteriaDTO;
 import pers.jyx.blog.comment.model.CommentDO;
 import pers.jyx.blog.comment.model.CommentQueryCriteriaDTO;
 import pers.jyx.blog.comment.model.CreateCommentDTO;
+import pers.jyx.blog.comment.model.UpdateCommentDTO;
 import pers.jyx.blog.user.model.OnlineUserVO;
 import pers.jyx.blog.user.model.UserDO;
 import pers.jyx.blog.user.model.UserRepository;
@@ -22,6 +26,9 @@ import pers.jyx.blog.user.model.UserRepository;
 import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -32,6 +39,8 @@ public class CommentService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     public Page<CommentDO> queryComment (Pageable pageable, CommentQueryCriteriaDTO criteria) {
         CommentSpecification specification = new CommentSpecification(criteria);
@@ -39,6 +48,19 @@ public class CommentService {
     }
 
     public CommentDO createComment(OnlineUserVO user, CreateCommentDTO createComment) {
+        // 重复内容过滤
+        // 一个内容在 3 分钟内重复发送 1 次以上是不允许的
+        // 用户id + 评论目标 + 评论内容 hash
+
+        // todo 这里只限制了 重复内容，频繁的发布也需要限制，这个考虑做在 mbdoge starter 上
+        String key = user.getUid() + createComment.getTarget() + Objects.hash(createComment.getContent());
+        boolean hasKey = Optional.ofNullable(redisTemplate.hasKey(key)).orElse(false);
+        if (hasKey) {
+            throw new RequestLimitException("comment.duplicate.content");
+        } else {
+            ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+            valueOperations.set(key, true, 3, TimeUnit.MINUTES);
+        }
 
         CommentDO comment = new CommentDO();
 
@@ -59,7 +81,55 @@ public class CommentService {
         comment.setUa(user.getAvatar());
 
         comment.setStatus(CommentDO.Status.AUDIT);
-        return null;
+
+        commentRepository.save(comment);
+
+        return comment;
+    }
+
+    public CommentDO findCommentById(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new LocalServiceException("article.not-found", new Object[]{id}));
+    }
+    /**
+     * // 自动过审批有点担心
+     *
+     * 更新评论 主要更新评论的状态
+     * @param id
+     * @param dto
+     * @return
+     */
+    public CommentDO updateComment(Long id, UpdateCommentDTO dto) {
+
+        CommentDO commentDO = commentRepository.findById(id).orElseThrow(() -> new LocalServiceException("comment.not-found"));
+        commentDO.setStatus(dto.getStatus());
+        commentRepository.save(commentDO);
+        return commentDO;
+    }
+
+    public CommentDO approveComment(Long id, CommentDO.Status status) {
+        CommentDO commentDO = this.findCommentById(id);
+
+//        switch (status) {
+//            case DISPLAY:
+//                // 如果 是批准
+//                break;
+
+
+
+//        }
+        if (commentDO.getStatus() == CommentDO.Status.AUDIT && status == CommentDO.Status.DISPLAY) {
+            // 完善楼层信息
+            String target = commentDO.getTarget();
+            CommentDO parent = commentDO.getParent();
+            // 查询 当前评论对象的个数
+            final int i = commentRepository.countByParentAndTarget(parent, target);
+            commentDO.setKarma(i + 1);
+        }
+        commentDO.setStatus(status);
+
+        commentRepository.save(commentDO);
+        return commentDO;
     }
 
 
@@ -95,6 +165,9 @@ public class CommentService {
                 expressions.add(criteriaBuilder.equal(root.get("target"), criteria.getTarget()));
             }
 
+            if (criteria.getStatus() != null) {
+                expressions.add(criteriaBuilder.equal(root.get("status"), criteria.getTarget()));
+            }
 
             query.where(predicate);
             return query.getRestriction();

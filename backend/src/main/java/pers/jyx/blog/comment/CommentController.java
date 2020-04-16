@@ -1,9 +1,5 @@
 package pers.jyx.blog.comment;
 
-import cn.mbdoge.jyx.jwt.SecurityUtils;
-import cn.mbdoge.jyx.jwt.User;
-import cn.mbdoge.jyx.web.util.HttpUtils;
-import cn.mbdoge.jyx.web.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,17 +9,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
-import pers.jyx.blog.article.ArticleService;
-import pers.jyx.blog.article.model.dto.ArticleDO;
-import pers.jyx.blog.article.model.dto.ArticleQueryCriteriaDTO;
-import pers.jyx.blog.article.model.dto.CreateArticleDTO;
 import pers.jyx.blog.comment.model.CommentDO;
 import pers.jyx.blog.comment.model.CommentQueryCriteriaDTO;
 import pers.jyx.blog.comment.model.CreateCommentDTO;
+import pers.jyx.blog.comment.model.UpdateCommentDTO;
 import pers.jyx.blog.user.model.OnlineUserVO;
 import pers.jyx.blog.user.model.UserRole;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Slf4j
 @RestController
@@ -39,7 +34,7 @@ public class CommentController {
      */
     @GetMapping
     @PreAuthorize("hasRole('"+ UserRole.ADMIN +"')")
-    public Page<CommentDO> getCommentAll (@PathVariable("id") String id, Pageable pageable, @Validated CommentQueryCriteriaDTO criteria) {
+    public Page<CommentDO> getCommentAll (Pageable pageable, @Validated CommentQueryCriteriaDTO criteria) {
         return commentService.queryComment(pageable, criteria);
     }
 
@@ -48,9 +43,21 @@ public class CommentController {
      * @return
      */
     @GetMapping(value = "/{id}")
-    public Page<CommentDO> getCommentByTarget (@PathVariable("id") String id, Pageable pageable, @Validated CommentQueryCriteriaDTO criteria) {
+    public Page<CommentDO> getCommentByTarget (@PathVariable("id") @Validated @NotBlank String id, Pageable pageable, @Validated CommentQueryCriteriaDTO criteria) {
         criteria.setTarget(id);
         return commentService.queryComment(pageable, criteria);
+    }
+
+    /**
+     * 审批评论
+     * @param id 评论id
+     * @return
+     */
+    @PatchMapping(value = "/{id}/approve")
+    @PreAuthorize("hasRole('"+ UserRole.ADMIN +"')")
+    public CommentDO approve (@PathVariable("id") long id, @Validated @RequestBody UpdateCommentDTO commentDTO) {
+        CommentDO.Status status = commentDTO.getStatus();
+        return commentService.approveComment(id, status);
     }
 
     /**

@@ -54,6 +54,27 @@ public class CommentDO implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @JsonView(DataView.AdminView.class)
+    public String getOriginContent () {
+        return this.content;
+    }
+
+    public String getContent() {
+        if (status == null) {
+            return "";
+        }
+        switch (status) {
+            case DISPLAY:
+                return this.content;
+            case DELETE:
+                return "该评论已被删除";
+            case AUDIT:
+                return "审核中";
+            default:
+                return "";
+        }
+    }
+
     public enum Status {
         DISPLAY("显示"),
         DELETE("删除"),
