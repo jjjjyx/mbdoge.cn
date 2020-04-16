@@ -167,7 +167,7 @@ public class ArticleService {
                 expressions.add(criteriaBuilder.or(predicates));
             }
 
-            if (criteria.getKeyword() != null) {
+            if (criteria.getCategory() != null) {
                 final Join<CategoryDO, ArticleDO> jo = root.join("category", JoinType.LEFT);
                 expressions.add(criteriaBuilder.equal(jo.get("id"), criteria.getCategory()));
             }

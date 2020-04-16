@@ -13,4 +13,8 @@ public class Constant {
 
     public static final String LOGIN_TOKEN_KEY = "mbdoge-user:";
     public static final String DEFAULT_CATEGORY_ID = "";
+
+    public static final String GUEST_INFO_PREFIX = "#";
+    public static final long GUEST_TOKEN_EXPIRE = 30 * 60 * 60 * 24;
+
 }

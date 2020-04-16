@@ -44,6 +44,16 @@ public class UserDO implements Serializable {
     @JsonView(DataView.UserView.class)
     private String nickname;
 
+    @Column(columnDefinition = "varchar(500) comment '头像'")
+    private String avatar;
+
+    @Column(columnDefinition = "varchar(50) comment '邮箱'")
+    private String email;
+
+    @Column(columnDefinition = "varchar(100) comment '主页'")
+    private String url;
+
+
     @JsonView(DataView.AdminView.class)
     private Integer userStatus;
     private String displayName;

@@ -27,18 +27,15 @@ public class RegisterUserDTO {
     private String nickname;
     @Size(min = 1, max = 8)
     private String displayName;
+
+    private String avatar;
+    private String email;
+    private String url;
+
     private String remark;
     @Min(1000)
     private Long expire;
 
-    @Min(1)
-    private Integer taskCreatedNumPerDay;
-
-    @Min(1)
-    private Integer parallelNum;
-
-    @Min(60)
-    private Integer maxCallTaskTime;
 
     @NotNull
     @Size(min = 1)

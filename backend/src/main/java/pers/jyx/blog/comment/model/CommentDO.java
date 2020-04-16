@@ -1,7 +1,10 @@
 package pers.jyx.blog.comment.model;
 
+import cn.mbdoge.jyx.jwt.core.DataView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
+import pers.jyx.blog.user.model.UserDO;
 
 import javax.persistence.*;
 
@@ -25,7 +28,7 @@ public class CommentDO implements Serializable {
     private String target;
     private String content;
     /* 楼层 */
-    private String karma;
+    private int karma;
     private Date createdAt;
 
     /**父评论*/
@@ -34,13 +37,20 @@ public class CommentDO implements Serializable {
     private CommentDO parent;
 
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserDO user;
+
     /* 评论者信息 */
-    private String author;
-    private String avatar;
-    private String email;
-    private String url;
+//    private String author;
+//    private String avatar;
+//    private String email;
+//    private String url;
+
+    @JsonView(DataView.AdminView.class)
     private String ip;
     private String ua;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 

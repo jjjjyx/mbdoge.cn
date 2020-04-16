@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import pers.jyx.blog.Constant;
 import pers.jyx.blog.MiscProperties;
 import pers.jyx.blog.basic.model.ConfigKey;
 import pers.jyx.blog.basic.model.ConfigRepository;
@@ -74,6 +75,14 @@ public class AccountServiceImpl extends BaseService {
         HttpServletRequest req = this.getHttpReq();
         userDetails.setIpAddr(IpUtils.getRequestRealAddress(req));
         userDetails.setBrowser(req.getHeader("User-Agent"));
+
+        List<String> roles = userDetails.getRoles();
+        String role = roles.get(0);
+        // 游客 的签名时间更长，因为是一次性的
+        // 游客登录
+        if (UserRole.GUEST.equals(role)) {
+            return jwtTokenProvider.createToken(userDetails, userDetails.getUid(), Constant.GUEST_TOKEN_EXPIRE);
+        }
 
         return jwtTokenProvider.createToken(userDetails, userDetails.getUid());
     }

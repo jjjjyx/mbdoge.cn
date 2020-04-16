@@ -42,6 +42,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         vo.setNextExpireTime(user.getNextExpireTime());
         vo.setPassword(user.getPassword());
         vo.setUserStatus(user.getUserStatus());
+        vo.setAvatar(user.getAvatar());
+        vo.setNickname(user.getNickname());
+        vo.setEmail(user.getEmail());
+        vo.setUrl(user.getUrl());
         // 不在在redis 序列化的时候会不会出现循环调用
         vo.setDetail(user.getUserDetail());
         List<GrantedAuthority> roles = user.getRoles()
