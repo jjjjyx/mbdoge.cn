@@ -39,18 +39,18 @@ export default function ({$axios, redirect}, inject) {
             return Promise.reject(error)
         }
 
-        let statusCode = error.response.status
+        // let statusCode = error.response.status
         // 如何清除用户信息是个问题
-        if (statusCode === 401) {
-            // 删除用户信息
-            $axios.setToken(false)
-            // Token.removeToken()
-            // router.replace({ name: 'login', query: { '_': Date.now() } })
-        } else if (statusCode === 403) {
-            // 无权访问
-            document.write('禁止访问')
-            return
-        }
+        // if (statusCode === 401) {
+        //     // 删除用户信息
+        //     $axios.setToken(false)
+        //     // Token.removeToken()
+        //     // router.replace({ name: 'login', query: { '_': Date.now() } })
+        // } else if (statusCode === 403) {
+        //     // 无权访问
+        //     document.write('禁止访问')
+        //     return
+        // }
         let data = error.response.data
 
         if (apiEncryptEnable) {

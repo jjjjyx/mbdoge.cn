@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
+import pers.jyx.blog.article.model.dto.ArticleDO;
 import pers.jyx.blog.article.model.dto.*;
 import pers.jyx.blog.user.model.OnlineUserVO;
 import pers.jyx.blog.user.model.UserRole;
@@ -85,5 +86,10 @@ public class ArticleController {
     @PatchMapping(value = "/{id}/status")
     public ArticleDO updateStatus(@PathVariable("id") long id, @Validated @RequestBody UpdateArticleStatusDTO updateCategoryDTO) {
         return articleService.updateArticleStatusById(id, updateCategoryDTO);
+    }
+
+    @PatchMapping(value = "/{id}/tags")
+    public ArticleDO updateStatus(@PathVariable("id") long id, @Validated @RequestBody UpdateArticleTagsDTO updateCategoryDTO) {
+        return articleService.updateArticleTagsById(id, updateCategoryDTO);
     }
 }

@@ -34,7 +34,7 @@
                       :data="tableData"
                       :default-sort="tableParams.defaultOrder"
                       stripe
-                      @sort-change="handleSortUser">
+                      @sort-change="handleSortChange">
                 <el-table-column type="selection" width="55"></el-table-column>
                 <el-table-column label="标签" v-slot="{row}">
                     <category-name-col :name="row.name" :icon="row.icon"></category-name-col>
@@ -120,14 +120,17 @@
 
 <script>
 import {$curdStyle} from "~/tools/style";
-// import {fetchDataMixin} from "@/mixins/fetch-data-mixin";
 import {tableMixin, convertOriginData} from "@/mixins/table-mixin";
 import CategoryNameCol from "@/views/components/col/category-name-col";
-import {delay} from "@/tools/common";
 
 export default {
-    components: {CategoryNameCol},
+
     layout: 'admin',
+    async asyncData(ctx) {
+        const data = await ctx.$axios.$get('/category')
+        // ctx.store.commit('app/SET_RELOAD_DATA_LOADING', true)
+        return convertOriginData(data)
+    },
     name: 'category',
     // meta: {
     //     title: 'Category',
@@ -149,11 +152,7 @@ export default {
             }
         }
     },
-    async asyncData(ctx) {
-        const data = await ctx.$axios.$get('/category')
-        // ctx.store.commit('app/SET_RELOAD_DATA_LOADING', true)
-        return convertOriginData(data)
-    },
+    components: {CategoryNameCol},
     computed: {
         $curdStyle
     },

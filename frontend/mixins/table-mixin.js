@@ -82,7 +82,7 @@ export const tableMixin = {
         reverseSelectAll () {
             this.$refs.table.toggleAllSelection()
         },
-        handleSortUser ({ prop, order }) {
+        handleSortChange ({ prop, order }) {
             if (order) {
                 let sort = `${prop}.${transformSort[order] || 'asc'}`
                 this.fetchDataByPageAndOrder(this.tableParams.currPage, sort)

@@ -98,7 +98,7 @@ export default {
     },
     methods: {
         save (value) {
-            console.log(value)
+            // console.log(value)
             // 保存文章，
 
         }

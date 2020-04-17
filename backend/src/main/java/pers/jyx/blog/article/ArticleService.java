@@ -95,7 +95,6 @@ public class ArticleService {
 
         article.setAttribute(attribute);
 
-
         articleRepository.save(article);
         return article;
     }
@@ -125,6 +124,11 @@ public class ArticleService {
         article.setSeqInManage(dto.getSeqInManage());
 
         ArticleDO.Attribute attribute = article.getAttribute();
+        if (attribute == null) {
+            attribute = new ArticleDO.Attribute();
+            article.setAttribute(attribute);
+        }
+
 
         attribute.setFixedTop(dto.isFixedTop());
         attribute.setCoverPosition(dto.getCoverPosition());
@@ -149,6 +153,13 @@ public class ArticleService {
         article.setStatus(dto.getStatus());
         articleRepository.save(article);
         return null;
+    }
+
+    public ArticleDO updateArticleTagsById(long id, UpdateArticleTagsDTO dto) {
+        ArticleDO article = this.findArticleById(id);
+        article.setTags(String.join("#", dto.getTags()));
+        articleRepository.save(article);
+        return article;
     }
 
     @AllArgsConstructor

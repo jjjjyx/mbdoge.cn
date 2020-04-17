@@ -43,8 +43,8 @@ export default {
     },
     methods: {
         test() {
-            console.log(this.$globalStyle)
-            console.log(this.$style)
+            // console.log(this.$globalStyle)
+            // console.log(this.$style)
             // console.log(111)
             // try {
             //     api.post('/asd')
