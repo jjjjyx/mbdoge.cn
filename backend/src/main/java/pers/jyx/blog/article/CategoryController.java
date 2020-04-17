@@ -19,8 +19,8 @@ import javax.validation.constraints.NotNull;
 
 @Slf4j
 @RestController
-@RequestMapping(value = Constant.API_SERVLET_URL_PREFIX+ "/category")
-@PreAuthorize("hasRole('"+ UserRole.USER +"')")
+@RequestMapping(value = Constant.API_SERVLET_URL_PREFIX + "/category")
+@PreAuthorize("hasRole('" + UserRole.USER + "')")
 public class CategoryController {
 
     @Autowired
@@ -28,37 +28,41 @@ public class CategoryController {
 
     /**
      * 获取文章列表
+     *
      * @return
      */
     @GetMapping
-    public Page<CategoryDO> getCategory (Pageable pageable, CategoryQueryCriteriaDTO criteria) {
+    public Page<CategoryDO> getCategory(Pageable pageable, CategoryQueryCriteriaDTO criteria) {
         return categoryService.queryCategory(pageable, criteria);
     }
 
     /**
      * 查询文章
+     *
      * @return
      */
     @GetMapping(value = "/{id}")
-    public CategoryDO one (@PathVariable("id") @Validated @NotNull String id) {
+    public CategoryDO one(@PathVariable("id") @Validated @NotNull String id) {
         return categoryService.findCategoryById(id);
     }
 
     /**
      * 新建
+     *
      * @return
      */
     @PostMapping
-    public CategoryDO create (@Validated @RequestBody CreateCategoryDTO createCategory) {
+    public CategoryDO create(@Validated @RequestBody CreateCategoryDTO createCategory) {
         return categoryService.createCategory(createCategory);
     }
 
     /**
      * 删除文章
+     *
      * @return
      */
     @DeleteMapping(value = "/{id}")
-    public void delete (@PathVariable("id") @Validated @NotEmpty String id) {
+    public void delete(@PathVariable("id") @Validated @NotEmpty String id) {
         categoryService.deleteCategoryById(id);
     }
 

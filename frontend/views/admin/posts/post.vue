@@ -9,32 +9,38 @@
         </div>
 
         <!---->
-        <el-card shadow="never" :class="$style.main">
-            <div :class="$style.header">
-                <div :class="$style.filterContainer">
+        <el-card shadow="never" :class="[$style.main, $curdStyle.curdCard]">
+            <div :class="$curdStyle.curdHeader">
+                <div :class="$curdStyle.curdOptionConn">
                     <!-- 搜索标签 标题-->
-                    <el-input  style="width: 200px;" @keyup.enter.native="handleFilter" :placeholder="$t('admin.post.input.search')"></el-input>
+                    <el-input style="width: 200px;" @keyup.enter.native="handleFilter"
+                              :placeholder="$t('admin.post.input.search')"></el-input>
                     <!-- 按文章状态筛选-->
                     <!-- 按发布时间 -->
                     <!-- 按分类 -->
-                    <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">{{$t('admin.post.button.search')}}</el-button>
+                    <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+                        {{$t('admin.post.button.search')}}
+                    </el-button>
 
-                    <el-button class="filter-item" type="success" icon="el-icon-edit" @click="handleClickCreatePost">{{$t('admin.post.button.new')}}</el-button>
+                    <el-button class="filter-item" type="success" icon="el-icon-edit" @click="handleClickCreatePost">
+                        {{$t('admin.post.button.new')}}
+                    </el-button>
                 </div>
-                <div :class="$style.tableInfo">
-                    共 {{params.total}} 篇文章
+                <div :class="$curdStyle.curdTableInfo">
+                    共 {{tableParams.total}} 篇文章
                 </div>
-                <el-button :loading="loading" icon="el-icon-refresh" size="small" @click="handlerClickRefresh" circle></el-button>
+                <el-button :loading="loading" icon="el-icon-refresh" size="small" @click="handlerClickRefresh"
+                           circle></el-button>
             </div>
 
             <!--<el-table></el-table>-->
             <el-pagination
-                :class="$style.pagination"
-                :page-size="params.pageSize"
+                :class="$curdStyle.curdPagination"
+                :page-size="tableParams.pageSize"
                 :pager-count="11"
-                :current-page="params.currPage"
+                :current-page="tableParams.currPage"
                 layout="prev, pager, next"
-                :total="params.total"
+                :total="tableParams.total"
                 @current-change="handleChangePage">
             </el-pagination>
         </el-card>
@@ -42,10 +48,13 @@
 </template>
 
 <script>
+import {$curdStyle} from '~/tools/style'
+import {tableMixin} from "@/mixins/table-mixin";
 export default {
     layout: 'admin',
     name: 'post',
-    data () {
+    mixins: [tableMixin],
+    data() {
         return {
             loading: false,
             params: {
@@ -57,15 +66,22 @@ export default {
             }
         }
     },
+    computed: {
+        $curdStyle
+    },
     methods: {
-        handleFilter () {},
-        handleChangePage () {},
-        handlerClickRefresh () {},
-        handleClickCreatePost () {
-            this.$router.push({ name: 'new-post' })
+        async fetchData () {
+            const data = await this.$axios.$get('/article')
+            this.setTableData(data)
+        },
+        handlerClickRefresh() {
+        },
+        handleClickCreatePost() {
+            this.$router.push({name: 'new-post'})
         },
     },
-    mounted () {
+    mounted() {
+        console.log(this.$curdStyle)
     }
 }
 </script>
@@ -73,22 +89,6 @@ export default {
 <style module lang="scss">
 .main {
 }
-.header {
-    margin-bottom: 1rem;
-    display: flex;
-    //justify-content: space-between;
-    align-items: center;
 
-    .filterContainer {
-        flex: 1;
-    }
-    .tableInfo {
-        margin-right: .5rem;
-    }
-}
 
-.pagination {
-    margin-top: 1rem;
-    text-align: center;
-}
 </style>

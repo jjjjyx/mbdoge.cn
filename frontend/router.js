@@ -49,7 +49,6 @@ const routes = [
             title: 'category',
             icon: ''
         },
-        // /* webpackChunkName: "test" */
         component: () => import('~/views/admin/category/category').then(callback)
     },
     {

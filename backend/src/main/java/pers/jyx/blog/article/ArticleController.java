@@ -16,8 +16,8 @@ import pers.jyx.blog.user.model.UserRole;
 
 @Slf4j
 @RestController
-@RequestMapping(value = Constant.API_SERVLET_URL_PREFIX+ "/article")
-@PreAuthorize("hasRole('"+ UserRole.USER +"')")
+@RequestMapping(value = Constant.API_SERVLET_URL_PREFIX + "/article")
+@PreAuthorize("hasRole('" + UserRole.USER + "')")
 public class ArticleController {
 
     @Autowired
@@ -25,28 +25,31 @@ public class ArticleController {
 
     /**
      * 获取文章列表
+     *
      * @return
      */
     @GetMapping
-    public Page<ArticleDO> getArticles (Pageable pageable, @Validated ArticleQueryCriteriaDTO criteria) {
+    public Page<ArticleDO> getArticles(Pageable pageable, @Validated ArticleQueryCriteriaDTO criteria) {
         return articleService.queryArticle(pageable, criteria);
     }
 
     /**
      * 查询文章
+     *
      * @return
      */
     @GetMapping(value = "/{id}")
-    public ArticleDO one (@PathVariable("id") long id) {
+    public ArticleDO one(@PathVariable("id") long id) {
         return articleService.findArticleById(id);
     }
 
     /**
      * 新建
+     *
      * @return
      */
     @PostMapping
-    public ArticleDO create (@RequestBody @Validated CreateArticleDTO createArticle, Authentication authentication) {
+    public ArticleDO create(@RequestBody @Validated CreateArticleDTO createArticle, Authentication authentication) {
         OnlineUserVO user = (OnlineUserVO) authentication.getPrincipal();
 
         return articleService.createArticle(user, createArticle);
@@ -54,15 +57,17 @@ public class ArticleController {
 
     /**
      * 删除文章
+     *
      * @return
      */
     @DeleteMapping(value = "/{id}")
-    public void delete (@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) {
         articleService.deleteArticleById(id);
     }
 
     /**
      * 更新文章
+     *
      * @param id
      * @param updateCategoryDTO
      * @return

@@ -12,6 +12,7 @@ import static pers.jyx.blog.Constant.DOMAIN_NAME;
 
 /**
  * 用户的详细信息
+ *
  * @author jyx
  */
 @Getter

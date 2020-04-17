@@ -19,7 +19,8 @@ public interface RoleRepository extends JpaRepository<RoleDO, Long> {
 
     /**
      * 修改角色的备注
-     * @param name 角色key
+     *
+     * @param name   角色key
      * @param remark 新的备注
      */
     @Query(value = "update #{#entityName} e set e.remark = ?2 where e.name = ?1 ")
@@ -29,6 +30,7 @@ public interface RoleRepository extends JpaRepository<RoleDO, Long> {
 
     /**
      * 根据角色名获取角色
+     *
      * @param name 角色
      * @return
      */
@@ -36,6 +38,7 @@ public interface RoleRepository extends JpaRepository<RoleDO, Long> {
 
     /**
      * 根据角色名获取角色列表
+     *
      * @param name 角色列表
      * @return
      */

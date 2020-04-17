@@ -18,10 +18,11 @@ public interface RoleMenuRepository extends JpaRepository<RoleMenuDO, RoleMenuDO
 
     /**
      * 获取角色的菜单
-     * @Query("select new com.ls.putress.user.model.MenuDO(rm.menu) from #{#entityName} rm where rm.role = ?1")
-     *     List<MenuDO> findAllByRole(RoleDO role);
+     *
      * @param role
      * @return
+     * @Query("select new com.ls.putress.user.model.MenuDO(rm.menu) from #{#entityName} rm where rm.role = ?1")
+     * List<MenuDO> findAllByRole(RoleDO role);
      */
     @Query("select rm.menu.id from #{#entityName} rm where rm.role = ?1")
     List<Long> findAllByRole(RoleDO role);
@@ -49,6 +50,7 @@ public interface RoleMenuRepository extends JpaRepository<RoleMenuDO, RoleMenuDO
 
     /**
      * 根据ids 删除管理关系
+     *
      * @param ids id 列表
      */
     void deleteAllByMenuIdIn(Collection<Long> ids);

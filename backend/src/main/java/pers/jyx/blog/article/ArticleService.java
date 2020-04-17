@@ -37,13 +37,15 @@ public class ArticleService {
     private UserRepository userRepository;
 
     private SnowFlake snowFlake = new SnowFlake(1, 1);
+
     /**
      * 查询文章列表
+     *
      * @param pageable
      * @param criteria
      * @return
      */
-    public Page<ArticleDO> queryArticle (Pageable pageable, ArticleQueryCriteriaDTO criteria) {
+    public Page<ArticleDO> queryArticle(Pageable pageable, ArticleQueryCriteriaDTO criteria) {
         ArticleSpecification specification = new ArticleSpecification(criteria);
         return articleRepository.findAll(specification, pageable);
     }
@@ -105,7 +107,7 @@ public class ArticleService {
         }
     }
 
-    public ArticleDO updateArticleById (long id, UpdateArticleDTO dto) {
+    public ArticleDO updateArticleById(long id, UpdateArticleDTO dto) {
         ArticleDO article = this.findArticleById(id);
 
         CategoryDO category = categoryRepository.findByIdOrElseDefault(dto.getCategory());
@@ -152,12 +154,13 @@ public class ArticleService {
     @AllArgsConstructor
     class ArticleSpecification implements Specification<ArticleDO> {
         private final ArticleQueryCriteriaDTO criteria;
+
         @Override
         public Predicate toPredicate(Root<ArticleDO> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
 
-            if(StringUtils.isNotEmpty(criteria.getKeyword())) {
+            if (StringUtils.isNotEmpty(criteria.getKeyword())) {
                 Predicate[] predicates = new Predicate[3];
                 String value = "%" + criteria.getKeyword() + "%";
                 // 标题 and 标签

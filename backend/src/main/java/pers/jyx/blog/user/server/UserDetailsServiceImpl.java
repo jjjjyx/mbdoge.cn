@@ -1,7 +1,6 @@
 package pers.jyx.blog.user.server;
 
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDO user = userRepository
                 .findByUsername(username)
-                .orElseThrow(() ->  new UsernameNotFoundException(String.format("No user found with username '%s'.", username)));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("No user found with username '%s'.", username)));
         log.debug("load user by username = {}, obj = {}", username, user);
 
         OnlineUserVO vo = new OnlineUserVO();

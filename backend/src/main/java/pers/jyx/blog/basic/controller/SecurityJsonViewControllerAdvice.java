@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "pers.jyx.blog")
 public class SecurityJsonViewControllerAdvice extends AbstractMappingJacksonResponseBodyAdvice {
 
     public static final Map<String, Class> MAPPING = new HashMap<>();
@@ -28,7 +28,7 @@ public class SecurityJsonViewControllerAdvice extends AbstractMappingJacksonResp
         /**
          * 可看到字段分为管理员和普通用户看到字段
          * 有后续需求在加入
-          */
+         */
         MAPPING.put(UserRole.ADMIN, DataView.AdminView.class);
         MAPPING.put(UserRole.USER, DataView.UserView.class);
         MAPPING.put(UserRole.GUEST, DataView.Anonymous.class);

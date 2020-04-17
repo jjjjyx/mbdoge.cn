@@ -11,6 +11,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLDeleteAll;
 import pers.jyx.blog.article.model.CategoryDO;
 import pers.jyx.blog.user.model.UserDO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -34,7 +35,7 @@ public class ArticleDO implements Serializable {
     }
 
     @PreRemove
-    protected void onRemove () {
+    protected void onRemove() {
         this.deletedAt = new Date();
         this.status = Status.DELETE;
     }
@@ -149,14 +150,14 @@ public class ArticleDO implements Serializable {
     }
 
     /**
-       文章的配置属性
-
-       封面图
-       封面类型 上左右
-           上：支持封面图轮播
-       置顶
-       文章密码
-    */
+     * 文章的配置属性
+     * <p>
+     * 封面图
+     * 封面类型 上左右
+     * 上：支持封面图轮播
+     * 置顶
+     * 文章密码
+     */
     @Getter
     @Setter
     public static class Attribute implements Serializable {

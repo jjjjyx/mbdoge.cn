@@ -22,7 +22,7 @@ export default {
         ],
         script: [
             // async: true, defer: true
-            {src: '//at.alicdn.com/t/font_1385233_mj4u5amekwc.js',}
+            {src: '//at.alicdn.com/t/font_1385233_pb1m71cgszf.js',}
         ],
     },
 
@@ -44,10 +44,11 @@ export default {
     plugins: [
         '~/plugins/element-ui',
         '~/plugins/components',
-        '~/plugins/globalStyle',
-        '~/plugins/imageSelect.client.js',
+        '~/plugins/global-style',
+        '~/plugins/image-select.client.js',
         '~/plugins/axios.server.js',
         '~/plugins/axios.client.js',
+        '~/plugins/event-bus.client.js',
         '~/plugins/i18n.js'
     ],
     /*

@@ -13,7 +13,8 @@ public interface ArticleRepository extends JpaRepository<ArticleDO, Long>, JpaSp
 
     /**
      * 修改文章分类
-     * @param id 原分类
+     *
+     * @param id    原分类
      * @param newId 新分类
      */
     @Query(value = "update #{#entityName} a set a.category.id = ?2 where a.category.id = ?1")

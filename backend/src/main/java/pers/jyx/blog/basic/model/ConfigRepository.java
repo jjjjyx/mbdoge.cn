@@ -31,6 +31,7 @@ public interface ConfigRepository extends JpaRepository<ConfigDO, String> {
 
     /**
      * 根据key 前缀查询
+     *
      * @param prefix 前缀
      * @return list
      */
@@ -38,18 +39,20 @@ public interface ConfigRepository extends JpaRepository<ConfigDO, String> {
 
     /**
      * 根据 key 查询value 默认值 ""
+     *
      * @param key key
      * @return value
      */
     default String getValueByKey(String key) {
         Optional<ConfigDO> optional = this.findById(key);
-        return  optional
+        return optional
                 .flatMap((configDO) -> Optional.of(configDO.getValue()))
                 .orElse("");
     }
 
     /**
      * 创建一个默认的用户详细信息
+     *
      * @return user detail
      */
     default UserDetailDO getDefaultUserDetail() {
@@ -78,7 +81,8 @@ public interface ConfigRepository extends JpaRepository<ConfigDO, String> {
 
     /**
      * 保存配置
-     * @param key key
+     *
+     * @param key   key
      * @param value value
      */
     @Query(value = "update #{#entityName} a set a.value = ?2 where a.name = ?1")

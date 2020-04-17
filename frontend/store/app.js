@@ -23,7 +23,9 @@ const state = () => ({
     fixedHeader: false,
     device: 'desktop',
 
-    breadcrumbs: []
+    breadcrumbs: [],
+
+    reloadDataLoading: false
 })
 
 
@@ -55,6 +57,9 @@ function handleTagView (view) {
 
 
 const mutations = {
+    SET_RELOAD_DATA_LOADING: (state, status) => {
+        state.reloadDataLoading = status
+    },
     SET_BREADCRUMBS (state, breadcrumbs) {
         state.breadcrumbs = breadcrumbs
     },

@@ -19,6 +19,16 @@
                     "title": "Enter article title"
                 }
             }
+        },
+        "category": {
+            "title": "Category Manage",
+            "input": {
+                "search": "Search tag"
+            },
+            "button": {
+                "search": "Search",
+                "new": "New Category"
+            }
         }
     },
     "editor": {

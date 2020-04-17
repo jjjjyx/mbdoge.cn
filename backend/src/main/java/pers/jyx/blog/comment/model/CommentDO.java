@@ -31,9 +31,11 @@ public class CommentDO implements Serializable {
     private int karma;
     private Date createdAt;
 
-    /**父评论*/
+    /**
+     * 父评论
+     */
     @ManyToOne
-    @JoinColumn(name="parent_id")
+    @JoinColumn(name = "parent_id")
     private CommentDO parent;
 
 
@@ -55,7 +57,7 @@ public class CommentDO implements Serializable {
     private Status status;
 
     @JsonView(DataView.AdminView.class)
-    public String getOriginContent () {
+    public String getOriginContent() {
         return this.content;
     }
 

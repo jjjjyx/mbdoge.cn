@@ -7,7 +7,9 @@ import ElementUI from 'element-ui'
 // {
 //     i18n: (key, value) => i18n.t(key, value)
 // }
-Vue.use(ElementUI)
+Vue.use(ElementUI, {
+    size: 'mini',
+})
 
 // import {
 //     Avatar,

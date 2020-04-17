@@ -80,7 +80,7 @@ public class CategoryService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
 
-            if(StringUtils.isNotEmpty(criteria.getKeyword())) {
+            if (StringUtils.isNotEmpty(criteria.getKeyword())) {
                 Predicate[] predicates = new Predicate[2];
                 String value = "%" + criteria.getKeyword() + "%";
                 predicates[0] = criteriaBuilder.like(root.get("name"), value);

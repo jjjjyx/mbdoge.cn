@@ -1,0 +1,25 @@
+
+// 增删改查卡片
+.curdCard {
+
+    // 顶部 操作按钮
+    .curdHeader {
+        margin-bottom: 1rem;
+        display: flex;
+        //justify-content: space-between;
+        align-items: center;
+
+        .curdOptionConn {
+            flex: 1;
+        }
+        .curdTableInfo {
+            margin-right: .5rem;
+        }
+    }
+
+    // 分页
+    .curdPagination {
+        margin-top: 1rem;
+        text-align: center;
+    }
+}

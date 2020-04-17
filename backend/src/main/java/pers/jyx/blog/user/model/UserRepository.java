@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserDO, Long>, JpaSpecificationExecutor<UserDO> {
     /**
      * 根据用户名称查询用户
+     *
      * @param name
      * @return
      */

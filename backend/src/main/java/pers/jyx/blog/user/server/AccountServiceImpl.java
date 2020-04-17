@@ -55,6 +55,7 @@ public class AccountServiceImpl extends BaseService {
     /**
      * 用户登录，返回 token
      * 自动保存到 redis
+     *
      * @param username 账号
      * @param password 密码
      * @return token
@@ -105,6 +106,7 @@ public class AccountServiceImpl extends BaseService {
 
     /**
      * 更新用户信息 更新密码会使当前登录的账号失效
+     *
      * @param updateUserDTO
      * @return
      */
@@ -130,6 +132,7 @@ public class AccountServiceImpl extends BaseService {
 
     /**
      * 注册用户
+     *
      * @param registerUser
      * @return
      */

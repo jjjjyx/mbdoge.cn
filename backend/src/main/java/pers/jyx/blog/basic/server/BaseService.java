@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * 抽象的不是很好，耦合了用户模块，可以修改下
+ *
  * @author jyx
  */
 public abstract class BaseService {
@@ -32,14 +33,14 @@ public abstract class BaseService {
     @Autowired
     protected UserRepository userRepository;
 
-    public OnlineUserVO getCurrentOnlineUser () {
+    public OnlineUserVO getCurrentOnlineUser() {
         return (OnlineUserVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 
-
     /**
      * 获取当前用户名称
+     *
      * @return username
      */
     public String getCurrentUsername() {
@@ -48,18 +49,20 @@ public abstract class BaseService {
 
     /**
      * 获取当前用户实例
+     *
      * @return user
      */
-    public UserDO getCurrentUser () {
+    public UserDO getCurrentUser() {
         String username = this.getCurrentUsername();
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("No user found with username '%s'.", username)));
     }
 
     /**
      * 是否包含管理员权限
+     *
      * @return boolean true 是管理员
      */
-    public boolean isAdmin () {
+    public boolean isAdmin() {
         return SecurityUtils.getUsernameAuthorities().stream().anyMatch(o -> o.getAuthority().equals(UserRole.ADMIN));
     }
 
@@ -67,7 +70,7 @@ public abstract class BaseService {
      * 管理员查询支持对非本用户的查询
      */
 
-    public <T> Page<T> query (Pageable pageable, BaseSpecification<T> specification) {
+    public <T> Page<T> query(Pageable pageable, BaseSpecification<T> specification) {
         assert specification != null;
         JpaSpecificationExecutor<T> jpaSpecificationExecutor = specification.getJpaSpecificationExecutor();
         assert jpaSpecificationExecutor != null;
@@ -76,9 +79,10 @@ public abstract class BaseService {
 
     /**
      * 获取当前请求req
+     *
      * @return req
      */
-    public HttpServletRequest getHttpReq () {
+    public HttpServletRequest getHttpReq() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert requestAttributes != null;
         return requestAttributes.getRequest();
@@ -87,14 +91,16 @@ public abstract class BaseService {
 
     /**
      * 获取当前请求session
+     *
      * @return req
      */
-    public HttpSession getHttpSession () {
+    public HttpSession getHttpSession() {
         return this.getHttpReq().getSession();
     }
 
     /**
      * 对管理员权限的封装，注意查询实现Bean 有所属用户，且字段名称叫 user
+     *
      * @param <T>
      */
     @AllArgsConstructor
@@ -102,34 +108,39 @@ public abstract class BaseService {
 
         /**
          * 返回说明
+         *
          * @return
          */
-        public abstract String getTargetName ();
+        public abstract String getTargetName();
 
         /**
          * 返回用户对象
+         *
          * @return
          */
         public abstract String getUsername();
 
         /**
          * 返回 JpaSpecificationExecutor
+         *
          * @return 实现了 JpaSpecificationExecutor 接口的Repository
          */
-        public abstract JpaSpecificationExecutor<T> getJpaSpecificationExecutor ();
+        public abstract JpaSpecificationExecutor<T> getJpaSpecificationExecutor();
 
         /**
          * 返回查询的条件
-         * @param root root
+         *
+         * @param root            root
          * @param criteriaBuilder cb
          * @return list
          */
-        public abstract List<Expression<Boolean>> toExpressions (Root<T> root, CriteriaBuilder criteriaBuilder);
+        public abstract List<Expression<Boolean>> toExpressions(Root<T> root, CriteriaBuilder criteriaBuilder);
 
         /**
          * 查询默认实现
-         * @param root root
-         * @param query q
+         *
+         * @param root            root
+         * @param query           q
          * @param criteriaBuilder cb
          * @return p
          */
@@ -139,7 +150,7 @@ public abstract class BaseService {
             List<Expression<Boolean>> expressions = predicate.getExpressions();
 
             List<Expression<Boolean>> list = this.toExpressions(root, criteriaBuilder);
-            if (list !=null) {
+            if (list != null) {
                 expressions.addAll(list);
             }
 

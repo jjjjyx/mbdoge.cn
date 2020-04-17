@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.validation.constraints.Size;
 
 /**
- *
  * @author jyx
  */
 

@@ -39,7 +39,7 @@ public class CommentService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public Page<CommentDO> queryComment (Pageable pageable, CommentQueryCriteriaDTO criteria) {
+    public Page<CommentDO> queryComment(Pageable pageable, CommentQueryCriteriaDTO criteria) {
         CommentSpecification specification = new CommentSpecification(criteria);
         return commentRepository.findAll(specification, pageable);
     }
@@ -88,10 +88,12 @@ public class CommentService {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new LocalServiceException("article.not-found", new Object[]{id}));
     }
+
     /**
      * // 自动过审批有点担心
-     *
+     * <p>
      * 更新评论 主要更新评论的状态
+     *
      * @param id
      * @param dto
      * @return
@@ -111,7 +113,6 @@ public class CommentService {
 //            case DISPLAY:
 //                // 如果 是批准
 //                break;
-
 
 
 //        }
@@ -139,7 +140,7 @@ public class CommentService {
             Predicate predicate = criteriaBuilder.conjunction();
             List<Expression<Boolean>> expressions = predicate.getExpressions();
 
-            if(StringUtils.isNotEmpty(criteria.getKeyword())) {
+            if (StringUtils.isNotEmpty(criteria.getKeyword())) {
                 Predicate[] predicates = new Predicate[1];
                 String value = "%" + criteria.getKeyword() + "%";
                 // 标题 and 标签
@@ -148,7 +149,7 @@ public class CommentService {
                 expressions.add(criteriaBuilder.or(predicates));
             }
 
-            if(StringUtils.isNotEmpty(criteria.getAuthor())) {
+            if (StringUtils.isNotEmpty(criteria.getAuthor())) {
                 Predicate[] predicates = new Predicate[2];
                 String value = "%" + criteria.getAuthor() + "%";
                 // 标题 and 标签
@@ -158,7 +159,7 @@ public class CommentService {
                 expressions.add(criteriaBuilder.or(predicates));
             }
 
-            if(StringUtils.isNotEmpty(criteria.getTarget())) {
+            if (StringUtils.isNotEmpty(criteria.getTarget())) {
                 expressions.add(criteriaBuilder.equal(root.get("target"), criteria.getTarget()));
             }
 

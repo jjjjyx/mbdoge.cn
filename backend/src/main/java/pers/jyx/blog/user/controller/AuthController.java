@@ -1,6 +1,8 @@
 package pers.jyx.blog.user.controller;
 
 import cn.mbdoge.jyx.exception.LocalServiceException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -22,10 +24,12 @@ import java.util.Collections;
 
 /**
  * 用户授权相关 api
+ *
  * @author jyx
  */
+@Api(value = "用户授权中心")
 @Slf4j
-@RequestMapping(value = Constant.API_SERVLET_URL_PREFIX+ "/auth")
+@RequestMapping(value = Constant.API_SERVLET_URL_PREFIX + "/auth")
 @RestController
 public class AuthController {
     @Autowired
@@ -37,7 +41,8 @@ public class AuthController {
     @Value("${mbdoge.web.security.jwt.expiration}")
     private long expiration;
 
-//    @Log(title = "用户登录", banField = {"password"}, businessType = SysOperationLogDO.BusinessType.LOGIN)
+    //    @Log(title = "用户登录", banField = {"password"}, businessType = SysOperationLogDO.BusinessType.LOGIN)
+    @ApiOperation(value = "用户登录接口", notes = "输入账号密码，进行登录")
     @PostMapping(produces = "application/json")
     public String createAuthenticationToken(@RequestBody AuthDTO auth, HttpServletResponse response) {
 
@@ -54,10 +59,12 @@ public class AuthController {
 
     /**
      * 注册游客
+     *
      * @param registerUser
      * @return
      */
-    @PostMapping(params = "role=guest", produces = "application/json")
+    @ApiOperation(value = "游客注册", notes = "游客输入信息后，保存游客信息，并生成token 此token 为一次性token，即丢失后，神仙也找不回来了")
+    @PostMapping(value = "guest", params = "role=guest", produces = "application/json")
     public String reg(@Validated @RequestBody RegisterUserDTO registerUser) {
         // 如果没有提交密码 那么是游客，随机生成一个密码， 并返回一个 token 给定30 天的时间
         // 固定角色为 guest
@@ -80,7 +87,7 @@ public class AuthController {
         return accountServiceImpl.login(username, password);
     }
 
-//    @Log(title = "获取登录状态")
+    //    @Log(title = "获取登录状态")
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public OnlineUserVO verificationToken(Authentication authentication) {

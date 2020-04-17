@@ -64,7 +64,7 @@ public class UserDO implements Serializable {
     private Date updatedAt;
 
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinTable( uniqueConstraints = {@UniqueConstraint(columnNames = {"userdo_id", "roles_id"})})
+    @JoinTable(uniqueConstraints = {@UniqueConstraint(columnNames = {"userdo_id", "roles_id"})})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OrderBy(value = "level desc")
     private List<RoleDO> roles;
@@ -85,7 +85,6 @@ public class UserDO implements Serializable {
     @JsonManagedReference
     @JsonView(DataView.UserView.class)
     private UserDetailDO userDetail;
-
 
 
     @Override

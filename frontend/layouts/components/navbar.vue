@@ -2,7 +2,7 @@
     <div :class="$style.navbar">
         <hamburger :is-active="!sidebar.collapsed" :class="$style.hamburgerContainer" @toggleClick="toggleSideBar"/>
         <div :class="$style.hamburgerContainer" @click="handlerClickRefresh" style="font-size: 16px;line-height: 50px;padding: 0 8px">
-            <i class="el-icon-refresh"></i>
+            <i :class="refreshIcon"></i>
         </div>
         <breadcrumb :class="$style.breadcrumbContainer"/>
 
@@ -46,13 +46,19 @@ export default {
     },
     computed: {
         ...mapState('app', [
-            'sidebar'
-        ])
+            'sidebar', 'reloadDataLoading'
+        ]),
+        refreshIcon () {
+            return this.reloadDataLoading ? 'el-icon-loading' : 'el-icon-refresh'
+        }
     },
     methods: {
         ...mapActions('app', ['toggleSideBar']),
         // ...mapActions('user', ['logout']),
         handlerClickRefresh () {
+            if (this.reloadDataLoading) {
+                return
+            }
             this.$events.fire('refresh')
         },
         async logout () {
