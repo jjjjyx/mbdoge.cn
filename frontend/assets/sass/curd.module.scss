@@ -23,3 +23,21 @@
         text-align: center;
     }
 }
+.curdDrawer {
+    :global(.el-drawer__body) {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .curdEditForm {
+            flex: 1;
+        }
+        .curdEditFormFooter {
+            display: flex;
+        }
+        .curdEditFormFooter :global(.el-button) {
+            flex: 1;
+        }
+    }
+
+}

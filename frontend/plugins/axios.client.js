@@ -7,8 +7,9 @@ const {apiEncryptEnable, secret} = config
 // 对客户端的错误进行一些提示
 export default function ({$axios, redirect}, inject) {
     $axios.onResponse(response => {
-        let data = response.data
-        if (response.headers['content-type'].indexOf('application/json') >= 0) {
+        const data = response.data
+        const contentType = response.headers['content-type']
+        if (contentType && contentType.indexOf('application/json') >= 0) {
             if (apiEncryptEnable) {
                 response.data = JSON.parse(Crazy.decrypt(data, secret))
             }
@@ -69,4 +70,6 @@ export default function ({$axios, redirect}, inject) {
 
         return Promise.reject(error)
     })
+
+
 }

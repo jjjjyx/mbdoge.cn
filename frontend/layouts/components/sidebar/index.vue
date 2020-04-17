@@ -66,8 +66,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import Logo from './Logo'
-import SidebarItem from './SidebarItem'
+import Logo from './sidebar-logo'
+import SidebarItem from './sidebar-item'
 // import variables from '@/assets/sass/_var.scss'
 
 export default {

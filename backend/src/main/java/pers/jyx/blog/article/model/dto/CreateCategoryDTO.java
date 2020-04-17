@@ -8,6 +8,6 @@ import org.springframework.security.core.Authentication;
 @Setter
 public class CreateCategoryDTO {
     private String name;
-    private String desc;
+    private String description;
     private String icon;
 }

@@ -49,7 +49,7 @@
 .el-popover {
     border-radius: $border-radius;
 }
-.el-card, .el-tag, .el-button, .el-alert, .el-input__inner, .el-select-dropdown {
+.el-card, .el-tag, .el-button, .el-alert, .el-input__inner, .el-textarea__inner, .el-select-dropdown {
   border-radius: $border-radius;
 }
 .el-input-group--prepend .el-input__inner, .el-input-group__append {
@@ -77,4 +77,11 @@
 }
 .el-alert {
   line-height: 1;
+}
+
+.el-drawer {
+    outline: none;
+}
+.el-drawer__body {
+    padding: 1rem;
 }

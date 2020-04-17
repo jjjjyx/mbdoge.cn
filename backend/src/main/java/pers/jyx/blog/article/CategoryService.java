@@ -41,7 +41,7 @@ public class CategoryService {
 
     public CategoryDO createCategory(CreateCategoryDTO dto) {
         CategoryDO category = new CategoryDO();
-        category.setDescription(dto.getDesc());
+        category.setDescription(dto.getDescription());
         category.setIcon(dto.getIcon());
         category.setName(dto.getName());
         categoryRepository.save(category);
@@ -64,7 +64,7 @@ public class CategoryService {
 
     public CategoryDO updateCategoryById(String id, UpdateCategoryDTO dto) {
         CategoryDO category = this.findCategoryById(id);
-        category.setDescription(dto.getDesc());
+        category.setDescription(dto.getDescription());
         category.setIcon(dto.getIcon());
         category.setName(dto.getName());
         categoryRepository.save(category);

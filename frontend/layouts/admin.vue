@@ -99,8 +99,7 @@ export default {
 #app, html {
     height: 100%;
 }
-@import "../assets/sass/reboot.scss";
-@import "../assets/sass/element-ui.scss";
+@import "../assets/sass/app.scss";
 </style>
 <style module lang="scss">
 @import "../assets/sass/mixin";
