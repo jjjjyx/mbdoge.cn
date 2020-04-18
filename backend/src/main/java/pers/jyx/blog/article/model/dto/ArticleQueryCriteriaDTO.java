@@ -2,6 +2,7 @@ package pers.jyx.blog.article.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import pers.jyx.blog.article.model.ArticleDO;
 
 @Getter
 @Setter

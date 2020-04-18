@@ -1,4 +1,4 @@
-package pers.jyx.blog.article.model.dto;
+package pers.jyx.blog.article.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -76,6 +76,7 @@ public class ArticleDO implements Serializable {
     private int likeCount;
     private int commentCount;
 
+    @Lob
     private Attribute attribute;
 
     @JsonView(DataView.AdminView.class)

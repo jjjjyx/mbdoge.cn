@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
-import pers.jyx.blog.article.model.dto.ArticleDO;
+import pers.jyx.blog.article.model.ArticleDO;
 import pers.jyx.blog.article.model.dto.*;
 import pers.jyx.blog.user.model.OnlineUserVO;
 import pers.jyx.blog.user.model.UserRole;

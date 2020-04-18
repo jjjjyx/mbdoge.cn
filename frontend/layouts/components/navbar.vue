@@ -10,7 +10,7 @@
             <el-dropdown :class="$style.avatarContainer" trigger="click">
                 <div :class="$style.avatarWrapper">
                     <!--<img src="http://iph.href.lu/80x80?text=avatar" :class="$style.userAvatar">-->
-                    <el-avatar :class="$style.userAvatar"> user </el-avatar>
+                    <el-avatar :src="user.avatar" :class="$style.userAvatar">user</el-avatar>
                     <i class="el-icon-caret-bottom"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown" :class="$style.userDropdown">
@@ -48,6 +48,9 @@ export default {
         ...mapState('app', [
             'sidebar', 'reloadDataLoading'
         ]),
+        ...mapState('auth', [
+            'user'
+        ]),
         refreshIcon () {
             return this.reloadDataLoading ? 'el-icon-loading' : 'el-icon-refresh'
         }
@@ -64,6 +67,8 @@ export default {
         async logout () {
             await this.$store.dispatch('user/logout')
         }
+    },
+    mounted () {
     }
 }
 </script>

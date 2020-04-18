@@ -42,7 +42,16 @@
                 <el-table-column label="说明" prop="description"></el-table-column>
                 <el-table-column label="操作" v-slot="{row}">
                     <el-button  size="mini" :disabled="!row.id" @click="handlerEditTarget(row)">修改</el-button>
-                    <el-button  size="mini" type="danger" :loading="deleteLoading" :disabled="!row.id" @click="handlerDeleteTarget(row)">删除</el-button>
+                    <el-popconfirm
+                        confirmButtonText='删除'
+                        cancelButtonText='不用了'
+                        icon="el-icon-info"
+                        iconColor="red"
+                        @onConfirm="handlerDeleteTarget(row)"
+                        :title="'确认删除分类 ' + row.name + '？'"
+                    >
+                        <el-button  size="mini" type="danger" :loading="deleteLoading" :disabled="!row.id" slot="reference">删除</el-button>
+                    </el-popconfirm>
                 </el-table-column>
             </el-table>
             <el-pagination

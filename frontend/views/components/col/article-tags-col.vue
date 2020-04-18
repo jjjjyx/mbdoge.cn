@@ -1,6 +1,7 @@
 <template>
     <div>
-        <el-tag closable class="mr-1" size="mini" v-for="(tag, index) in tags" :key="index" @close="handleClose(index, tag)">{{tag}}</el-tag>
+        <el-tag effect="dark" closable class="mr-1" size="mini" v-for="(tag, index) in filterTags" :key="index" @close="handleClose(index, tag)">{{tag}}</el-tag>
+        <span v-if="tags.length > 5">...</span>
     </div>
 </template>
 
@@ -10,6 +11,12 @@ export default {
     props: {
 	    id: [String, Number],
         tags: Array
+    },
+    computed: {
+	    filterTags () {
+	        // 只显示3个
+            return this.tags.slice(0, 5)
+        }
     },
     methods: {
         handleClose (index, tag) {
@@ -27,7 +34,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

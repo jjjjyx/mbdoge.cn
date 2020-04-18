@@ -22,14 +22,14 @@ export default {
         ],
         script: [
             // async: true, defer: true
-            {src: '//at.alicdn.com/t/font_1385233_pb1m71cgszf.js',}
+            {src: '//at.alicdn.com/t/font_1385233_gjm9cp06e67.js',}
         ],
     },
 
     /*
     ** Customize the progress-bar color
     */
-    loading: '~/components/loading.vue',
+    // loading: '~/components/loading.vue',
     /*
      ** Global CSS
      */
@@ -73,7 +73,7 @@ export default {
         prefix: '/api/v2',
     },
     proxy: {
-        '/api/v2': 'http://127.0.0.1:5658/'
+        '/api/v2': 'http://127.0.0.1:6658/'
     },
 
     styleResources: {

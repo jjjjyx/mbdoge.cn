@@ -58,7 +58,6 @@ public class ArticleService {
     public ArticleDO createArticle(OnlineUserVO user, CreateArticleDTO dto) {
 
         CategoryDO category = categoryRepository.findByIdOrElseDefault(dto.getCategory());
-
         ArticleDO article = new ArticleDO();
         article.setTitle(dto.getTitle());
 
@@ -151,6 +150,9 @@ public class ArticleService {
     public ArticleDO updateArticleStatusById(long id, UpdateArticleStatusDTO dto) {
         ArticleDO article = this.findArticleById(id);
         article.setStatus(dto.getStatus());
+        if (dto.getStatus() == ArticleDO.Status.DELETE) {
+            article.setDeletedAt(null);
+        }
         articleRepository.save(article);
         return null;
     }
@@ -177,7 +179,7 @@ public class ArticleService {
                 // 标题 and 标签
                 predicates[0] = criteriaBuilder.like(root.get("title"), value);
                 predicates[1] = criteriaBuilder.like(root.get("tags"), value);
-                predicates[2] = criteriaBuilder.like(root.get("shortChain"), value);
+                predicates[2] = criteriaBuilder.equal(root.get("shortChain"), criteria.getKeyword());
                 expressions.add(criteriaBuilder.or(predicates));
             }
 
@@ -193,7 +195,10 @@ public class ArticleService {
             if (criteria.getType() != null) {
                 expressions.add(criteriaBuilder.equal(root.get("type"), criteria.getType()));
             }
-            expressions.add(criteriaBuilder.equal(root.get("deletedAt"), criteriaBuilder.nullLiteral(Date.class)));
+
+            if (criteria.getStatus() != ArticleDO.Status.DELETE) {
+                expressions.add(criteriaBuilder.equal(root.get("deletedAt"), criteriaBuilder.nullLiteral(Date.class)));
+            }
 
             query.where(predicate);
             return query.getRestriction();
