@@ -13,7 +13,8 @@ const CONFIG = {
     version: '2.0.20190818',
     apiEncryptEnable: true,
     secret: 'xxx',
-    uploadAction: 'https://up-z2.qiniup.com'
+    uploadAction: 'https://up-z2.qiniup.com',
+    imageDomain: 'https://image.cdn.mbdoge.cn/'
 }
 
 try {

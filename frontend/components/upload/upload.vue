@@ -12,7 +12,7 @@
             </div>
             <el-collapse-transition>
                 <div :class="$style.content" v-if="!mini">
-                    <el-table :data="fileList" stripe>
+                    <el-table :data="fileList" :show-header="false" stripe height="250">
                         <!--:show-header="false"-->
                         <!-- 文件信息，空间信息， 状态信息，操作-->
                         <el-table-column label="预览" prop="name" v-slot="{row}" width="80px">
@@ -111,17 +111,30 @@ export default {
             this.fileList.push(file)
             return file
         },
-        uploadFiles(files, opts = {}) {
+        async uploadFiles(files, opts = {}) {
+            const {space = ''} = opts
+
+            if (!this.visible) {
+                this.visible = true
+            }
 
             const postFiles = Array.prototype.slice.call(files);
             if (postFiles.length === 0) return
-
-            return Promise.all(postFiles.map(rawFile => this.upload(rawFile, opts)))
+            // const token = aw
+            const token = await this.$axios.$get('/images/token',{params: {space}})
+            return Promise.all(postFiles.map(rawFile => this.upload(rawFile, {
+                ...opts, token
+            })))
         },
         async upload (file, opts) {
-            const {space, token} = opts
+            let {space, token} = opts
             const fileInfo = this.handleStart(file, space)
             const formData = new FormData()
+
+            if (!token) {
+                token = await this.$axios.$get('/images/token',{params: {space}})
+            }
+
             formData.append("token", token)
             formData.append("file", file)
             formData.append("x:space", space)

@@ -31,7 +31,14 @@
             }
         },
         "media": {
-            "title": "Picture resource"
+            "title": "Picture resource",
+            "upload": {
+                "tip": "Upload Tip"
+            },
+            "button": {
+                "search": "Search",
+                "upload": "Upload Images"
+            }
         }
     },
     "editor": {

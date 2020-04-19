@@ -16,8 +16,17 @@ export const ArticleCommentStatus = Object.freeze({
 
 // 0 上 1 左 2 右
 // private int coverPosition;
+
 export const ArticleCoverPosition = Object.freeze({
     0: { label: '顶部', color: ''},
     1: { label: '左', color: ''},
     2: { label: '右', color: ''}
+})
+
+export const ImagesSpace = Object.freeze({
+    'default': {label: '默认空间'},
+    'public': {label: '公共区域'},
+    'cover': {label: '封面'},
+    'post': {label: '文章插图'},
+    'avatar': {label: '头像'}
 })

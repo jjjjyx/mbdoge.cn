@@ -65,9 +65,7 @@ export default {
             this.visible = true
         },
         async handlerDrop(e) {
-
             // 过滤文件
-
             // const items = await filterDataTransfer(e.dataTransfer.items)
             const items = [].slice.call(e.dataTransfer.files)
                 .filter(item => {

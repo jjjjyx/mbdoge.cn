@@ -198,8 +198,7 @@ export default {
         },
         async fetchData () {
             try {
-                const params = {
-                }
+                const params = {}
                 if (this.tableFilter.keyword) {
                     params.keyword = this.tableFilter.keyword
                 }
