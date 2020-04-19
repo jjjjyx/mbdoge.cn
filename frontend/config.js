@@ -12,7 +12,8 @@ const CONFIG = {
     title: 'mbdoge.cn',
     version: '2.0.20190818',
     apiEncryptEnable: true,
-    secret: 'xxx'
+    secret: 'xxx',
+    uploadAction: 'https://up-z2.qiniup.com'
 }
 
 try {

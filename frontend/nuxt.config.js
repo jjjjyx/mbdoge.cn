@@ -42,14 +42,15 @@ export default {
      ** Plugins to load before mounting the App
      */
     plugins: [
-        '~/plugins/element-ui',
-        '~/plugins/components',
         '~/plugins/global-style',
-        '~/plugins/image-select.client.js',
+        '~/plugins/element-ui',
+        '~/plugins/custom-components',
+        '~/plugins/i18n.js',
         '~/plugins/axios.server.js',
-        '~/plugins/axios.client.js',
+
         '~/plugins/event-bus.client.js',
-        '~/plugins/i18n.js'
+        '~/plugins/axios.client.js',
+        '~/plugins/image-resource.client.js',
     ],
     /*
     ** Nuxt.js dev-modules

@@ -5,10 +5,13 @@ import com.qiniu.util.StringMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pers.jyx.blog.MiscProperties;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @Slf4j
 @Service
@@ -27,7 +30,7 @@ public class QiniuService {
 
         this.putPolicy = new StringMap();
 
-        String returnBody = "{\"key\":$(key), \"hash\":$(etag), \"size\":$(fsize), \"bucket\":\"$(bucket)\", \"name\":\"$(x:name)\", \"info\":$(imageInfo), \"imageAve\":$(imageAve), \"exif\": $(exif), \"mimeType\": $(mimeType), \"ext\": $(ext), \"uuid\": $(uuid), \"space\": $(x:space),\"remark\": $(x:remark)}";
+        String returnBody = "{\"url\": \""+qiniuConfig.getDomain()+"$(key)\",\"key\":$(key), \"hash\":$(etag), \"size\":$(fsize), \"bucket\":\"$(bucket)\", \"name\":\"$(fname)\", \"info\":$(imageInfo), \"imageAve\":$(imageAve), \"exif\": $(exif), \"mimeType\": $(mimeType), \"ext\": $(ext), \"uuid\": $(uuid), \"space\": $(x:space),\"remark\": $(x:remark)}";
         putPolicy.put("returnBody", returnBody);
         if (StringUtils.isNotEmpty(qiniuConfig.getCallbackUrl())) {
             putPolicy.put("callbackBody", returnBody);
@@ -37,9 +40,14 @@ public class QiniuService {
 
     }
 
-    public String getToken() {
+    public String getTokenBySpace(String space) {
+        // 固定文件格式为
+        // 文件区域/yyyy/MM/dd/hash.ext
         /* 1分钟过期 */
         long expireSeconds = 60;
+        String key = String.join("/", Arrays.asList(space, "$(year)", "$(mon)", "$(day)", "$(etag)$(ext)"));
+        log.debug("upload key = {}", key);
+        putPolicy.put("saveKey", key);
         return auth.uploadToken(qiniuConfig.getBucket(), null, expireSeconds, putPolicy);
     }
 
@@ -48,5 +56,10 @@ public class QiniuService {
         // if ()
         // auth.isValidCallback();
         return false;
+    }
+
+    public Page queryImages(Pageable pageable, ImagesQueryCriteriaDTO criteria) {
+
+        return null;
     }
 }

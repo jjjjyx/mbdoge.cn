@@ -29,6 +29,9 @@
                 "search": "Search",
                 "new": "New Category"
             }
+        },
+        "media": {
+            "title": "Picture resource"
         }
     },
     "editor": {
@@ -45,6 +48,11 @@
             "insertTable": {
                 "title": "Insert Table | {count} Table"
             }
+        }
+    },
+    "upload": {
+        "btn": {
+            "mini": "maximize | minimize"
         }
     },
     "route": {

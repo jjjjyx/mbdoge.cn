@@ -108,28 +108,6 @@ export function shieldIP (ip) {
 //     return '#' + bgColor
 // }
 //
-// let copyrelayDom
-//
-// export function copy (str) {
-//     if (!copyrelayDom) {
-//         copyrelayDom = document.createElement('textarea')
-//         copyrelayDom.style.cssText = 'position: fixed;left: -999px;top:0;opacity: 0'
-//         document.body.appendChild(copyrelayDom)
-//     }
-//
-//     copyrelayDom.value = str
-//     copyrelayDom.focus()
-//     copyrelayDom.select()
-//     try {
-//         if (document.execCommand('copy', false, null)) {
-//             Message.success(i18n.t('messages.curd.copy_success'))
-//         } else {
-//             Message.error(i18n.t('messages.curd.copy_fail'))
-//         }
-//     } catch (err) {
-//         Message.error(i18n.t('messages.curd.copy_fail'))
-//     }
-// }
 
 export const delay = function (promise = Promise.resolve(), delayTime = 2000) {
     let time = delayTime || 2000

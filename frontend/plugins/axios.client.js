@@ -22,6 +22,7 @@ export default function ({$axios, redirect}, inject) {
                 title: '提示',
                 message: error.message
             })
+            return Promise.reject(error)
         } else if (!error.response) {
             // 连接服务器失败
             // 或者跨域了
@@ -70,6 +71,7 @@ export default function ({$axios, redirect}, inject) {
 
         return Promise.reject(error)
     })
+    // inject('axios', $axios)
 
-
+    // Vue.prototype.$axios = $axios
 }

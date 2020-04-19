@@ -59,6 +59,7 @@ public class AuthController {
 
     /**
      * 注册游客
+     * todo 一次性的还是代价太大了，最起码能够让游客找回自己
      *
      * @param registerUser
      * @return

@@ -52,6 +52,15 @@ const routes = [
         component: () => import('~/views/admin/category/category').then(callback)
     },
     {
+        name: 'media-manage',
+        path: '/6tw9sQs/media',
+        meta: {
+            title: 'media',
+            icon: ''
+        },
+        component: () => import('~/views/admin/media/media').then(callback)
+    },
+    {
         name: 'login',
         path: '/6tw9sQs/login',
         // /* webpackChunkName: "test" */

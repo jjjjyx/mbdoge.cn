@@ -26,7 +26,7 @@
                     <i class="el-icon-collection-tag"></i>
                     <span slot="title">{{$t('route.category')}}</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="2" :route="{ name : 'media-manage' }">
                     <i class="el-icon-picture-outline"></i>
                     <span slot="title">{{$t('route.media')}}</span>
                 </el-menu-item>

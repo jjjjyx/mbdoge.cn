@@ -21,5 +21,6 @@ public class MiscProperties {
         private String secretKey = "secret key";
         private String bucket = "bucket name";
         private String callbackUrl = "";
+        private String domain = "";
     }
 }
