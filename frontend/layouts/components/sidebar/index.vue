@@ -31,6 +31,11 @@
                     <span slot="title">{{$t('route.media')}}</span>
                 </el-menu-item>
 
+                <el-menu-item index="2" :route="{ name : 'test-vue' }">
+                    <i class="el-icon-picture-outline"></i>
+                    <span slot="title">{{$t('route.test')}}</span>
+                </el-menu-item>
+
                 <!--<el-submenu index="1">-->
                 <!--<template slot="title">-->
                 <!--<i class="el-icon-location"></i>-->

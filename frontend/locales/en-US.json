@@ -67,6 +67,7 @@
         "post": "Article",
         "category": "Category",
         "media": "Media",
-        "new-post": "New Article"
+        "new-post": "New Article",
+        "test": "Test"
     }
 }

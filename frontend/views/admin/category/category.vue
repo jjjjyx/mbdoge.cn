@@ -133,11 +133,9 @@ import {tableMixin, convertOriginData} from "@/mixins/table-mixin";
 import CategoryNameCol from "@/views/components/col/category-name-col";
 
 export default {
-
     layout: 'admin',
     async asyncData(ctx) {
         const data = await ctx.$axios.$get('/category')
-        // ctx.store.commit('app/SET_RELOAD_DATA_LOADING', true)
         return convertOriginData(data)
     },
     name: 'category',
@@ -190,7 +188,7 @@ export default {
             const id = target.id
             try {
                 await this.$axios.$delete(`/category/${id}`)
-                this.fetchData()
+                await this.fetchData()
             } catch (e) {
             } finally {
                 this.deleteLoading = false
@@ -215,7 +213,7 @@ export default {
             this.createLoading = true
             try {
                 await this.$axios.$post(`/category`, this.newCategoryData)
-                this.fetchData()
+                this.fetchData().then()
                 this.createVisible = false
             } catch (e) {
             } finally {

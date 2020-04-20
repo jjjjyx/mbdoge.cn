@@ -61,6 +61,15 @@ const routes = [
         component: () => import('~/views/admin/media/media').then(callback)
     },
     {
+        name: 'test-vue',
+        path: '/6tw9sQs/test',
+        meta: {
+            title: 'test',
+            icon: ''
+        },
+        component: () => import('~/views/admin/test').then(callback)
+    },
+    {
         name: 'login',
         path: '/6tw9sQs/login',
         // /* webpackChunkName: "test" */
