@@ -12,6 +12,7 @@
 <script>
 import config from '@/config'
 import {off, on} from '@/tools/dom'
+
 function getDistance(x1, x2, y1, y2) {
     const x = x1 - x2
     const y = y1 - y2
@@ -72,7 +73,7 @@ export default {
                 $images.forEach((item) => {
                     item.classList.remove(this.$style.active)
                 })
-                // 选起来有点慢 可能是频繁的读取 offsetWidth 属性
+                // 选起来有点慢 可能是频繁的读取 offsetWidth 属性， 通过在初始时 缓存一下元素的位置信息，加速计算过程，减少元素重绘
                 const selected = Array.prototype.slice.call($images).filter((item) => {
                     // const sl = item.offsetWidth + item.offsetLeft
                     // const st = item.offsetHeight + item.offsetTop
@@ -130,8 +131,10 @@ export default {
             const handlerMouseup = (ev) => {
                 ev.preventDefault()
                 ev.stopPropagation()
-                const selectedEls = computedSelected()
-                $div.parentNode.removeChild($div);
+                if (start) {
+                    $div.parentNode.removeChild($div);
+                    const selectedEls = computedSelected()
+                }
                 off(document.body, 'mousemove', handlerMousemove)
                 off(document.body, 'mouseup', handlerMouseup)
             }
