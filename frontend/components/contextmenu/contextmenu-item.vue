@@ -1,8 +1,8 @@
 <template>
     <li @click="handleClick" :class="[$style.item]">
         <slot>
-            <span v-text="label"></span>
-            <kbd>ctrl + x</kbd>
+            <span :class="$style.label" v-text="label"></span>
+            <kbd v-if="hotKey" v-text="hotKey"></kbd>
         </slot>
     </li>
 </template>
@@ -68,6 +68,9 @@ export default {
         border: 1px solid #d1d5da;
         border-radius: 3px;
         box-shadow: inset 0 -1px 0 #d1d5da
+    }
+    .label {
+        margin-right: 1rem;
     }
 }
 </style>
