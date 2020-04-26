@@ -1,12 +1,18 @@
 <template>
     <div>
+        <!--<div >-->
+        <!--    -->
+        <!--</div>-->
+        <contextmenu ref="menu" :class="$style.menu" @on-click="abc">
+            <contextmenu-item name="xx" label="菜单一"></contextmenu-item>
+            <contextmenu-item name="xxx" label="菜单二"></contextmenu-item>
+            <contextmenu-item-divided></contextmenu-item-divided>
+            <contextmenu-item name="xxx" label="菜单三"></contextmenu-item>
+        </contextmenu>
+
         <div :class="$style.conn" v-contextmenu:menu>
-            2222222
         </div>
 
-        <div ref="menu">
-            asd
-        </div>
     </div>
 </template>
 
@@ -20,8 +26,8 @@ export default {
         }
     },
     methods: {
-        abc () {
-
+        abc (key, originEvent) {
+            console.log('222', key, originEvent)
         }
     }
 }
@@ -32,5 +38,8 @@ export default {
     width: 500px;
     height: 500px;
     border: 1px solid #f00;
+}
+.menu {
+
 }
 </style>

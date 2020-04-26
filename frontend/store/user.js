@@ -26,18 +26,14 @@ const actions = {
     //     return this.$axios.$post('/auth')
     // },
 
-    async login({commit, state, dispatch}, {username, password}) {
-        const hashPass = await passwordHash(password)
-        try {
-            const resp = await this.$auth.login({
+    login({commit, state, dispatch}, {username, password}) {
+        return passwordHash(password).then((password) => {
+            return this.$auth.login({
                 data: {
-                    username, password: hashPass
+                    username, password
                 }
             })
-        } catch (e) {
-            console.log(e)
-        }
-
+        })
     },
 
     // user logout
