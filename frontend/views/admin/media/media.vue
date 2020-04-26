@@ -31,21 +31,7 @@
                 </div>
             </div>
             <!---->
-            <div :class="$style.imageGridWarp">
-                <!--<el-image-->
-                <!--    style="width: 100px; height: 100px"-->
-                <!--    :src="previewSrcList[0]"-->
-                <!--    :preview-src-list="previewSrcList">-->
-                <!--</el-image>-->
-                <!--infinite-scroll-distance="300" infinite-scroll-delay="1000"-->
-                <div :class="$style.imageGrid" v-infinite-scroll="fetchData" >
-                    <div :class="$style.imageItem" v-for="(item, index) in imageData" :key="index">
-                        <el-image :src="imageDomain + item.key + imgStyle" :alt="item.key" :previewSrcList="previewSrcList"></el-image>
-                        <font-icon :class="$style.check" type="el-icon-success" size="20"></font-icon>
-
-                    </div>
-                </div>
-            </div>
+            <images-grid :image-data="imageData"></images-grid>
         </el-card>
 
         <form class="h5-uploader-form" action="javascript:void(0);" @change="handleUploadChange"
@@ -59,6 +45,7 @@
 
 <script>
 import UploadTest from '@/views/components/upload-test'
+import ImagesGrid from '@/views/components/images-grid'
 import {convertOriginData, tableMixin} from '@/mixins/table-mixin'
 import {$curdStyle} from '@/tools/style'
 import {ImagesSpace} from '@/tools/enum'
@@ -67,7 +54,7 @@ export default {
     layout: 'admin',
 	name: "media",
     mixins: [tableMixin],
-    components: {UploadTest},
+    components: {UploadTest, ImagesGrid},
     async asyncData(ctx) {
         const data = await ctx.$axios.$get('/images', {
             params: {
@@ -88,9 +75,7 @@ export default {
     },
     data () {
         return {
-            imageDomain: config.imageDomain,
             ImagesSpace,
-            imgStyle: '?imageView2/1/w/180/h/180/q/75|watermark/2/text/ampqanl4/font/Y291cmllciBuZXc=/fontsize/240/fill/I0ZERkRGRA==/dissolve/84/gravity/SouthWest/dx/10/dy/10|imageslim',
             imageData: [],
             loading: false,
             tableFilter: {
@@ -102,11 +87,6 @@ export default {
     },
     computed: {
         $curdStyle,
-        previewSrcList () {
-            return this.imageData.map((item) => {
-                return config.imageDomain + item.key
-            }).filter(Boolean)
-        }
     },
     methods: {
         async fetchData () {
@@ -163,61 +143,5 @@ export default {
         height: 100%;
     }
 }
-.imageGridWarp {
-    flex: 1;
-    position: relative;
-}
-.imageGrid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    user-select: none;
-}
-.imageItem {
-    position: relative;
-    float: left;
-    width: 170px;
-    margin: .1rem;
-    overflow: hidden;
-    transition: background-color .15s ease-in;
-    padding: 10px;
-    border: 1px solid transparent;
-    &:hover {
-        background-color: rgba($primary, .2);
-        //transform: scale(1.05);
-    }
-    &:hover .check {
-        display: block;
-        opacity: .4;
-    }
-    .imgConn {
-        height: 150px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
 
-        img {
-            //width: 100%;
-            height: 100%;
-            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-            user-select: none;
-        }
-    }
-
-
-
-    .check {
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        height: 21px;
-        width: 21px;
-        display: none;
-        cursor: pointer;
-    }
-}
 </style>
