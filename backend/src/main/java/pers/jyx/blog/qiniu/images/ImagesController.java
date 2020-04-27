@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pers.jyx.blog.Constant;
 import pers.jyx.blog.user.model.UserRole;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -27,6 +26,11 @@ public class ImagesController {
         return qiniuService.getTokenBySpace(space);
     }
 
+    @PostMapping("info")
+    @PreAuthorize("hasRole('" + UserRole.ADMIN + "')")
+    public List<ImageInfoVO> queryImageInfo(@RequestBody ImagesInfoQueryCriteriaDTO dto) {
+        return qiniuService.queryImagesInfo(dto);
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('" + UserRole.ADMIN + "')")

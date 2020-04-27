@@ -26,10 +26,10 @@ export default {
         }
     },
     methods: {
-	    show(e, target) {
-	        console.log(e)
+	    show(e) {
+            this.$emit('before-open', e)
             e.preventDefault()
-            e.stopPropagation()
+            // e.stopPropagation()
             let { clientX, clientY } = e
             this.x = clientX
             this.y = clientY
@@ -105,7 +105,7 @@ export default {
     min-width: 200px;
     /*width: 100px;*/
     /*height: 200px;*/
-    padding: 10px 0;
+    padding: 5px 0;
     margin: 5px 0;
     background-color: #fff;
     border: 1px solid #ebeef5;

@@ -1,5 +1,5 @@
 <template>
-    <li @click="handleClick" :class="[$style.item]">
+    <li @click="handleClick" :class="[$style.item, {[$style.disabled]: disabled}]">
         <slot>
             <span :class="$style.label" v-text="label"></span>
             <kbd v-if="hotKey" v-text="hotKey"></kbd>
@@ -45,13 +45,14 @@ export default {
     line-height: 2.4;
     padding: 0 1rem;
     margin: 0;
-    font-size: .8rem;
+    font-size: 12px;
     color: #606266;
     cursor: pointer;
     outline: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    user-select: none;
     &:hover {
         background-color: #ecf5ff;
         color: #66b1ff;
@@ -72,5 +73,14 @@ export default {
     .label {
         margin-right: 1rem;
     }
+    &.disabled:hover {
+        color: inherit;
+        background-color: white;
+    }
+    &.disabled {
+        opacity: .6;
+        cursor: no-drop;
+    }
 }
+
 </style>

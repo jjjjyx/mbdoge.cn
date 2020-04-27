@@ -1,0 +1,75 @@
+.imageGridWarp {
+    flex: 1;
+    position: relative;
+}
+
+.imageGrid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    user-select: none;
+}
+.imageItem {
+    position: relative;
+    float: left;
+    width: 160px;
+    height: 160px;
+    margin: .5rem;
+    overflow: hidden;
+    transition: background-color .15s ease-in;
+    padding: 10px;
+    border: 1px solid transparent;
+    &:hover, &.active {
+        background-color: rgba($primary, .2);
+        //transform: scale(1.05);
+    }
+    &.active {
+        border: 1px solid $--color-primary-light-1;
+        box-shadow: 3px 3px 0 #d8d8d8;
+    }
+    /*&:hover .check,{*/
+    /*    display: block;*/
+    /*}*/
+    &.active .check {
+        display: block;
+        color: $--color-success;
+    }
+    .imgConn {
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        img {
+            //width: 100%;
+            height: 100%;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+            user-select: none;
+        }
+    }
+
+    .check {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        height: 21px;
+        width: 21px;
+        display: none;
+        cursor: pointer;
+    }
+}
+
+.frameDiv {
+    border: 1px solid $--color-primary;
+    background: rgba($--color-primary, .1);
+    position: absolute;
+    width: 0;
+    height: 0;
+    user-select: none;
+    z-index: 666;
+    /*opacity: 0.1;*/
+}

@@ -31,7 +31,7 @@ class ContextMenu {
             // this.$menu.style.cssText = `top: ${clientY}px;left:${clientX}px;display: block;`
         }
         this.onMousedown = (event) => {
-            const {target} = event;
+            const {target} = event
             if (this.menu.$el !== target && !this.menu.$el.contains(target)) {
                 this.menu.hide()
             }
@@ -55,9 +55,9 @@ class ContextMenu {
 
 export default {
     bind (el, binding, vnode) {
-        console.log(el)
-        console.log(vnode)
-        console.log(binding)
+        // console.log(el)
+        // console.log(vnode)
+        // console.log(binding)
 
         const _ref = binding.expression ? binding.value : binding.arg;
         const menu = vnode.context.$refs[_ref];

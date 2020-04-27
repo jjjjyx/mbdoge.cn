@@ -17,4 +17,5 @@ public class Constant {
     public static final String GUEST_INFO_PREFIX = "#";
     public static final long GUEST_TOKEN_EXPIRE = 30 * 60 * 60 * 24;
 
+    public static final int FETCHER_TIMEOUT = 5000;
 }

@@ -31,7 +31,18 @@
                 </div>
             </div>
             <!---->
-            <images-grid :image-data="imageData"></images-grid>
+            <contextmenu ref="menu" @on-click="handlerClickMenu" @before-open="handlerBeforeOpenContextmenu">
+                <contextmenu-item name="view" label="查看" :disabled="!hasSelected"></contextmenu-item>
+                <contextmenu-item-divided></contextmenu-item-divided>
+                <contextmenu-item name="copyLink" label="复制链接"></contextmenu-item>
+                <contextmenu-item name="copyMarkdownLink" label="复制Markdown链接"></contextmenu-item>
+                <!--移动到 xxx -->
+                <contextmenu-item-divided></contextmenu-item-divided>
+                <contextmenu-item v-for="(v, k) in ImagesSpace" :name="'move_' + k" :label="'移动到\''+ v.label + '\''" :key="k" :disabled="k === tableFilter.space"></contextmenu-item>
+                <contextmenu-item-divided></contextmenu-item-divided>
+                <contextmenu-item name="remove" label="删除"></contextmenu-item>
+            </contextmenu>
+            <images-grid :image-data="imageData" v-contextmenu:menu></images-grid>
         </el-card>
 
         <form class="h5-uploader-form" action="javascript:void(0);" @change="handleUploadChange"
@@ -40,21 +51,25 @@
                    name="html5uploader"
                    style="position:absolute;opacity:0;top:0;left:0;width:100%;height:100%;cursor:pointer;">
         </form>
+        <photo-swipe ref="photoswipe"></photo-swipe>
     </div>
 </template>
 
 <script>
+import config from '@/config'
+import {$curdStyle, $mediaStyle} from '@/tools/style'
+import {ImagesSpace} from '@/tools/enum'
+import {convertOriginData, tableMixin} from '@/mixins/table-mixin'
+
 import UploadTest from '@/views/components/upload-test'
 import ImagesGrid from '@/views/components/images-grid'
-import {convertOriginData, tableMixin} from '@/mixins/table-mixin'
-import {$curdStyle} from '@/tools/style'
-import {ImagesSpace} from '@/tools/enum'
-import config from '@/config'
+import PhotoSwipe from '@/views/components/photo-swipe'
+
 export default {
     layout: 'admin',
 	name: "media",
     mixins: [tableMixin],
-    components: {UploadTest, ImagesGrid},
+    components: {PhotoSwipe, UploadTest, ImagesGrid},
     async asyncData(ctx) {
         const data = await ctx.$axios.$get('/images', {
             params: {
@@ -78,6 +93,10 @@ export default {
             ImagesSpace,
             imageData: [],
             loading: false,
+            // 右键点击的目标
+            contextmenuTarget: null,
+            frameSelected: [],
+            // 框选的目标
             tableFilter: {
                 space: 'default',
                 marker: '',
@@ -87,8 +106,40 @@ export default {
     },
     computed: {
         $curdStyle,
+        $mediaStyle,
+        previewSrcList () {
+            return this.imageData.map((item) => {
+                return {
+                    src: config.imageDomain + item.key,
+                }
+            }).filter((item) => item.src)
+        },
+        hasSelected () {
+            return this.contextmenuTarget || this.frameSelected.length >= 1
+        },
+        selected () {
+            return this.contextmenuTarget || this.frameSelected.length[0]
+        }
     },
     methods: {
+        handlerBeforeOpenContextmenu (e) {
+            // const target =
+            this.contextmenuTarget = e.path.find((t) => t.matches && t.matches('div[role="imageItem"]'))
+            this.frameSelected = document.querySelectorAll('.' + this.$mediaStyle.active)
+        },
+        handlerClickMenu (name, e) {
+            console.log(name, e)
+            // 获取到点击的目标
+            // const {target} = e
+            // const target = e.path.find((t) => t.matches && t.matches('div[role="imageItem"]'))
+
+            switch (name) {
+                case 'view': // 显示
+                    // 查看当前的选择的对象必须存在
+                    this.handlerViewImages()
+                    break
+            }
+        },
         async fetchData () {
             if (this.tableFilter.eof) {
                 return
@@ -118,7 +169,7 @@ export default {
             this.tableFilter.eof = false
             this.tableFilter.marker = ''
             this.imageData = []
-            // this.fetchData()
+            this.fetchData()
         },
         handleUpload () {
             this.$refs.h5Input0.click()
@@ -126,7 +177,27 @@ export default {
         handleUploadChange (e) {
             // const h = this.$createElement;
             this.$uploadFiles(e.target.files, {space: this.tableFilter.space})
+        },
+        async handlerViewImages() {
+            if (!this.hasSelected) {
+                return
+            }
+            const index = this.contextmenuTarget.getAttribute('data-index')
+            // 查询信息
+            const keys = this.imageData.map((item) => item.key)
+            const data = await this.$axios.$post('/images/info', { keys })
+            // 获取当前视口的图片
+            // const imageData = this.previewSrcList
+            // console.log(imageData)
+            // 这该死的插件必须要高宽，七牛云又不给高宽 ，有高宽，但是只能单张单张获取
+            this.$refs.photoswipe.open(parseInt(index, 10), data)
         }
+    },
+    destroyed () {
+        // this.$refs.photoswipe.$el.parentNode.removeChild(this.$refs.photoswipe.$el)
+    },
+    mounted () {
+        // document.body.appendChild(this.$refs.photoswipe.$el)
     }
 }
 </script>
